@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://ep-tight-butterfly-a2dw3k9k.eu-central-1.aws.neon.tech/strzelnica_db?sslmode=require
+    username: strzelnica_db_owner
+    password: uUE9AX5MeiNh
+    driver-class-name: org.postgresql.Driver
