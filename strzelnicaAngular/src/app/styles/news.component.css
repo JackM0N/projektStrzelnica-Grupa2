@@ -1,0 +1,105 @@
+html,body{
+    padding: 0;
+    margin: 0;
+}
+
+.dashed {
+    margin-top: 0;
+    width: 60%;
+    border-top: 8px solid #bbb;
+    border-radius: 5px;
+}
+
+.news-welcome{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.welcome{
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+
+.news-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .news-item {
+    margin-bottom: 20px;
+    padding: 20px;
+    padding-top: 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 80%;
+    max-width: 600px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .news-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  .news-image {
+    width: 100%;
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }
+  
+  .news-details {
+    color: #555;
+  }
+  
+  .news-date {
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+  }
+  
+  .news-content {
+    font-size: 1rem;
+  }
+
+.edit-button,
+.delete-button {
+  padding: 5px 10px;
+  font-size: 0.7rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  border: 2px solid #555;
+  color: #555;
+  border-radius: 5px;
+  background-color: #fff;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.edit-button:hover,
+.delete-button:hover {
+  background-color: #333;
+  color: #fff;
+}
+
+/* Dodatkowe stylowanie dla przycisku "Edytuj" */
+.edit-button {
+  margin-right: 10px; /* Odstęp między przyciskami */
+}
+
+/* Dodatkowe stylowanie dla przycisku "Usuń" */
+.delete-button {
+  background-color: #f44336;
+  border-color: #f44336;
+}
+
+.delete-button:hover {
+  background-color: #d32f2f;
+  border-color: #d32f2f;
+}
+  
