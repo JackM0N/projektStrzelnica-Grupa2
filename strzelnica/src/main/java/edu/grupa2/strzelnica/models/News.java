@@ -1,6 +1,7 @@
 package edu.grupa2.strzelnica.models;
 
 import jakarta.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "news")
@@ -13,11 +14,13 @@ public class News {
     @Column(name = "picture")
     private String picture;
     @Column(name = "date")
-    private String date;
+    private Date date;
     @Column(name = "author_id")
     private Long authorId;
     @Column(name = "content")
     private String content;
+    @Column(name = "deleted")
+    private boolean deleted;
 
     public Long getId() {
         return id;
@@ -43,11 +46,11 @@ public class News {
         this.picture = picture;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
@@ -65,5 +68,13 @@ public class News {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public boolean getDeleted(){
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted){
+        this.deleted = deleted;
     }
 }

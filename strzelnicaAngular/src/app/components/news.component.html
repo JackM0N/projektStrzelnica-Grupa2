@@ -4,7 +4,8 @@
 </div>
 
 <div class="news-container">
-    <div *ngFor="let news of newsList" class="news-item">
+    <button type="button" class="news-add-button" [routerLink]="['/news/add']">Dodaj nowy post</button>
+    <div *ngFor="let news of newsList" class="news-item" [ngClass]="{ 'news-item-deleted': news.deleted }">
         <h2 class="news-title">{{ news.title }}</h2>
         <ng-container *ngIf="news.picture">
             <img [src]="news.picture" alt="{{ news.title }}" class="news-image">
@@ -14,9 +15,7 @@
             <p>Author ID: {{ news.authorId }}</p>
             <div class="news-content" [innerHTML]="news.content"></div>
         </div>
-        <button type="button" class="edit-button">Edytuj</button>
-        <button type="button" class="delete-button">Usuń</button>
+        <button type="button" class="news-edit-button" [routerLink]="['/news/edit', news.id]">Edytuj</button>
+        <app-news-delete [news]="news"></app-news-delete>
     </div>
 </div>
-
-<button type="button" class="new-post-button" [routerLink]="['/new-post']">Dodaj nowy post</button>

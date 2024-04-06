@@ -8,6 +8,7 @@ html,body{
     width: 60%;
     border-top: 8px solid #bbb;
     border-radius: 5px;
+    margin-bottom: 0px;
 }
 
 .news-welcome{
@@ -39,6 +40,10 @@ html,body{
     background-color: #f9f9f9;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
+
+  .news-item-deleted {
+    background: repeating-linear-gradient(160deg, #f9f9f9, #f9f9f9 70px, #dddddd 10px, #dddddd 80px);
+  }
   
   .news-title {
     font-size: 1.5rem;
@@ -66,8 +71,8 @@ html,body{
     font-size: 1rem;
   }
 
-.edit-button,
-.delete-button {
+.news-add-button,
+.news-edit-button {
   padding: 5px 10px;
   font-size: 0.7rem;
   font-weight: bold;
@@ -81,25 +86,18 @@ html,body{
   transition: background-color 0.3s, color 0.3s;
 }
 
-.edit-button:hover,
-.delete-button:hover {
+.news-add-button:hover,
+.news-edit-button:hover {
   background-color: #333;
   color: #fff;
 }
 
 /* Dodatkowe stylowanie dla przycisku "Edytuj" */
-.edit-button {
+.news-edit-button {
   margin-right: 10px; /* Odstęp między przyciskami */
 }
 
-/* Dodatkowe stylowanie dla przycisku "Usuń" */
-.delete-button {
-  background-color: #f44336;
-  border-color: #f44336;
+.news-add-button{
+  margin-bottom: 20px;
 }
 
-.delete-button:hover {
-  background-color: #d32f2f;
-  border-color: #d32f2f;
-}
-  

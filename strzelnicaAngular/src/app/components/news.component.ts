@@ -9,7 +9,6 @@ import { News } from '../interfaces/news';
 })
 
 export class NewsComponent implements OnInit {
-
   newsList: News[] = [];
 
   constructor(private newsService: NewsService) { }
@@ -23,18 +22,18 @@ export class NewsComponent implements OnInit {
       .subscribe(news => {
         news.forEach(item => {
             if (item.content !== null && item.content !== undefined){
-                item.content = changeNlForP(item.content);
+                item.content = this.changeNlForP(item.content);
             }
         });
         this.newsList = news;
       });
   }
-}
-
-//This function replaces newline character for <p> blocks
-function changeNlForP(text: string): string {
+  
+  //This function replaces newline character for <p> blocks
+  changeNlForP(text: string): string {
     let editedText = '<p>' + text;
     editedText = editedText.replace(/\n/g, '</p><p>');
     editedText += '</p>';
     return editedText;
+  }
 }

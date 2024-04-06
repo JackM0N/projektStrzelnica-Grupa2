@@ -1,0 +1,16 @@
+<app-news-deletedpopup [news]="news"></app-news-deletedpopup>
+
+<button type="button" class="open-popup-button" [ngClass]="{ 'open-popup-button-deleted': isDeleted }" (click)="open()">{{buttonText}}</button>
+
+<div class="popup-overlay" *ngIf="show">
+    <div class="popup">
+        <!-- Pop-up content goes here -->
+
+        <h2 id="popup-header">{{headerName}}</h2>
+        <p>Czy na pewno chcesz {{messageText}} ten post?</p>
+        <div class="button-container">
+            <button class="close-button" (click)="close()">Anuluj</button>
+            <button [ngClass]="['confirm-button','open-popup-button', isDeleted ? 'open-popup-button-deleted' : '']" (click)="confirm()">{{buttonText}}</button>
+        </div>
+    </div>
+</div>
