@@ -8,7 +8,7 @@ import { News } from '../interfaces/news';
 })
 export class NewsService {
 
-  private baseUrl = 'http://localhost:8080/news'; // Update this with your Spring Boot backend URL
+  private baseUrl = 'http://localhost:8080/news';
 
   constructor(private http: HttpClient) { }
 
