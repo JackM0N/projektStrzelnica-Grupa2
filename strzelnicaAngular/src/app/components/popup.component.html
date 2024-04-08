@@ -1,0 +1,12 @@
+<div class="popup-overlay" *ngIf="showPopup">
+    <div class="popup" [style]="style" [ngClass]="ngClass">
+        <h2 id="popup-header">{{headerName}}</h2>
+
+        <p>{{messageText}}</p>
+
+        <div class="button-container">
+            <button class="popup-close-button" *ngIf="showCloseButton" (click)="close()">{{closeButtonLabel}}</button>
+            <button class="popup-confirm-button" *ngIf="showConfirmButton" [ngClass]="confirmButtonNgClass" (click)="confirm()">{{confirmButtonLabel}}</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,58 @@
+
+.generic-button {
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  border: 2px solid #555;
+  color: #555;
+  border-radius: 5px;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.generic-button:hover {
+  background-color: #c9c9c9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.button-delete {
+  background-color: #f44336;
+}
+
+.button-delete:hover {
+  background-color: #d32f2f;
+}
+
+.button-restore-deleted {
+  background-color: #50c6e0;
+}
+
+.button-restore-deleted:hover {
+  background-color: #1eaccc;
+}
+
+.form-container button {
+  padding: 15px 20px;
+  border: 2px solid #555;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-container button:hover {
+  background-color: #c9c9c9;
+}
+
+.form-container button[type=submit] {
+  background-color: #3dd142;
+}
+
+.form-container button[type=submit]:hover {
+  background-color: #45a049;
+}

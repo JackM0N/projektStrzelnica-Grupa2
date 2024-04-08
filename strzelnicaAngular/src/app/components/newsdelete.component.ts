@@ -1,67 +1,76 @@
-import { Component, HostListener, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { NewsService } from '../services/news.service';
-import { NewsDeletedPopupComponent } from './newsdeletedpopup.component';
+import { PopupComponent } from './popup.component';
 
 @Component({
   selector: 'app-news-delete',
   templateUrl: './newsdelete.component.html',
-  styleUrls: ['../styles/newsdelete.component.css']
+  styleUrls: ['../styles/button-styles.css']
 })
 
+// Confirm pop-up for deleting news
 export class NewsDeleteComponent implements OnInit {
   @Input() news: any;
-  @ViewChild(NewsDeletedPopupComponent) deletedPopup!: NewsDeletedPopupComponent;
+  @ViewChild('confirmDeletionPopup') confirmDeletionPopup!: PopupComponent;
+  @ViewChild('responsePopup') responsePopup!: PopupComponent;
 
-  public show = false;
+  public confirmDeletionPopupHeader = '';
+  public confirmDeletionPopupMessage = '';
+  public confirmDeletionPopupConfirmText = '';
+  public confirmDeletionPopupConfirmNgClass = '';
+  public responsePopupHeader = '';
+  public responsePopupMessage = '';
+  public responsePopupNgClass = '';
   public isDeleted = false;
-  public headerName = '';
-  public buttonText = '';
-  public messageText = '';
 
-  constructor(private newsService: NewsService) {
-  }
+  constructor(private newsService: NewsService) {}
 
+  // On init, determine whether we are deleting or restoring
   ngOnInit() {
     this.isDeleted = this.news.deleted;
-    if (this.isDeleted == true){
-      this.headerName = "Czy na pewno chcesz przywrócić " + this.news.title + "?";
-      this.buttonText = "Przywróć"
-      this.messageText = "przywrócić";
+    if (this.isDeleted == true) {
+      this.confirmDeletionPopupHeader = 'Czy na pewno chcesz przywrócić ' + this.news.title + '?';
+      this.confirmDeletionPopupConfirmText = 'Przywróć';
+      this.confirmDeletionPopupConfirmNgClass = 'button-restore-deleted';
+
     } else {
-      this.headerName = "Czy na pewno chcesz usunąć " + this.news.title + "?";
-      this.buttonText = "Usuń"
-      this.messageText = "usunąć";
+      this.confirmDeletionPopupHeader = 'Czy na pewno chcesz usunąć ' + this.news.title + '?';
+      this.confirmDeletionPopupConfirmText = "Usuń";
+      this.confirmDeletionPopupConfirmNgClass = "button-delete";
     }
-  }
-
-  public open(): void {
-    this.show = true;
   }
   
-  public close(): void {
-    this.show = false;
+  // User clicks confirm, delete the news from the database
+  public confirmAction(): void {
+    this.newsService.deleteNews(this.news.id).subscribe(
+      (response) => {
+        if (this.isDeleted) {
+          this.responsePopupHeader = 'Pomyślnie przywrócono news ' + this.news.title + '.';
+        } else {
+          this.responsePopupHeader = 'Pomyślnie usunięto news ' + this.news.title + '.';
+        }
+        this.responsePopupNgClass = 'popupSuccess';
+        this.responsePopup.open();
+      },
+      (error) => {
+        if (this.isDeleted) {
+          this.responsePopupHeader = 'Przy przywracaniu napotkano błąd.';
+        } else {
+          this.responsePopupHeader = 'Przy usuwaniu napotkano błąd.';
+        }
+        this.responsePopupMessage = error.error.message + ' (' + error.message + ')';
+        this.responsePopupNgClass = 'popupError';
+        this.responsePopup.open();
+      });
   }
   
-  public confirm(): void {
-    this.show = false;
-
-    this.newsService.deleteNews(this.news.id).subscribe(() => {
-      this.deletedPopup.open();
-    });
+  // User clicks to delete the button, open the confirmation pop-up
+  public openConfirmPopup(): void {
+    this.confirmDeletionPopup.open();
   }
 
-  @HostListener("document:keydown", ["$event"])
-  public keydown(event: KeyboardEvent): void {
-    if (event.code === "Escape") {
-      this.close();
-    }
-  }
-
-  @HostListener("document:click", ["$event"])
-  public documentClick(event: MouseEvent): void {
-    const targetElement = event.target as HTMLElement;
-    if (targetElement.className == "popup-overlay") {
-      this.close();
-    }
+  // Reload the page after user clicks on the response pop-up
+  public responsePopupCancelAction(): void {
+    window.location.reload();
   }
 }

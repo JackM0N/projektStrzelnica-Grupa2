@@ -5,19 +5,20 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NewsComponent } from './components/news.component';
 import { NewsDeleteComponent } from './components/newsdelete.component';
-import { NewsDeletedPopupComponent } from './components/newsdeletedpopup.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { NewsFormComponent } from './components/newsForm.component'
+import { NewsFormComponent } from './components/newsform.component'
+import { PopupComponent } from './components/popup.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NewsComponent,
     NewsDeleteComponent,
-    NewsDeletedPopupComponent,
-    NewsFormComponent
+    NewsFormComponent,
+    PopupComponent
   ],
+
   imports: [
     CommonModule,
     BrowserModule,
@@ -25,9 +26,11 @@ import { NewsFormComponent } from './components/newsForm.component'
     HttpClientModule,
     FormsModule
   ],
+
   providers: [
     provideClientHydration(),
   ],
+  
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -3,8 +3,8 @@ package edu.grupa2.strzelnica.services;
 import edu.grupa2.strzelnica.models.News;
 import edu.grupa2.strzelnica.repositories.NewsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +19,7 @@ public class NewsService {
 
     // Method to get all news
     public List<News> getAllNews() {
-        return newsRepository.findAll();
+        return newsRepository.findAll(Sort.by(Sort.Direction.DESC, "date"));
     }
 
     // Method to get a specific news by its ID
@@ -35,7 +35,7 @@ public class NewsService {
     // Method to update an existing news
     public News updateNews(Long id, News updatedNews) {
         if (newsRepository.existsById(id)) {
-            updatedNews.setId(id); // Ensure the ID is set correctly
+            updatedNews.setId(id);
             return newsRepository.save(updatedNews);
         } else {
             throw new IllegalArgumentException("News with ID " + id + " does not exist");

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NewsComponent } from './components/news.component';
-import { NewsFormComponent } from './components/newsForm.component';
+import { NewsFormComponent } from './components/newsform.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'news', pathMatch: 'full' },

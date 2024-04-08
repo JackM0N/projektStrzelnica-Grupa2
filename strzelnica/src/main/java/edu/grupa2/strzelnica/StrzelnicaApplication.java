@@ -11,7 +11,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EntityScan("edu.grupa2.strzelnica.*")
 @ComponentScan(basePackages = { "edu.grupa2.strzelnica.*" })
 public class StrzelnicaApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(StrzelnicaApplication.class, args);
 	}
