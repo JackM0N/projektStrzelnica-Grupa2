@@ -11,6 +11,7 @@ import { NewsFormComponent } from './components/newsform.component'
 import { PopupComponent } from './components/popup.component';
 import { PaginationComponent } from './components/pagination.component';
 import { WeaponsComponent } from './components/weapons.component';
+import { AboutComponent } from './components/about.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { WeaponsComponent } from './components/weapons.component';
     NewsFormComponent,
     PopupComponent,
     PaginationComponent,
-    WeaponsComponent
+    WeaponsComponent,
+    AboutComponent,
   ],
 
   imports: [
