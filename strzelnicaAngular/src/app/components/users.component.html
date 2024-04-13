@@ -1,0 +1,46 @@
+<!-- User Table -->
+<table class="user-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Surname</th>
+        <th>Email</th>
+        <th>Date of Birth</th>
+        <th>Club Member</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of userList">
+        <td>{{user.id}}</td>
+        <td>{{user.name}}</td>
+        <td>{{user.surname}}</td>
+        <td>{{user.email}}</td>
+        <td>{{user.dateOfBirth | date}}</td>
+        <td>{{user.clubMember ? 'Yes' : 'No'}}</td>
+        <td>
+          <button class="generic-button user-edit-button" (click)="editUser(user)">Edit</button>
+          <button class="generic-button button-delete user-delete-button" (click)="deleteUser(user)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  
+  <!-- Pagination Component -->
+  <app-pagination
+    [currentPage]="currentPage"
+    [totalPages]="totalPages"
+    (onPageChange)="fetchUsers($event)">
+  </app-pagination>
+  
+  <!-- Popup Component -->
+  <app-popup
+    [showPopup]="showPopup"
+    [headerName]="popupHeader"
+    [messageText]="popupMessage"
+    [showCloseButton]="true"
+    (closeEvent)="closePopup()"
+    (confirmEvent)="confirmAction()">
+  </app-popup>
+  
