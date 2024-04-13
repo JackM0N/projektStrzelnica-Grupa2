@@ -1,0 +1,27 @@
+<!-- User Table -->
+<table class="user-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Surname</th>
+        <th>Email</th>
+        <th>Date of Birth</th>
+        <th>Club Member</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of userList">
+        <td>{{user.id}}</td>
+        <td>{{user.name}}</td>
+        <td>{{user.surname}}</td>
+        <td>{{user.email}}</td>
+        <td>{{user.dateOfBirth}}</td>
+        <td>{{user.clubMember ? 'Yes' : 'No'}}</td>
+        <td>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  

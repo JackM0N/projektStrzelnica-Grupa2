@@ -8,7 +8,12 @@ import { NewsDeleteComponent } from './components/newsdelete.component';
 import { NewsDeletedPopupComponent } from './components/newsdeletedpopup.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { NewsFormComponent } from './components/newsForm.component'
+import { NewsFormComponent } from './components/newsform.component'
+import { PopupComponent } from './components/popup.component';
+import { PaginationComponent } from './components/pagination.component';
+import { WeaponsComponent } from './components/weapons.component';
+import { AboutComponent } from './components/about.component';
+import { UsersComponent } from './components/users.component';
 
 @NgModule({
   declarations: [
@@ -16,8 +21,14 @@ import { NewsFormComponent } from './components/newsForm.component'
     NewsComponent,
     NewsDeleteComponent,
     NewsDeletedPopupComponent,
-    NewsFormComponent
+    NewsFormComponent,
+    PopupComponent,
+    PaginationComponent,
+    WeaponsComponent,
+    AboutComponent,
+    UsersComponent
   ],
+
   imports: [
     CommonModule,
     BrowserModule,
