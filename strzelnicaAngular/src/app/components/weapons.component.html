@@ -1,17 +1,13 @@
 <div class="welcome">
-    <p>Aktualności</p>
+    <p>Lista broni</p>
     <hr>
 </div>
 
 <div class="data-container">
     <button type="button" id="news-add-button" class="generic-button" [routerLink]="['/news/add']">Dodaj nowy post</button>
     
-    <div *ngFor="let news of newsList" class="item-card" [ngClass]="{ 'item-card-deleted': news.deleted }">
+    <div *ngFor="let news of weaponsList" class="item-card" [ngClass]="{ 'item-card-deleted': news.deleted }">
         <h2>{{ news.title }}</h2>
-
-        <ng-container *ngIf="news.picture">
-            <img [src]="news.picture" alt="{{ news.title }}" onerror="this.style.display='none'">
-        </ng-container>
 
         <div class="item-card-details">
             <p class="news-date">Date: {{ news.date }}</p>
