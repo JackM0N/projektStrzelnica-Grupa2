@@ -1,0 +1,60 @@
+
+/* Welcome text above the data container */
+.welcome {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.welcome p {
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+.welcome hr {
+    margin-top: 0;
+    width: 60%;
+    border-top: 8px solid #bbb;
+    border-radius: 5px;
+    margin-bottom: 0px;
+}
+
+/* The whole data container containing all the cards */
+.data-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+/* Item card */
+.item-card {
+    margin-bottom: 20px;
+    padding: 20px;
+    padding-top: 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 80%;
+    max-width: 600px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.item-card:hover {
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+}
+.item-card-deleted {
+    background: repeating-linear-gradient(160deg, #f9f9f9, #f9f9f9 70px, #dddddd 10px, #dddddd 80px);
+}
+.item-card h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+}
+.item-card img {
+    width: 100%;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+.item-card-details {
+    color: #555;
+}

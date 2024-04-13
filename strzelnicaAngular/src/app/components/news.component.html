@@ -1,19 +1,19 @@
-<div class="news-welcome">
-    <p class="welcome">Aktualności</p>
-    <hr class="dashed">
+<div class="welcome">
+    <p>Aktualności</p>
+    <hr>
 </div>
 
-<div class="news-container">
+<div class="data-container">
     <button type="button" id="news-add-button" class="generic-button" [routerLink]="['/news/add']">Dodaj nowy post</button>
     
-    <div *ngFor="let news of newsList" class="news-item" [ngClass]="{ 'news-item-deleted': news.deleted }">
-        <h2 class="news-title">{{ news.title }}</h2>
+    <div *ngFor="let news of newsList" class="item-card" [ngClass]="{ 'item-card-deleted': news.deleted }">
+        <h2>{{ news.title }}</h2>
 
         <ng-container *ngIf="news.picture">
-            <img [src]="news.picture" alt="{{ news.title }}" class="news-image" onerror="this.style.display='none'">
+            <img [src]="news.picture" alt="{{ news.title }}" onerror="this.style.display='none'">
         </ng-container>
 
-        <div class="news-details">
+        <div class="item-card-details">
             <p class="news-date">Date: {{ news.date }}</p>
             <p>Author ID: {{ news.authorId }}</p>
             <div class="news-content" [innerHTML]="news.content"></div>
@@ -24,11 +24,7 @@
         <app-news-delete [news]="news"></app-news-delete>
     </div>
 
-    <div class="pagination">
-        <button (click)="goToPreviousPage()" [disabled]="currentPage === 1">&laquo;</button>
-        <select [(ngModel)]="currentPage" (change)="goToPage($event)" size="4">
-            <option *ngFor="let page of pageNumbers" [value]="page">{{ page }} </option>
-          </select>
-        <button (click)="goToNextPage()" [disabled]="currentPage === totalPages">&raquo;</button>
-    </div>
+    <app-pagination #paginationComponent
+        (onPageChange)="fetchNews()">
+    ></app-pagination>
 </div>

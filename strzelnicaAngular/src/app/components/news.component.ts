@@ -1,34 +1,41 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { NewsService } from '../services/news.service';
 import { News } from '../interfaces/news';
 import { isImageValid } from '../utils/utils';
+import { PaginationComponent } from './pagination.component';
 
 @Component({
   selector: 'app-news',
   templateUrl: './news.component.html',
-  styleUrls: ['../styles/news.component.css', '../styles/button-styles.css']
+  styleUrls: [
+    // Style exclusive for the news component
+    '../styles/news.component.css',
+    // Styles shared between all the list components
+    '../styles/shared-lists-styles.css',
+    // Shared button styles
+    '../styles/button-styles.css']
 })
 
 // Component that displays the news
-export class NewsComponent implements OnInit {
+export class NewsComponent implements  AfterViewInit {
+  @ViewChild('paginationComponent', { static: false }) paginationComponent!: PaginationComponent;
   newsList: News[] = [];
-  currentPage: number = 1;
-  maxItems: number = 5;
-  totalPages: number = 0;
-  pageNumbers: number[] = [];
 
-  constructor(private newsService: NewsService) { }
+  constructor(private newsService: NewsService, private cd: ChangeDetectorRef) { }
 
-  // On init, fetch the news from the database and display them
-  ngOnInit(): void {
+  // After init - because we need the pagination to load first
+  // Fetch the news from the database and display them
+  ngAfterViewInit(): void {
     this.fetchNews();
+    // The DOM has been changed, we need to detect the changes to prevent ExpressionChangedAfterItHasBeenCheckedError
+    this.cd.detectChanges();
   }
   
   // Fetches all news from the database
   fetchNews(): void {
-    this.newsService.getPaginatedNews(this.currentPage, this.maxItems).subscribe(news => {
-      this.totalPages = news.totalPages;
-      this.pageNumbers = Array.from({ length: this.totalPages }, (_, i) => i + 1);
+    this.newsService.getPaginatedNews(this.paginationComponent.currentPage, this.paginationComponent.maxItems).subscribe(news => {
+      this.paginationComponent.totalPages = news.totalPages;
+      this.paginationComponent.calculatePages();
 
       news.content.forEach((item: { content: string | null | undefined; picture: string; }) => {
           // If content is valid, replace newline characters for <p> blocks
@@ -42,39 +49,6 @@ export class NewsComponent implements OnInit {
       });
       this.newsList = news.content;
     });
-  }
-
-  // On page change
-  onPageChange(page: number): void {
-    this.currentPage = page;
-    this.fetchNews();
-  }
-  
-  // Go to previous page
-  goToPreviousPage(): void {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-      this.fetchNews();
-    }
-  }
-
-  // Go to next page
-  goToNextPage(): void {
-    if (this.currentPage < this.totalPages) {
-      this.currentPage++;
-      this.fetchNews();
-    }
-  }
-
-  // Go to a specific page
-  goToPage(event: Event): void {
-    if(event != null && event.target != null) {
-      const pageNumber = parseInt((event.target as HTMLSelectElement).value, 10);
-      if (pageNumber && pageNumber >= 1 && pageNumber <= this.totalPages && pageNumber !== this.currentPage) {
-        this.currentPage = pageNumber;
-        this.fetchNews();
-      }
-    }
   }
 
   // Replaces newline character for <p> blocks
