@@ -4,11 +4,14 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.math.BigDecimal;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "weapon")
 public class Weapon {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
@@ -23,9 +26,8 @@ public class Weapon {
     @Column(name = "maintenance_every", nullable = false)
     private Integer maintenanceEvery;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "condition_id", nullable = false)
-    private Weaponcondition condition;
+    @Column(name = "fit_for_use", nullable = false)
+    private Boolean fitForUse = false;
 
     @Column(name = "price_per_hour", nullable = false)
     private BigDecimal pricePerHour;
@@ -34,8 +36,14 @@ public class Weapon {
     @Column(name = "in_maintenance", nullable = false)
     private Boolean inMaintenance = false;
 
-    @Column(name = "serial_number", length = 40)
+    @Column(name = "serial_number", nullable = false, length = 40)
     private String serialNumber;
+
+    @OneToMany(mappedBy = "weapon")
+    private Set<Competitionweapon> competitionweapons = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "weapon")
+    private Set<Weaponreservation> weaponreservations = new LinkedHashSet<>();
 
     public Integer getId() {
         return id;
@@ -69,12 +77,12 @@ public class Weapon {
         this.maintenanceEvery = maintenanceEvery;
     }
 
-    public Weaponcondition getCondition() {
-        return condition;
+    public Boolean getFitForUse() {
+        return fitForUse;
     }
 
-    public void setCondition(Weaponcondition condition) {
-        this.condition = condition;
+    public void setFitForUse(Boolean fitForUse) {
+        this.fitForUse = fitForUse;
     }
 
     public BigDecimal getPricePerHour() {
@@ -99,6 +107,22 @@ public class Weapon {
 
     public void setSerialNumber(String serialNumber) {
         this.serialNumber = serialNumber;
+    }
+
+    public Set<Competitionweapon> getCompetitionweapons() {
+        return competitionweapons;
+    }
+
+    public void setCompetitionweapons(Set<Competitionweapon> competitionweapons) {
+        this.competitionweapons = competitionweapons;
+    }
+
+    public Set<Weaponreservation> getWeaponreservations() {
+        return weaponreservations;
+    }
+
+    public void setWeaponreservations(Set<Weaponreservation> weaponreservations) {
+        this.weaponreservations = weaponreservations;
     }
 
 }
