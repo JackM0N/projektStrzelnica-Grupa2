@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { NewsComponent } from './components/news.component';
 import { NewsFormComponent } from './components/newsform.component';
 import { WeaponsComponent } from './components/weapons.component';
+import { AboutComponent } from './components/about.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'news', pathMatch: 'full' },
@@ -10,6 +11,7 @@ const routes: Routes = [
   { path: 'news/add', component: NewsFormComponent },
   { path: 'news/edit/:id', component: NewsFormComponent },
   { path: 'weapons', component: WeaponsComponent },
+  { path: 'about', component: AboutComponent },
 ];
 
 @NgModule({
