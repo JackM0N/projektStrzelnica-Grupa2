@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { News } from '../interfaces/news';
 
@@ -18,6 +18,14 @@ export class NewsService {
   // Fetch all news from the database
   getNews(): Observable<News[]> {
     return this.http.get<News[]>(this.baseUrl);
+  }
+
+  // Fetch paginated news from the database
+  getPaginatedNews(page: number, size: number): Observable<any> {
+    const params = new HttpParams()
+      .set('page', (page - 1).toString())
+      .set('size', size.toString());
+    return this.http.get<any>(this.baseUrl, {params});
   }
 
   // Adding news to the database

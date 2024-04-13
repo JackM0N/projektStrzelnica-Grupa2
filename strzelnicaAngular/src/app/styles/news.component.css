@@ -82,7 +82,38 @@
   margin-right: 10px; /* Odstęp między przyciskami */
 }
 
-#news-add-button {
+#news-add-button, .pagination {
   margin-bottom: 20px;
 }
 
+.pagination {
+  display: inline-block;
+  text-align: center;
+}
+
+.pagination select, .pagination button {
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+  transition: background-color .3s;
+  border: 1px solid #ddd;
+  margin: 0 4px;
+  height: 70px;
+  width: 60px;
+}
+
+.pagination button {
+  width: 52px;
+  font-size: 20px;
+}
+
+.pagination select:hover, .pagination button:hover {
+  cursor: pointer;
+}
+
+.pagination button:hover {
+  background-color: #4CAF50;
+  color: white;
+  border: 1px solid #4CAF50;
+}

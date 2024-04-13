@@ -23,4 +23,12 @@
 
         <app-news-delete [news]="news"></app-news-delete>
     </div>
+
+    <div class="pagination">
+        <button (click)="goToPreviousPage()" [disabled]="currentPage === 1">&laquo;</button>
+        <select [(ngModel)]="currentPage" (change)="goToPage($event)" size="4">
+            <option *ngFor="let page of pageNumbers" [value]="page">{{ page }} </option>
+          </select>
+        <button (click)="goToNextPage()" [disabled]="currentPage === totalPages">&raquo;</button>
+    </div>
 </div>

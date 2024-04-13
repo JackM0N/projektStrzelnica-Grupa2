@@ -3,6 +3,7 @@ package edu.grupa2.strzelnica.controllers;
 import edu.grupa2.strzelnica.models.News;
 import edu.grupa2.strzelnica.services.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -27,8 +28,8 @@ public class NewsController {
     // GET - Pobierz wszystkie newsy
     @GetMapping("/news")
     @ResponseBody
-    public List<News> getNews() {
-        return newsService.getAllNews();
+    public Page<News> getNews(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        return newsService.getPaginatedNews(page, size);
     }
 
     // GET - Pobierz specyficzny news
