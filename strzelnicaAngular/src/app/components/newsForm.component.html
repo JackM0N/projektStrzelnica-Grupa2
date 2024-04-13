@@ -1,24 +1,41 @@
-<!-- newsForm.component.html -->
+<!-- newsform.component.html -->
+
+<!-- Success/failure response pop-up -->
+<app-popup #responsePopup
+    headerName="{{responsePopupHeader}}"
+    messageText="{{responsePopupMessage}}"
+    [ngClass]="responsePopupNgClass"
+    closeButtonLabel="Ok"
+    (closeEvent)="responsePopupCancelAction()">
+</app-popup>
 
 <div class="form-container">
-    <h2>{{actionText}} News</h2>
+    <h2>{{actionText}} nowy post</h2>
+
     <form #f="ngForm" (ngSubmit)="onSubmit(f)">
       <div>
-        <label for="title">Title:</label>
+        <label for="title">Tytuł:</label>
         <input type="text" id="title" name="title" [(ngModel)]="news.title" required>
       </div>
+
       <div>
-        <label for="picture">Picture URL:</label>
+        <label for="picture">URL zdjęcie:</label>
         <input type="text" id="picture" name="picture" [(ngModel)]="news.picture">
       </div>
+
       <div>
-        <label for="date">Date:</label>
+        <label for="date">Data:</label>
         <input type="date" id="date" name="date" [(ngModel)]="news.date" required>
       </div>
+      
       <div>
-        <label for="content">Content:</label>
-        <textarea id="content" name="content" [(ngModel)]="news.content" required></textarea>
+        <label for="content">Treść:</label>
+        <textarea id="content" name="content" placeholder="Wpisz treść..." [(ngModel)]="news.content" required></textarea>
       </div>
-      <button type="submit">Submit</button>
+
+      <div class="button-container">
+        <button type="button" class="goBackButton" (click)="goBack()">Cofnij</button>
+        <button type="submit">Dodaj</button>
+      </div>
     </form>
 </div>

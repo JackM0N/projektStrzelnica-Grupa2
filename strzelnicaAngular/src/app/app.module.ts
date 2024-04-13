@@ -5,7 +5,6 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NewsComponent } from './components/news.component';
 import { NewsDeleteComponent } from './components/newsdelete.component';
-import { NewsDeletedPopupComponent } from './components/newsdeletedpopup.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NewsFormComponent } from './components/newsform.component'
@@ -20,8 +19,8 @@ import { UsersComponent } from './components/users.component';
     AppComponent,
     NewsComponent,
     NewsDeleteComponent,
-    NewsDeletedPopupComponent,
     NewsFormComponent,
+    PopupComponent,
     PopupComponent,
     PaginationComponent,
     WeaponsComponent,
@@ -36,9 +35,11 @@ import { UsersComponent } from './components/users.component';
     HttpClientModule,
     FormsModule
   ],
+
   providers: [
     provideClientHydration(),
   ],
+  
   bootstrap: [AppComponent]
 })
 export class AppModule { }

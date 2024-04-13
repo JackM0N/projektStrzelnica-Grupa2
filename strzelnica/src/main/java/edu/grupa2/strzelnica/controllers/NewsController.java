@@ -1,9 +1,9 @@
 package edu.grupa2.strzelnica.controllers;
 
 import edu.grupa2.strzelnica.models.News;
-import edu.grupa2.strzelnica.repositories.NewsRepository;
 import edu.grupa2.strzelnica.services.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -12,37 +12,38 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Optional;
 
 @Controller
 public class NewsController {
-
-    private final NewsRepository newsRepository;
+    // News service for handling the news repository
     private final NewsService newsService;
+
     @Autowired
-    public NewsController(NewsRepository newsRepository, NewsService newsService) {
-        this.newsRepository = newsRepository;
+    public NewsController(NewsService newsService) {
         this.newsService = newsService;
     }
 
     // GET - Pobierz wszystkie newsy
     @GetMapping("/news")
     @ResponseBody
-    public List<News> getNews() {
-        return newsRepository.findAll();
+    public Page<News> getNews(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        return newsService.getPaginatedNews(page, size);
     }
-
 
     // GET - Pobierz specyficzny news
     @GetMapping("/news/{id}")
     public ResponseEntity<?> getNewsById(@PathVariable Long id) {
-        Optional<News> optionalNews = newsRepository.findById(id);
+        // Get the news from news service
+        Optional<News> optionalNews = newsService.getNewsById(id);
+
+        // Send the news if it exists
         if (optionalNews.isPresent()) {
             return ResponseEntity.ok(optionalNews.get());
+
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("News not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"message\": \"error_news_not_found\"}");
         }
     }
 
@@ -51,16 +52,20 @@ public class NewsController {
     public ResponseEntity<?> addNews(@RequestBody News news) {
         try {
             newsService.saveNews(news);
-            return ResponseEntity.ok("News added successfully");
+            return ResponseEntity.ok().body("{\"message\": \"success_news_added_successfully\"}");
+
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error adding news: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"message\": \"Error adding news: " + e.getMessage() + "\"}");
         }
     }
 
     // PUT - Zaktualizuj istniejący news
     @PutMapping("/news/edit/{id}")
     public ResponseEntity<News> updateNews(@PathVariable Long id, @RequestBody News updatedNews) {
-        Optional<News> optionalNews = newsRepository.findById(id);
+        // Get the news from news service
+        Optional<News> optionalNews = newsService.getNewsById(id);
+
+        // Update the news if it exists
         if (optionalNews.isPresent()) {
             News existingNews = optionalNews.get();
             existingNews.setTitle(updatedNews.getTitle());
@@ -68,8 +73,9 @@ public class NewsController {
             existingNews.setDate(updatedNews.getDate());
             existingNews.setAuthorId(updatedNews.getAuthorId());
             existingNews.setPicture(updatedNews.getPicture());
-            News savedNews = newsRepository.save(existingNews);
+            News savedNews = newsService.saveNews(existingNews);
             return new ResponseEntity<>(savedNews, HttpStatus.OK);
+
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -78,30 +84,20 @@ public class NewsController {
     // DELETE - Usuń lub przywróć news
     @DeleteMapping("/news/{id}")
     public ResponseEntity<News> deleteNews(@PathVariable Long id) {
-        Optional<News> optionalNews = newsRepository.findById(id);
+        // Get the news from news service
+        Optional<News> optionalNews = newsService.getNewsById(id);
+
+        // Delete news if it exists
         if (optionalNews.isPresent()) {
             News existingNews = optionalNews.get();
-            if (existingNews.getDeleted()){
-                existingNews.setDeleted(false);
-            }else{
-                existingNews.setDeleted(true);
-            }
-            News deletedNews = newsRepository.save(existingNews);
+            existingNews.setDeleted(!existingNews.getDeleted());
+
+            // Save the news to the database using the new service
+            News deletedNews = newsService.saveNews(existingNews);
             return new ResponseEntity<>(deletedNews, HttpStatus.OK);
+
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
-    // DELETE - Usuń news
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<Void> deleteNews(@PathVariable Long id) {
-//        Optional<News> optionalNews = newsRepository.findById(id);
-//        if (optionalNews.isPresent()) {
-//            newsRepository.deleteById(id);
-//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//        } else {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//    }
 }

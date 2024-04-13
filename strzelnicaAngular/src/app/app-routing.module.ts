@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NewsComponent } from './components/news.component';
 <<<<<<< Updated upstream
-import { NewsFormComponent } from './components/newsForm.component';
+import { NewsFormComponent } from './components/newsform.component';
 =======
 import { NewsFormComponent } from './components/newsform.component';
 import { WeaponsComponent } from './components/weapons.component';
