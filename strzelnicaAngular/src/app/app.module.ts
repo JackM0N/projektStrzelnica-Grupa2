@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NewsFormComponent } from './components/newsform.component'
 import { PopupComponent } from './components/popup.component';
+import { AboutComponent } from './components/about.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { PopupComponent } from './components/popup.component';
     NewsComponent,
     NewsDeleteComponent,
     NewsFormComponent,
-    PopupComponent
+    PopupComponent,
+    AboutComponent,
   ],
 
   imports: [
