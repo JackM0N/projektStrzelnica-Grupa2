@@ -21,11 +21,9 @@ import { UsersComponent } from './components/users.component';
     NewsDeleteComponent,
     NewsFormComponent,
     PopupComponent,
-    PopupComponent,
     PaginationComponent,
     WeaponsComponent,
     AboutComponent,
-    UsersComponent
   ],
 
   imports: [

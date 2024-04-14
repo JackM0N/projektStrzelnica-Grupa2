@@ -1,0 +1,41 @@
+
+p {
+    text-align: center;
+}
+
+.pagination {
+    margin-bottom: 20px;
+}
+
+.pagination {
+    display: inline-block;
+    text-align: center;
+}
+
+.pagination select, .pagination button {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+    border: 1px solid #ddd;
+    margin: 0 4px;
+}
+
+.pagination button {
+    font-size: 20px;
+}
+
+.pagination select:hover, .pagination button:hover {
+    cursor: pointer;
+}
+
+.pagination button:hover {
+    background-color: #4CAF50;
+    color: white;
+    border: 1px solid #4CAF50;
+}
+
+.text-label {
+    font-size: 16px;
+}

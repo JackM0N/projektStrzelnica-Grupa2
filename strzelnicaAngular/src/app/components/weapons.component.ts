@@ -5,11 +5,11 @@ import { isImageValid } from '../utils/utils';
 import { PaginationComponent } from './pagination.component';
 
 @Component({
-  selector: 'app-news',
-  templateUrl: './news.component.html',
+  selector: 'app-weapons',
+  templateUrl: './weapons.component.html',
   styleUrls: [
-    // Style exclusive for the news component
-    '../styles/news.component.css',
+    // Style exclusive for the weapons component
+    '../styles/weapons.component.css',
     // Styles shared between all the list components
     '../styles/shared-lists-styles.css',
     // Shared button styles
@@ -17,9 +17,9 @@ import { PaginationComponent } from './pagination.component';
 })
 
 // Component that displays the news
-export class NewsComponent implements AfterViewInit {
+export class WeaponsComponent implements  AfterViewInit {
   @ViewChild('paginationComponent', { static: false }) paginationComponent!: PaginationComponent;
-  newsList: News[] = [];
+  weaponsList: News[] = [];
 
   constructor(private newsService: NewsService, private cd: ChangeDetectorRef) { }
 
@@ -47,7 +47,7 @@ export class NewsComponent implements AfterViewInit {
             item.picture = '';
           }
       });
-      this.newsList = news.content;
+      this.weaponsList = news.content;
     });
   }
 

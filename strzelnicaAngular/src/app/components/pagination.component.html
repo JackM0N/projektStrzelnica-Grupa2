@@ -1,0 +1,16 @@
+<p>Strona {{currentPage}}</p>
+
+<div class="pagination">
+    <button (click)="goToPageNum(1)" *ngIf="totalPages > 5">&laquo; <span class="text-label">Pierwsza</span></button>
+
+    <button (click)="goToPreviousPage()" [disabled]="currentPage === 1">&laquo;</button>
+    <button (click)="goToPageNum(pageNumbers[0])" *ngIf="pageNumbers[0] != null">{{pageNumbers[0]}}</button>
+    <button (click)="goToPageNum(pageNumbers[1])" *ngIf="pageNumbers[1] != null">{{pageNumbers[1]}}</button>
+    <button (click)="goToPageNum(pageNumbers[2])" *ngIf="pageNumbers[2] != null">{{pageNumbers[2]}}</button>
+    <button (click)="goToPageNum(pageNumbers[3])" *ngIf="pageNumbers[3] != null">{{pageNumbers[3]}}</button>
+    <button (click)="goToPageNum(pageNumbers[4])" *ngIf="pageNumbers[4] != null">{{pageNumbers[4]}}</button>
+    <button (click)="goToPageNum(pageNumbers[5])" *ngIf="pageNumbers[5] != null">{{pageNumbers[5]}}</button>
+    <button (click)="goToNextPage()" [disabled]="currentPage === totalPages">&raquo;</button>
+
+    <button (click)="goToLastPage()" *ngIf="totalPages > 5"><span class="text-label">Ostatnia</span> &raquo;</button>
+</div>
