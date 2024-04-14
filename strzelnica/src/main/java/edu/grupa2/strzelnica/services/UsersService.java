@@ -1,6 +1,6 @@
 package edu.grupa2.strzelnica.services;
 
-import edu.grupa2.strzelnica.models.User;
+import edu.grupa2.strzelnica.models.Users;
 import edu.grupa2.strzelnica.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,28 +22,28 @@ public class UsersService {
     }
 
     // Method to get all users
-    public List<User> getAllUsers() {
+    public List<Users> getAllUsers() {
         return usersRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
     }
 
     // Method to get paginated users
-    public Page<User> getPaginatedUsers(int page, int size) {
+    public Page<Users> getPaginatedUsers(int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "id"));
         return usersRepository.findAll(pageable);
     }
 
     // Method to get a specific user by their ID
-    public Optional<User> getUserById(Long id) {
+    public Optional<Users> getUserById(Long id) {
         return usersRepository.findById(id);
     }
 
     // Method to save a new user
-    public User saveUser(User user) {
+    public Users saveUser(Users user) {
         return usersRepository.save(user);
     }
 
     // Method to update an existing user
-    public User updateUser(Long id, User updatedUser) {
+    public Users updateUser(Long id, Users updatedUser) {
         if (usersRepository.existsById(id)) {
             updatedUser.setId(id);
             return usersRepository.save(updatedUser);

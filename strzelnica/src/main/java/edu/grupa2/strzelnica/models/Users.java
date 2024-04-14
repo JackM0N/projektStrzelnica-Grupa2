@@ -10,7 +10,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class Users {
     @Id
     @ColumnDefault("nextval('user_id_seq'")
     @Column(name = "id", nullable = false)

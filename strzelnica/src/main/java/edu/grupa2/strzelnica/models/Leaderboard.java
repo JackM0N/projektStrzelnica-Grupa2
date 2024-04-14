@@ -12,7 +12,7 @@ public class Leaderboard {
     @MapsId
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
-    private User users;
+    private Users users;
 
     @Column(name = "score", nullable = false)
     private Integer score;
@@ -25,11 +25,11 @@ public class Leaderboard {
         this.id = id;
     }
 
-    public User getUsers() {
+    public Users getUsers() {
         return users;
     }
 
-    public void setUsers(User users) {
+    public void setUsers(Users users) {
         this.users = users;
     }
 

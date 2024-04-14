@@ -17,7 +17,7 @@ public class Courseuser {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private Users user;
 
     @Column(name = "is_done")
     private Boolean isDone;
@@ -38,11 +38,11 @@ public class Courseuser {
         this.course = course;
     }
 
-    public User getUser() {
+    public Users getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(Users user) {
         this.user = user;
     }
 

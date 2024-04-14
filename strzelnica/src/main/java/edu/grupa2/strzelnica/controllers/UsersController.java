@@ -1,11 +1,11 @@
 package edu.grupa2.strzelnica.controllers;
 
-import edu.grupa2.strzelnica.models.News;
-import edu.grupa2.strzelnica.models.User;
+import edu.grupa2.strzelnica.models.Users;
 
 import edu.grupa2.strzelnica.services.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -27,12 +28,16 @@ public class UsersController {
     }
     @GetMapping("/users")
     @ResponseBody
-    public Page<User> getPaginetedUsers(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
-        return usersService.getPaginatedUsers(page, size);
+    public List<Users> getAllUsers() {
+        return usersService.getAllUsers();
     }
+/*    public Page<Users> getPaginetedUsers(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        return usersService.getPaginatedUsers(page, size);
+    }*/
+
     @GetMapping("/users/{id}")
     public ResponseEntity<?> getUserById(@PathVariable Long id) {
-        Optional<User> optionalUsers = usersService.getUserById(id);
+        Optional<Users> optionalUsers = usersService.getUserById(id);
 
         // Send the news if it exists
         if (optionalUsers.isPresent()) {
@@ -44,9 +49,9 @@ public class UsersController {
     }
 
     @PostMapping("/users/add")
-    public ResponseEntity<?> addUser(@RequestBody User user) {
+    public ResponseEntity<?> addUser(@RequestBody Users user) {
         try {
-            User savedUser = usersService.saveUser(user);
+            Users savedUser = usersService.saveUser(user);
             return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"message\": \"Error adding user: " + e.getMessage() + "\"}");
@@ -54,9 +59,9 @@ public class UsersController {
     }
 
     @PutMapping("/users/edit/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
+    public ResponseEntity<Users> updateUser(@PathVariable Long id, @RequestBody Users updatedUser) {
         try {
-            User user = usersService.updateUser(id, updatedUser);
+            Users user = usersService.updateUser(id, updatedUser);
             return ResponseEntity.ok(user);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();

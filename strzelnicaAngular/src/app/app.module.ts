@@ -24,6 +24,7 @@ import { UsersComponent } from './components/users.component';
     PaginationComponent,
     WeaponsComponent,
     AboutComponent,
+    UsersComponent
   ],
 
   imports: [

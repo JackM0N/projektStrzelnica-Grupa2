@@ -1,40 +1,20 @@
-import { Component, AfterViewInit, ChangeDetectorRef, ViewChild } from '@angular/core';
-import { UsersService } from '../services/users.service';
+import { Component} from '@angular/core';
+import { UserService } from '../services/users.service';
 import { Users } from '../interfaces/users';
-import { PaginationComponent } from './pagination.component';
 
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
-  styleUrls: [
-    '../styles/users.component.css',
-    '../styles/shared-lists-styles.css',
-    '../styles/button-styles.css'
-  ]
+  styleUrls: ['../styles/users.component.css']
 })
-export class UsersComponent implements AfterViewInit {
-  @ViewChild('paginationComponent', { static: false }) paginationComponent!: PaginationComponent;
-  usersList: Users[] = [];
+export class UsersComponent {
+  users: Users[] = [];
 
-  constructor(private usersService: UsersService, private cd: ChangeDetectorRef) { }
-
-  ngAfterViewInit(): void {
-    if (this.paginationComponent) {
-      this.fetchUsers();
-      this.cd.detectChanges();
-    }
-  }
-
-  fetchUsers(): void {
-    if (this.paginationComponent) {
-      this.usersService.getPaginatedUsers(this.paginationComponent.currentPage, this.paginationComponent.maxItems).subscribe(users => {
-        if (this.paginationComponent) {
-          this.paginationComponent.totalPages = users.totalPages;
-          this.paginationComponent.calculatePages();
-
-          this.usersList = users.content;
-        }
-      });
-    }
+  constructor(private userService: UserService) {
+    this.userService.getUsers().subscribe(response => {
+      if (response && Array.isArray(response)) {
+        this.users = response; // Assign the response directly to users
+      }
+    });
   }
 }
