@@ -14,7 +14,7 @@ public class User {
     @Id
     @ColumnDefault("nextval('user_id_seq'")
     @Column(name = "id", nullable = false)
-    private Integer id;
+    private Long id;
 
     @Column(name = "name", nullable = false, length = 50)
     private String name;
@@ -34,11 +34,11 @@ public class User {
     @Column(name = "club_member", nullable = false)
     private Boolean clubMember = false;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
