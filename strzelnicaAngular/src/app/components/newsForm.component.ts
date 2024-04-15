@@ -11,8 +11,6 @@ import { Location } from '@angular/common';
   selector: 'app-add-news',
   templateUrl: './newsform.component.html',
   styleUrls: [
-    // Style exclusive for this component
-    '../styles/newsform.component.css',
     // Shared button styles
     '../styles/button-styles.css',
     // Shared form styles

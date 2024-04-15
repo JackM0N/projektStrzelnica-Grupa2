@@ -11,7 +11,7 @@ import { PaginationComponent } from './pagination.component';
     // Style exclusive for this component
     '../styles/news.component.css',
     // Styles shared between all the list components
-    '../styles/shared-lists-styles.css',
+    '../styles/shared-list-styles.css',
     // Shared button styles
     '../styles/button-styles.css']
 })
@@ -21,7 +21,7 @@ export class NewsComponent implements AfterViewInit {
   @ViewChild('paginationComponent', { static: false }) paginationComponent!: PaginationComponent;
   newsList: News[] = [];
 
-  constructor(private newsService: NewsService, private cd: ChangeDetectorRef) { }
+  constructor(private newsService: NewsService, private cd: ChangeDetectorRef) {}
 
   // After init - because we need the pagination to load first
   // Fetch the news from the database and display them

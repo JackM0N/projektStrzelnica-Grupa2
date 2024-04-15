@@ -6,7 +6,6 @@ import { Weapon } from '../interfaces/weapon';
 @Injectable({
   providedIn: 'root'
 })
-
 // Service for handling CRUD operations on weapons
 export class WeaponService {
   private baseUrl = 'http://localhost:8080/weapons';
@@ -22,8 +21,7 @@ export class WeaponService {
       .set('size', size.toString());
     return this.http.get<any>(this.baseUrl, {params});
   }
-
-
+  
   // Adding a weapon to the database
   addWeapon(weapon?: Weapon): Observable<Weapon> {
     return this.http.post<Weapon>(this.postUrl, weapon);

@@ -18,7 +18,7 @@ const routes: Routes = [
   { path: 'weapons/edit/:id', component: WeaponFormComponent },
   { path: 'about', component: AboutComponent },
   { path: 'users', component: UsersComponent },
-  { path: 'edit/:id', component: UsersFormComponent }
+  { path: 'users/edit/:id', component: UsersFormComponent }
 ];
 
 @NgModule({

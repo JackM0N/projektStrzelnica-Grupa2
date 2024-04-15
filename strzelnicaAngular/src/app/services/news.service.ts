@@ -6,7 +6,6 @@ import { News } from '../interfaces/news';
 @Injectable({
   providedIn: 'root'
 })
-
 // Service for handling CRUD operations on news
 export class NewsService {
   private baseUrl = 'http://localhost:8080/news';

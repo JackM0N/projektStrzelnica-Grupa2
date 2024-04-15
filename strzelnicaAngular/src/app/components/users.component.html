@@ -1,26 +1,38 @@
-<div class="table-container">
-  <table class="user-table">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Surname</th>
-        <th>Email</th>
-        <th>Date of Birth</th>
-        <th>Club Member</th>
-        <th>Action</th> <!-- New column for edit button -->
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let user of users">
-        <td>{{ user.name }}</td>
-        <td>{{ user.surname }}</td>
-        <td>{{ user.email }}</td>
-        <td>{{ user.dateOfBirth | date }}</td>
-        <td>{{ user.clubMember ? 'Yes' : 'No' }}</td>
-        <td>
-          <button (click)="editUser(user.id)">Edit</button> <!-- Edit button -->
-        </td>
-      </tr>
-    </tbody>
-  </table>
+
+<div class="welcome">
+  <p>Lista użytkowników</p>
+  <hr>
+</div>
+
+<div class="data-container">
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Imię</th>
+          <th>Nazwisko</th>
+          <th>Email</th>
+          <th>Data urodzenia</th>
+          <th>Członek klubu</th>
+          <th>Opcje</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of userList">
+          <td>{{ user.name }}</td>
+          <td>{{ user.surname }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.dateOfBirth | date }}</td>
+          <td>{{ user.clubMember ? 'Tak' : 'Nie' }}</td>
+          <td>
+            <button type="button" class="generic-button" [routerLink]="['/users/edit', user.id]">Edytuj</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <app-pagination #paginationComponent
+      (onPageChange)="fetchUsers()">
+  </app-pagination>
 </div>

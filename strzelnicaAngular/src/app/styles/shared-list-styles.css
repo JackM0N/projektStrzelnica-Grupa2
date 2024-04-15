@@ -55,3 +55,40 @@
 .item-card-details {
     color: #444;
 }
+
+
+/* Style for table lists */
+.table-container {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow */
+    margin: 20px auto; /* Center the container */
+    max-width: 1000px; /* Limit the maximum width */
+    border: 1px solid #ddd; /* Add border */
+    border-radius: 5px; /* Add border radius */
+    overflow: hidden; /* Hide overflow for shadow effect */
+}
+table {
+    border-collapse: collapse;
+}
+/* table headers */
+table th {
+    background-color: #f2f2f2;
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+/* table rows */
+table tr {
+    border-bottom: 1px solid #ddd;
+}
+/* alternate row background */
+table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+/* table data cells */
+table td {
+    padding: 8px 16px;
+}
+/* table rows */
+table tr:hover {
+    background-color: #e2e2e2;
+}

@@ -46,7 +46,7 @@ public class NewsController {
         }
     }
 
-    // POST - Add a new news
+    // POST - Add new news
     @PostMapping("/news/add")
     public ResponseEntity<?> addNews(@RequestBody News news) {
         try {
@@ -61,43 +61,12 @@ public class NewsController {
     // PUT - Update an existing news
     @PutMapping("/news/edit/{id}")
     public ResponseEntity<News> updateNews(@PathVariable Long id, @RequestBody News updatedNews) {
-        // Get the news from news service
-        Optional<News> optionalNews = newsService.getNewsById(id);
-
-        // Update the news if it exists
-        if (optionalNews.isPresent()) {
-            News existingNews = optionalNews.get();
-            existingNews.setTitle(updatedNews.getTitle());
-            existingNews.setContent(updatedNews.getContent());
-            existingNews.setDate(updatedNews.getDate());
-            existingNews.setAuthorId(updatedNews.getAuthorId());
-            existingNews.setPicture(updatedNews.getPicture());
-
-            News savedNews = newsService.saveNews(existingNews);
-            return new ResponseEntity<>(savedNews, HttpStatus.OK);
-
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return newsService.updateNews(id, updatedNews);
     }
 
     // DELETE - Delete or restore news
     @DeleteMapping("/news/{id}")
     public ResponseEntity<News> deleteNews(@PathVariable Long id) {
-        // Get the news from news service
-        Optional<News> optionalNews = newsService.getNewsById(id);
-
-        // Delete news if it exists
-        if (optionalNews.isPresent()) {
-            News existingNews = optionalNews.get();
-            existingNews.setDeleted(!existingNews.getDeleted());
-
-            // Save the news to the database using the new service
-            News deletedNews = newsService.saveNews(existingNews);
-            return new ResponseEntity<>(deletedNews, HttpStatus.OK);
-
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return newsService.deleteNewsById(id);
     }
 }

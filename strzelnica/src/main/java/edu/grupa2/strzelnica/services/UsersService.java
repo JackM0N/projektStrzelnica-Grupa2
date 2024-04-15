@@ -21,11 +21,6 @@ public class UsersService {
         this.usersRepository = usersRepository;
     }
 
-    // Method to get all users
-    public List<Users> getAllUsers() {
-        return usersRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
-    }
-
     // Method to get paginated users
     public Page<Users> getPaginatedUsers(int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "id"));

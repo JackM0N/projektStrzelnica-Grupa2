@@ -7,10 +7,10 @@ import { WeaponService } from '../services/weapon.service';
   selector: 'app-weapons',
   templateUrl: './weapons.component.html',
   styleUrls: [
-    // Style exclusive for the weapons component
+    // Style exclusive for this component
     '../styles/weapons.component.css',
     // Styles shared between all the list components
-    '../styles/shared-lists-styles.css',
+    '../styles/shared-list-styles.css',
     // Shared button styles
     '../styles/button-styles.css'
   ]
@@ -19,10 +19,10 @@ import { WeaponService } from '../services/weapon.service';
 // Component that displays a list of weapons
 export class WeaponsComponent implements  AfterViewInit {
   @ViewChild('paginationComponent', { static: false }) paginationComponent!: PaginationComponent;
-  weaponsList: Weapon[] = [];
+  weaponList: Weapon[] = [];
   showAdminProperties: boolean = false;
 
-  constructor(private weaponService: WeaponService, private cd: ChangeDetectorRef) { }
+  constructor(private weaponService: WeaponService, private cd: ChangeDetectorRef) {}
 
   // After init - because we need the pagination to load first
   // Fetch weapons from the database and display them
@@ -37,7 +37,7 @@ export class WeaponsComponent implements  AfterViewInit {
     this.weaponService.getPaginatedWeapons(this.paginationComponent.currentPage, this.paginationComponent.maxItems).subscribe(weapons => {
       this.paginationComponent.totalPages = weapons.totalPages;
       this.paginationComponent.calculatePages();
-      this.weaponsList = weapons.content;
+      this.weaponList = weapons.content;
     });
   }
 }

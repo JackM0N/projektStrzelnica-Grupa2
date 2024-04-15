@@ -83,21 +83,12 @@ public class WeaponController {
 
     // DELETE - Delete or restore a weapon
     @DeleteMapping("/weapons/{id}")
-    public ResponseEntity<Weapon> deleteWeapon(@PathVariable Integer id) {
-        // Get the weapon from the weapon service
-        Optional<Weapon> optionalWeapon = weaponService.getWeaponById(id);
-
-        // Delete weapon if it exists
-        if (optionalWeapon.isPresent()) {
-            Weapon existingWeapon = optionalWeapon.get();
-            existingWeapon.setFitForUse(false);
-
-            // Save the weapon to the database using the weapon service
-            Weapon deletedWeapon = weaponService.saveWeapon(existingWeapon);
-            return new ResponseEntity<>(deletedWeapon, HttpStatus.OK);
-
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public ResponseEntity<?> deleteWeapon(@PathVariable Integer id) {
+        try {
+            weaponService.deleteWeaponById(id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"message\": \"Error deleting weapon: " + e.getMessage() + "\"}");
         }
     }
 }

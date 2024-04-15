@@ -9,47 +9,47 @@
 </app-popup>
 
 <div class="form-container">
-    <h2>{{actionText}}</h2>
+  <h2>{{actionText}}</h2>
 
-    <form #f="ngForm" (ngSubmit)="onSubmit(f)">
-      <div>
-        <label for="name">Nazwa:</label>
-        <input type="text" id="name" name="name" maxlength="200" minlength="2" [(ngModel)]="weapon.name" required>
-      </div>
+  <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+  <div>
+    <label for="name">Nazwa:</label>
+    <input type="text" id="name" name="name" maxlength="200" minlength="2" [(ngModel)]="weapon.name" required>
+    </div>
 
-      <div>
-        <label for="pricePerHour">Cena za godzinę (zł):</label>
-        <input type="number" id="pricePerHour" name="pricePerHour" [(ngModel)]="weapon.pricePerHour" required>
-      </div>
+    <div>
+    <label for="pricePerHour">Cena za godzinę (zł):</label>
+    <input type="number" id="pricePerHour" name="pricePerHour" [(ngModel)]="weapon.pricePerHour" required>
+    </div>
 
-      <div>
-        <label for="usesSinceLastMaintenanceas">Liczba użyć od ostatniej konserwacji:</label>
-        <input type="number" id="usesSinceLastMaintenance" name="usesSinceLastMaintenance" [(ngModel)]="weapon.usesSinceLastMaintenance" required>
-      </div>
+    <div>
+      <label for="usesSinceLastMaintenanceas">Liczba użyć od ostatniej konserwacji:</label>
+      <input type="number" id="usesSinceLastMaintenance" name="usesSinceLastMaintenance" [(ngModel)]="weapon.usesSinceLastMaintenance" required>
+    </div>
 
-      <div>
-        <label for="maintenanceEvery">Konserwacja co (strzałów):</label>
-        <input type="number" id="maintenanceEvery" name="maintenanceEvery" [(ngModel)]="weapon.maintenanceEvery" required>
-      </div>
+    <div>
+      <label for="maintenanceEvery">Konserwacja co (strzałów):</label>
+      <input type="number" id="maintenanceEvery" name="maintenanceEvery" [(ngModel)]="weapon.maintenanceEvery" required>
+    </div>
 
-      <div>
-        <label for="serialNumber">Numer seryjny:</label>
-        <input type="text" id="serialNumber" name="serialNumber" maxlength="40" minlength="2" [(ngModel)]="weapon.serialNumber" required>
-      </div>
+    <div>
+      <label for="serialNumber">Numer seryjny:</label>
+      <input type="text" id="serialNumber" name="serialNumber" maxlength="40" minlength="2" [(ngModel)]="weapon.serialNumber" required>
+    </div>
 
-      <div>
-        <label for="fitForUse">Zdatny do użytku:</label>
-        <input type="checkbox" id="fitForUse" name="fitForUse" [(ngModel)]="weapon.fitForUse">
-      </div>
+    <div>
+      <label for="fitForUse">Zdatny do użytku:</label>
+      <input type="checkbox" id="fitForUse" name="fitForUse" [(ngModel)]="weapon.fitForUse">
+    </div>
 
-      <div>
-        <label for="inMaintenance">W konserwacji:</label>
-        <input type="checkbox" id="inMaintenance" name="inMaintenance" [(ngModel)]="weapon.inMaintenance">
-      </div>
+    <div>
+      <label for="inMaintenance">W konserwacji:</label>
+      <input type="checkbox" id="inMaintenance" name="inMaintenance" [(ngModel)]="weapon.inMaintenance">
+    </div>
 
-      <div class="button-container">
-        <button type="button" class="goBackButton" (click)="goBack()">Cofnij</button>
-        <button type="submit">Zapisz</button>
-      </div>
-    </form>
+    <div class="button-container">
+      <button type="button" class="go-back-button" (click)="goBack()">Cofnij</button>
+      <button type="submit">Zapisz</button>
+    </div>
+  </form>
 </div>

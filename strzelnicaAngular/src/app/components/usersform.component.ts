@@ -1,41 +1,91 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router'; // Import Router
-import { NgForm } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router'
 import { UserService } from '../services/users.service';
 import { Users } from '../interfaces/users';
+import { PopupComponent } from './popup.component';
+import { Location } from '@angular/common';
+import { NgForm } from '@angular/forms';
+import { Observer } from 'rxjs';
 
 @Component({
   selector: 'app-users-form',
   templateUrl: './usersform.component.html',
-  styleUrls: ['../styles/usersform.component.css']
+  styleUrls: [
+    // Style exclusive for this component
+    '../styles/usersform.component.css',
+    // Shared button styles
+    '../styles/button-styles.css',
+    // Shared form styles
+    '../styles/shared-form-styles.css'
+  ]
 })
 export class UsersFormComponent implements OnInit {
-  user: Users = { id: 0, name: '', surname: '', password: '', email: '', dateOfBirth: new Date(), clubMember: false };
-  userId!: number; // Initialize userId with a definite assignment assertion
+  @ViewChild('responsePopup') responsePopup!: PopupComponent;
+  public responsePopupHeader = '';
+  public responsePopupMessage = '';
+  public responsePopupNgClass = '';
+  userId: number = 0;
 
-  constructor(private userService: UserService, private route: ActivatedRoute, private router: Router) { }
+  user: Users = {
+    id: 0,
+    name: '',
+    surname: '',
+    password: '',
+    email: '',
+    dateOfBirth: new Date(),
+    clubMember: false
+  };
+
+  constructor(
+    private location: Location,
+    private userService: UserService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    this.userId = this.route.snapshot.params['id'];
-    this.getUser(this.userId);
-  }
-
-  getUser(id: number): void {
-    this.userService.getUsers().subscribe(users => {
-      const user = users.find(u => u.id === id);
-      if (user) {
-        this.user = user;
-      } else {
-        console.error(`User with ID ${id} not found.`);
+    this.route.params.subscribe(params => {
+      if (params['id']) {
+        this.userId = +params['id'];
+        this.userService.getUserById(this.userId).subscribe((user: Users) => {
+          this.user = user;
+        });
       }
     });
   }
 
-  onSubmit(): void {
-    this.userService.updateUser(this.userId, this.user).subscribe(updatedUser => {
-      console.log('User updated successfully:', updatedUser);
-      // Navigate back to /users route after editing
-      this.router.navigate(['/users']); // Navigate to the users route
-    });
+  // On submit, user clicks to confirm adding/editing a user, complete it with the database
+  onSubmit(f: NgForm) {
+    if (f.valid) {
+      this.user.name = f.value.name;
+  
+      const observer: Observer<any> = {
+        next: response => {
+          this.responsePopupHeader = 'Pomyślnie zaktualizowano użytkownika ' + this.user.name + '.';
+          this.responsePopupNgClass = 'popupSuccess';
+          this.responsePopup.open();
+        },
+        error: error => {
+          this.responsePopupHeader = 'Przy aktualizacji użytkownika napotkano błąd.';
+          this.responsePopupMessage = error.error.message + ' (' + error.message + ')';
+          this.responsePopupNgClass = 'popupError';
+          this.responsePopup.open();
+        },
+        complete: () => {}
+      };
+
+      // Subscribe using the observer object
+      this.userService.updateUser(this.user).subscribe(observer);
+    }
+  }
+
+  // Open the main page after user clicks on the response pop-up
+  public responsePopupCancelAction(): void {
+    this.location.back();
+  }
+  
+  // User clicks go back from the form page
+  public goBack(): void {
+    this.location.back();
   }
 }

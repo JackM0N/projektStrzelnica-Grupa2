@@ -15,6 +15,7 @@ import { WeaponFormComponent } from './components/weaponform.component';
 import { AboutComponent } from './components/about.component';
 import { UsersComponent } from './components/users.component';
 import { UsersFormComponent } from './components/usersform.component';
+import { WeaponDeleteComponent } from './components/weapondelete.component';
 
 @NgModule({
   declarations: [
@@ -26,9 +27,10 @@ import { UsersFormComponent } from './components/usersform.component';
     PaginationComponent,
     WeaponsComponent,
     WeaponFormComponent,
+    WeaponDeleteComponent,
     AboutComponent,
     UsersComponent,
-    UsersFormComponent
+    UsersFormComponent,
   ],
 
   imports: [
