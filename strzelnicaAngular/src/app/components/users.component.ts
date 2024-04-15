@@ -1,34 +1,25 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
-import { UsersService } from '../services/users.service'; // Import the service for fetching users
-import { Users } from '../interfaces/users'; // Import the Users interface
-import { PaginationComponent } from './pagination.component';
+import { Component} from '@angular/core';
+import { Router } from '@angular/router';
+import { UserService } from '../services/users.service';
+import { Users } from '../interfaces/users';
 
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
-  styleUrls: [
-    '../styles/users.component.css', // Style for the users component
-    '../styles/shared-lists-styles.css', // Shared styles for lists
-    '../styles/button-styles.css' // Shared button styles
-  ]
+  styleUrls: ['../styles/users.component.css']
 })
-export class UsersComponent implements AfterViewInit {
-  @ViewChild('paginationComponent', { static: false }) paginationComponent!: PaginationComponent;
-  usersList: Users[] = [];
+export class UsersComponent {
+  users: Users[] = [];
 
-  constructor(private usersService: UsersService, private cd: ChangeDetectorRef) { }
-
-  ngAfterViewInit(): void {
-    this.fetchUsers();
-    this.cd.detectChanges();
-  }
-
-  fetchUsers(): void {
-    this.usersService.getPaginatedUsers(this.paginationComponent.currentPage, this.paginationComponent.maxItems).subscribe(users => {
-      this.paginationComponent.totalPages = users.totalPages;
-      this.paginationComponent.calculatePages();
-
-      this.usersList = users.content;
+  constructor(private userService: UserService, private router: Router) {
+    this.userService.getUsers().subscribe(response => {
+      if (response && Array.isArray(response)) {
+        this.users = response; // Assign the response directly to users
+      }
     });
+  }
+  
+  editUser(userId: number): void {
+    this.router.navigate(['/edit', userId]); // Navigate to edit component with user ID
   }
 }

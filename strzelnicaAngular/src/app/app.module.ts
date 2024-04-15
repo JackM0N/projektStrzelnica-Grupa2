@@ -13,6 +13,8 @@ import { PaginationComponent } from './components/pagination.component';
 import { WeaponsComponent } from './components/weapons.component';
 import { WeaponFormComponent } from './components/weaponform.component';
 import { AboutComponent } from './components/about.component';
+import { UsersComponent } from './components/users.component';
+import { UsersFormComponent } from './components/usersform.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +27,8 @@ import { AboutComponent } from './components/about.component';
     WeaponsComponent,
     WeaponFormComponent,
     AboutComponent,
+    UsersComponent,
+    UsersFormComponent
   ],
 
   imports: [

@@ -2,9 +2,10 @@ package edu.grupa2.strzelnica.controllers;
 
 import edu.grupa2.strzelnica.models.Users;
 
-import edu.grupa2.strzelnica.services.UsersServices;
+import edu.grupa2.strzelnica.services.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -13,23 +14,27 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.Optional;
 
 
 @Controller
 public class UsersController {
-    private final UsersServices usersService;
+    private final UsersService usersService;
     @Autowired
-    public UsersController(UsersServices usersService) {
+    public UsersController(UsersService usersService) {
         this.usersService = usersService;
     }
     @GetMapping("/users")
     @ResponseBody
-    public ResponseEntity<List<Users>> getAllUsers() {
-        List<Users> users = usersService.getAllUsers();
-        return ResponseEntity.ok(users);
+    public List<Users> getAllUsers() {
+        return usersService.getAllUsers();
     }
+/*    public Page<Users> getPaginetedUsers(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        return usersService.getPaginatedUsers(page, size);
+    }*/
+
     @GetMapping("/users/{id}")
     public ResponseEntity<?> getUserById(@PathVariable Long id) {
         Optional<Users> optionalUsers = usersService.getUserById(id);

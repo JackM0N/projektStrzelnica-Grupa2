@@ -1,26 +1,38 @@
 package edu.grupa2.strzelnica.models;
 
-import jakarta.persistence.*;
-import java.util.Date;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import org.hibernate.annotations.ColumnDefault;
 
-@Entity(name = "Users")
+import java.time.LocalDate;
+
+@Entity
 @Table(name = "users")
 public class Users {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ColumnDefault("nextval('user_id_seq'")
+    @Column(name = "id", nullable = false)
     private Long id;
-    @Column(name = "name")
+
+    @Column(name = "name", nullable = false, length = 50)
     private String name;
-    @Column(name = "surname")
+
+    @Column(name = "surname", nullable = false, length = 50)
     private String surname;
-    @Column(name = "password")
+
+    @Column(name = "password", nullable = false, length = 100)
     private String password;
-    @Column(name = "email")
+
+    @Column(name = "email", nullable = false, length = 100)
     private String email;
-    @Column(name = "date_of_birth")
-    private Date dateOfBirth;
-    @Column(name = "club_member")
-    private boolean clubMember;
+
+    @Column(name = "date_of_birth", nullable = false)
+    private LocalDate dateOfBirth;
+
+    @Column(name = "club_member", nullable = false)
+    private Boolean clubMember = false;
 
     public Long getId() {
         return id;
@@ -62,19 +74,20 @@ public class Users {
         this.email = email;
     }
 
-    public Date getDateOfBirth() {
+    public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
+    public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public boolean isClubMember() {
+    public Boolean getClubMember() {
         return clubMember;
     }
 
-    public void setClubMember(boolean clubMember) {
+    public void setClubMember(Boolean clubMember) {
         this.clubMember = clubMember;
     }
+
 }
