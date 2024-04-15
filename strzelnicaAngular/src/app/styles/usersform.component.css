@@ -1,0 +1,50 @@
+/* usersform.component.css */
+
+.user-form-container {
+    max-width: 400px; /* Adjust the max-width as needed */
+    margin: 20px auto; /* Center the form horizontally and add margin at top and bottom */
+    padding: 20px 30px; /* Add some padding around the form */
+    border: 1px solid #ccc; /* Add a small border */
+    border-radius: 5px; /* Add border-radius for rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a small shadow */
+  }
+  
+  .user-form-container label {
+    display: flex; /* Use flexbox to align items horizontally */
+    align-items: center; /* Center items vertically */
+    margin-bottom: 10px; /* Add some spacing below labels */
+  }
+  
+  .user-form-container input[type="text"],
+  .user-form-container input[type="email"],
+  .user-form-container input[type="date"] {
+    width: calc(100% - 20px); /* Make input fields full-width with a little padding */
+    padding: 8px; /* Add padding inside input fields */
+    margin-bottom: 15px; /* Add some spacing below input fields */
+    border: 1px solid #ccc; /* Add a border to input fields */
+    border-radius: 3px; /* Add border-radius for rounded corners */
+  }
+  
+  .user-form-container input[type="checkbox"] {
+    width: auto; /* Adjust width for checkbox */
+    margin-right: 5px; /* Add a small margin to the right of the checkbox */
+  }
+  
+  .user-form-container button[type="submit"] {
+    background-color: #007bff; /* Set button background color */
+    color: #fff; /* Set button text color */
+    padding: 10px 20px; /* Add padding to button */
+    border: none; /* Remove button border */
+    border-radius: 3px; /* Add border-radius for rounded corners */
+    cursor: pointer; /* Change cursor to pointer on hover */
+  }
+  
+  .user-form-container button[type="submit"]:hover {
+    background-color: #0056b3; /* Darken button background color on hover */
+  }
+  
+  /* Add margin to the header and footer */
+  header, footer {
+    margin-bottom: 20px; /* Add margin at the bottom of header and footer */
+  }
+  
