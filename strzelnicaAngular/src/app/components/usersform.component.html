@@ -1,0 +1,24 @@
+<form #userForm="ngForm" (ngSubmit)="onSubmit()">
+    <div>
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" [(ngModel)]="user.name" required>
+    </div>
+    <div>
+      <label for="surname">Surname:</label>
+      <input type="text" id="surname" name="surname" [(ngModel)]="user.surname" required>
+    </div>
+    <div>
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" [(ngModel)]="user.email" required>
+    </div>
+    <div>
+      <label for="dateOfBirth">Date of Birth:</label>
+      <input type="date" id="dateOfBirth" name="dateOfBirth" [(ngModel)]="user.dateOfBirth" required>
+    </div>
+    <div>
+      <label for="clubMember">Club Member:</label>
+      <input type="checkbox" id="clubMember" name="clubMember" [(ngModel)]="user.clubMember">
+    </div>
+    <button type="submit" [disabled]="userForm.invalid">Update User</button>
+</form>
+  

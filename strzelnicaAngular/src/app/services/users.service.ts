@@ -13,4 +13,8 @@ export class UserService {
   getUsers(): Observable<Users[]> {
     return this.http.get<Users[]>('http://localhost:8080/users');
   }
+  
+  updateUser(id: number, updatedUser: Users): Observable<Users> {
+    return this.http.put<Users>(`http://localhost:8080/users/edit/${id}`, updatedUser);
+  }
 }

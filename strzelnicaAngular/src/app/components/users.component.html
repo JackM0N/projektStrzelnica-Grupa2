@@ -7,6 +7,7 @@
         <th>Email</th>
         <th>Date of Birth</th>
         <th>Club Member</th>
+        <th>Action</th> <!-- New column for edit button -->
       </tr>
     </thead>
     <tbody>
@@ -16,6 +17,9 @@
         <td>{{ user.email }}</td>
         <td>{{ user.dateOfBirth | date }}</td>
         <td>{{ user.clubMember ? 'Yes' : 'No' }}</td>
+        <td>
+          <button (click)="editUser(user.id)">Edit</button> <!-- Edit button -->
+        </td>
       </tr>
     </tbody>
   </table>
