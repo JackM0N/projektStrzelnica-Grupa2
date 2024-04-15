@@ -38,9 +38,6 @@
     background-color: #f9f9f9;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-.item-card:hover {
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
-}
 .item-card-deleted {
     background: repeating-linear-gradient(160deg, #f9f9f9, #f9f9f9 70px, #dddddd 10px, #dddddd 80px);
 }
@@ -56,5 +53,5 @@
     margin-bottom: 10px;
 }
 .item-card-details {
-    color: #555;
+    color: #444;
 }

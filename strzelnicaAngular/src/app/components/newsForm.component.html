@@ -10,7 +10,7 @@
 </app-popup>
 
 <div class="form-container">
-    <h2>{{actionText}} nowy post</h2>
+    <h2>{{actionText}}</h2>
 
     <form #f="ngForm" (ngSubmit)="onSubmit(f)">
       <div>
@@ -25,7 +25,7 @@
 
       <div>
         <label for="date">Data:</label>
-        <input type="date" id="date" name="date" [(ngModel)]="news.date" required>
+        <input #dateInput type="date" id="date" name="date" value="{{formatDateForInput(news.date)}}" required>
       </div>
       
       <div>
@@ -35,7 +35,7 @@
 
       <div class="button-container">
         <button type="button" class="goBackButton" (click)="goBack()">Cofnij</button>
-        <button type="submit">Dodaj</button>
+        <button type="submit">Zapisz</button>
       </div>
     </form>
 </div>

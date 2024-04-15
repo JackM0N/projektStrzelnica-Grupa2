@@ -42,8 +42,8 @@ export class NewsDeleteComponent implements OnInit {
   
   // User clicks confirm, delete the news from the database
   public confirmAction(): void {
-    this.newsService.deleteNews(this.news.id).subscribe(
-      (response) => {
+    this.newsService.deleteNews(this.news.id).subscribe({
+      next: (response) => {
         if (this.isDeleted) {
           this.responsePopupHeader = 'Pomyślnie przywrócono news ' + this.news.title + '.';
         } else {
@@ -52,7 +52,7 @@ export class NewsDeleteComponent implements OnInit {
         this.responsePopupNgClass = 'popupSuccess';
         this.responsePopup.open();
       },
-      (error) => {
+      error: (error) => {
         if (this.isDeleted) {
           this.responsePopupHeader = 'Przy przywracaniu napotkano błąd.';
         } else {
@@ -61,7 +61,8 @@ export class NewsDeleteComponent implements OnInit {
         this.responsePopupMessage = error.error.message + ' (' + error.message + ')';
         this.responsePopupNgClass = 'popupError';
         this.responsePopup.open();
-      });
+      }
+    });
   }
   
   // User clicks to delete the button, open the confirmation pop-up

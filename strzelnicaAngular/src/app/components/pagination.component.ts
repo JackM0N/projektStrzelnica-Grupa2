@@ -20,18 +20,18 @@ export class PaginationComponent {
     let startPage: number;
     let endPage: number;
 
-    if (this.totalPages <= 7) {
+    if (this.totalPages <= 5) {
       startPage = 1;
       endPage = this.totalPages;
-    } else if (this.currentPage <= 4) {
+    } else if (this.currentPage <= 2) {
       startPage = 1;
-      endPage = 7;
-    } else if (this.currentPage + 3 >= this.totalPages) {
-      startPage = this.totalPages - 5;
+      endPage = 5;
+    } else if (this.currentPage + 2 >= this.totalPages) {
+      startPage = this.totalPages - 4;
       endPage = this.totalPages;
     } else {
-      startPage = this.currentPage - 3;
-      endPage = this.currentPage + 3;
+      startPage = this.currentPage - 2;
+      endPage = this.currentPage + 2;
     }
 
     this.pageNumbers = Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
@@ -67,5 +67,10 @@ export class PaginationComponent {
       this.calculatePages();
       this.onPageChange.emit();
     }
+  }
+
+  // Check if a page is the current page
+  isCurrentPage(page: number): boolean {
+    return this.currentPage === page;
   }
 }

@@ -4,23 +4,29 @@
 </div>
 
 <div class="data-container">
-    <button type="button" id="news-add-button" class="generic-button" [routerLink]="['/news/add']">Dodaj nowy post</button>
+    <button type="button" id="weapon-add-button" class="generic-button" [routerLink]="['/weapons/add']">Dodaj nową broń</button>
     
-    <div *ngFor="let news of weaponsList" class="item-card" [ngClass]="{ 'item-card-deleted': news.deleted }">
-        <h2>{{ news.title }}</h2>
+    <div *ngFor="let weapon of weaponsList" class="item-card" [ngClass]="{ 'item-card-deleted': !weapon.fitForUse }">
+        <h2>{{ weapon.name }}</h2>
 
         <div class="item-card-details">
-            <p class="news-date">Date: {{ news.date }}</p>
-            <p>Author ID: {{ news.authorId }}</p>
-            <div class="news-content" [innerHTML]="news.content"></div>
+            <p>Cena za godzinę: <span id="weapon-price">{{ weapon.pricePerHour }}zł</span></p>
+            <p>
+                Liczba użyć od ostatniej konserwacji: {{ weapon.usesSinceLastMaintenance }}<br>
+                Konserwacja co {{ weapon.maintenanceEvery }} strzałów
+            </p>
+            <p>Numer seryjny: {{ weapon.serialNumber }}</p>
         </div>
 
-        <button type="button" id="news-edit-button" class="generic-button" [routerLink]="['/news/edit', news.id]">Edytuj</button>
+        <p *ngIf="showAdminProperties">
+            Zdatny do użytku: {{ weapon.fitForUse }}<br>
+            W konserwacji: {{ weapon.inMaintenance }}
+        </p>
 
-        <app-news-delete [news]="news"></app-news-delete>
+        <button type="button" id="weapon-edit-button" class="generic-button" [routerLink]="['/weapons/edit', weapon.id]">Edytuj</button>
     </div>
 
     <app-pagination #paginationComponent
-        (onPageChange)="fetchNews()">
+        (onPageChange)="fetchWeapons()">
     </app-pagination>
 </div>

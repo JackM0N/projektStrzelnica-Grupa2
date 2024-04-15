@@ -1,100 +1,100 @@
 package edu.grupa2.strzelnica.controllers;
 
-import edu.grupa2.strzelnica.models.News;
-import edu.grupa2.strzelnica.services.NewsService;
+import edu.grupa2.strzelnica.models.Weapon;
+import edu.grupa2.strzelnica.services.WeaponService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 import java.util.Optional;
 
 @Controller
-public class NewsController {
-    // News service for handling the news repository
-    private final NewsService newsService;
+public class WeaponController {
+    // Service for handling the weapon repository
+    private final WeaponService weaponService;
 
     @Autowired
-    public NewsController(NewsService newsService) {
-        this.newsService = newsService;
+    public WeaponController(WeaponService weaponService) {
+        this.weaponService = weaponService;
     }
 
-    // GET - Pobierz wszystkie newsy
-    @GetMapping("/news")
+    // GET - Get all weapons from the database
+    @GetMapping("/weapons")
     @ResponseBody
-    public Page<News> getNews(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
-        return newsService.getPaginatedNews(page, size);
+    public Page<Weapon> getWeapon(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        return weaponService.getPaginatedWeapons(page, size);
     }
 
-    // GET - Pobierz specyficzny news
-    @GetMapping("/news/{id}")
-    public ResponseEntity<?> getNewsById(@PathVariable Long id) {
-        // Get the news from news service
-        Optional<News> optionalNews = newsService.getNewsById(id);
+    // GET - Get specific weapon from the database
+    @GetMapping("/weapons/{id}")
+    public ResponseEntity<?> getWeaponById(@PathVariable Integer id) {
+        // Get the weapon from weapon service
+        Optional<Weapon> optionalWeapon = weaponService.getWeaponById(id);
 
-        // Send the news if it exists
-        if (optionalNews.isPresent()) {
-            return ResponseEntity.ok(optionalNews.get());
+        // Send the weapon if it exists
+        if (optionalWeapon.isPresent()) {
+            return ResponseEntity.ok(optionalWeapon.get());
 
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"message\": \"error_news_not_found\"}");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"message\": \"error_weapon_not_found\"}");
         }
     }
 
-    // POST - Dodaj nowy news
-    @PostMapping("/news/add")
-    public ResponseEntity<?> addNews(@RequestBody News news) {
+    // POST - Add a new weapon to the database
+    @PostMapping("/weapons/add")
+    public ResponseEntity<?> addWeapon(@RequestBody Weapon weapon) {
         try {
-            newsService.saveNews(news);
-            return ResponseEntity.ok().body("{\"message\": \"success_news_added_successfully\"}");
+            weaponService.saveWeapon(weapon);
+            return ResponseEntity.ok().body("{\"message\": \"success_weapon_added_successfully\"}");
 
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"message\": \"Error adding news: " + e.getMessage() + "\"}");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"message\": \"Error adding weapon: " + e.getMessage() + "\"}");
         }
     }
 
-    // PUT - Zaktualizuj istniejący news
-    @PutMapping("/news/edit/{id}")
-    public ResponseEntity<News> updateNews(@PathVariable Long id, @RequestBody News updatedNews) {
-        // Get the news from news service
-        Optional<News> optionalNews = newsService.getNewsById(id);
+    // PUT - Update an existing weapon
+    @PutMapping("/weapons/edit/{id}")
+    public ResponseEntity<Weapon> updateWeapon(@PathVariable Integer id, @RequestBody Weapon updatedWeapon) {
+        // Get the weapon from weapon service
+        Optional<Weapon> optionalWeapon = weaponService.getWeaponById(id);
 
-        // Update the news if it exists
-        if (optionalNews.isPresent()) {
-            News existingNews = optionalNews.get();
-            existingNews.setTitle(updatedNews.getTitle());
-            existingNews.setContent(updatedNews.getContent());
-            existingNews.setDate(updatedNews.getDate());
-            existingNews.setAuthorId(updatedNews.getAuthorId());
-            existingNews.setPicture(updatedNews.getPicture());
-            News savedNews = newsService.saveNews(existingNews);
-            return new ResponseEntity<>(savedNews, HttpStatus.OK);
+        // Update the weapon if it exists
+        if (optionalWeapon.isPresent()) {
+            Weapon existingWeapon = optionalWeapon.get();
+            existingWeapon.setName(updatedWeapon.getName());
+            existingWeapon.setUsesSinceLastMaintenance(updatedWeapon.getUsesSinceLastMaintenance());
+            existingWeapon.setMaintenanceEvery(updatedWeapon.getMaintenanceEvery());
+            existingWeapon.setFitForUse(updatedWeapon.getFitForUse());
+            existingWeapon.setPricePerHour(updatedWeapon.getPricePerHour());
+            existingWeapon.setInMaintenance(updatedWeapon.getInMaintenance());
+            existingWeapon.setSerialNumber(updatedWeapon.getSerialNumber());
+            existingWeapon.setCompetitionweapons(updatedWeapon.getCompetitionweapons());
+            existingWeapon.setWeaponreservations(updatedWeapon.getWeaponreservations());
+
+            Weapon savedWeapon = weaponService.saveWeapon(existingWeapon);
+            return new ResponseEntity<>(savedWeapon, HttpStatus.OK);
 
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    // DELETE - Usuń lub przywróć news
-    @DeleteMapping("/news/{id}")
-    public ResponseEntity<News> deleteNews(@PathVariable Long id) {
-        // Get the news from news service
-        Optional<News> optionalNews = newsService.getNewsById(id);
+    // DELETE - Delete or restore a weapon
+    @DeleteMapping("/weapons/{id}")
+    public ResponseEntity<Weapon> deleteWeapon(@PathVariable Integer id) {
+        // Get the weapon from the weapon service
+        Optional<Weapon> optionalWeapon = weaponService.getWeaponById(id);
 
-        // Delete news if it exists
-        if (optionalNews.isPresent()) {
-            News existingNews = optionalNews.get();
-            existingNews.setDeleted(!existingNews.getDeleted());
+        // Delete weapon if it exists
+        if (optionalWeapon.isPresent()) {
+            Weapon existingWeapon = optionalWeapon.get();
+            existingWeapon.setFitForUse(false);
 
-            // Save the news to the database using the new service
-            News deletedNews = newsService.saveNews(existingNews);
-            return new ResponseEntity<>(deletedNews, HttpStatus.OK);
+            // Save the weapon to the database using the weapon service
+            Weapon deletedWeapon = weaponService.saveWeapon(existingWeapon);
+            return new ResponseEntity<>(deletedWeapon, HttpStatus.OK);
 
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

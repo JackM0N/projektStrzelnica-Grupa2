@@ -3,7 +3,14 @@ import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@a
 @Component({
   selector: 'app-popup',
   templateUrl: './popup.component.html',
-  styleUrls: ['../styles/popup.component.css', '../styles/button-styles.css', '../styles/popup-styles.css']
+  styleUrls: [
+    // Style exclusive for this component
+    '../styles/popup.component.css',
+    // Shared button styles
+    '../styles/button-styles.css',
+    // Popup styles
+    '../styles/popup-styles.css'
+  ]
 })
 
 // General pop-up component

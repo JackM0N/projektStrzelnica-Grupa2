@@ -1,8 +1,7 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
-import { NewsService } from '../services/news.service';
-import { News } from '../interfaces/news';
-import { isImageValid } from '../utils/utils';
 import { PaginationComponent } from './pagination.component';
+import { Weapon } from '../interfaces/weapon';
+import { WeaponService } from '../services/weapon.service';
 
 @Component({
   selector: 'app-weapons',
@@ -13,49 +12,32 @@ import { PaginationComponent } from './pagination.component';
     // Styles shared between all the list components
     '../styles/shared-lists-styles.css',
     // Shared button styles
-    '../styles/button-styles.css']
+    '../styles/button-styles.css'
+  ]
 })
 
-// Component that displays the news
+// Component that displays a list of weapons
 export class WeaponsComponent implements  AfterViewInit {
   @ViewChild('paginationComponent', { static: false }) paginationComponent!: PaginationComponent;
-  weaponsList: News[] = [];
+  weaponsList: Weapon[] = [];
+  showAdminProperties: boolean = false;
 
-  constructor(private newsService: NewsService, private cd: ChangeDetectorRef) { }
+  constructor(private weaponService: WeaponService, private cd: ChangeDetectorRef) { }
 
   // After init - because we need the pagination to load first
-  // Fetch the news from the database and display them
+  // Fetch weapons from the database and display them
   ngAfterViewInit(): void {
-    this.fetchNews();
+    this.fetchWeapons();
     // The DOM has been changed, we need to detect the changes to prevent ExpressionChangedAfterItHasBeenCheckedError
     this.cd.detectChanges();
   }
   
-  // Fetches all news from the database
-  fetchNews(): void {
-    this.newsService.getPaginatedNews(this.paginationComponent.currentPage, this.paginationComponent.maxItems).subscribe(news => {
-      this.paginationComponent.totalPages = news.totalPages;
+  // Fetches all weapons from the database
+  fetchWeapons(): void {
+    this.weaponService.getPaginatedWeapons(this.paginationComponent.currentPage, this.paginationComponent.maxItems).subscribe(weapons => {
+      this.paginationComponent.totalPages = weapons.totalPages;
       this.paginationComponent.calculatePages();
-
-      news.content.forEach((item: { content: string | null | undefined; picture: string; }) => {
-          // If content is valid, replace newline characters for <p> blocks
-          if (item.content !== null && item.content !== undefined) {
-            item.content = this.changeNlForP(item.content);
-          }
-          // Check if the image of the news is valid, if not, hide it
-          if (!isImageValid(item.picture)) {
-            item.picture = '';
-          }
-      });
-      this.weaponsList = news.content;
+      this.weaponsList = weapons.content;
     });
-  }
-
-  // Replaces newline character for <p> blocks
-  changeNlForP(text: string): string {
-    let editedText = '<p>' + text;
-    editedText = editedText.replace(/\n/g, '</p><p>');
-    editedText += '</p>';
-    return editedText;
   }
 }

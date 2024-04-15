@@ -1,58 +1,52 @@
 package edu.grupa2.strzelnica.services;
 
-import edu.grupa2.strzelnica.models.News;
-import edu.grupa2.strzelnica.repositories.NewsRepository;
+import edu.grupa2.strzelnica.models.Weapon;
+import edu.grupa2.strzelnica.repositories.WeaponRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import java.util.List;
 import java.util.Optional;
 
 @Service
-public class NewsService {
-    private final NewsRepository newsRepository;
+public class WeaponService {
+    private final WeaponRepository weaponRepository;
 
     @Autowired
-    public NewsService(NewsRepository newsRepository) {
-        this.newsRepository = newsRepository;
+    public WeaponService(WeaponRepository weaponRepository) {
+        this.weaponRepository = weaponRepository;
     }
 
-    // Method to get all news
-    public List<News> getAllNews() {
-        return newsRepository.findAll(Sort.by(Sort.Direction.DESC, "date"));
+    // Method to get a paginated list of weapons
+    public Page<Weapon> getPaginatedWeapons(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "id"));
+        return weaponRepository.findAll(pageable);
     }
 
-    // Method to get paginated news
-    public Page<News> getPaginatedNews(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "date"));
-        return newsRepository.findAll(pageable);
+    // Method to get specific weapon by its ID
+    public Optional<Weapon> getWeaponById(Integer id) {
+        return weaponRepository.findById(id);
     }
 
-    // Method to get a specific news by its ID
-    public Optional<News> getNewsById(Long id) {
-        return newsRepository.findById(id);
+    // Method to save a new weapon
+    public Weapon saveWeapon(Weapon weapon) {
+        return weaponRepository.save(weapon);
     }
 
-    // Method to save a new news
-    public News saveNews(News news) {
-        return newsRepository.save(news);
-    }
-
-    // Method to update an existing news
-    public News updateNews(Long id, News updatedNews) {
-        if (newsRepository.existsById(id)) {
-            updatedNews.setId(id);
-            return newsRepository.save(updatedNews);
+    // Method to update an existing weapon
+    public Weapon updateWeapon(Integer id, Weapon updatedWeapon) {
+        if (weaponRepository.existsById(id)) {
+            updatedWeapon.setId(id);
+            return weaponRepository.save(updatedWeapon);
         } else {
-            throw new IllegalArgumentException("News with ID " + id + " does not exist");
+            throw new IllegalArgumentException("Weapon with ID " + id + " does not exist");
         }
     }
 
-    // Method to delete a news by its ID
-    public void deleteNewsById(Long id) {
-        newsRepository.deleteById(id);
+    // Method to delete a weapon by its ID
+    public void deleteWeaponById(Integer id) {
+        weaponRepository.deleteById(id);
     }
 }

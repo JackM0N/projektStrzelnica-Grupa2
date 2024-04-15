@@ -12,12 +12,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 import java.util.Optional;
 
 @Controller
 public class NewsController {
-    // News service for handling the news repository
+    // Service for handling the news repository
     private final NewsService newsService;
 
     @Autowired
@@ -25,14 +24,14 @@ public class NewsController {
         this.newsService = newsService;
     }
 
-    // GET - Pobierz wszystkie newsy
+    // GET - Get all news from the service
     @GetMapping("/news")
     @ResponseBody
     public Page<News> getNews(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         return newsService.getPaginatedNews(page, size);
     }
 
-    // GET - Pobierz specyficzny news
+    // GET - Get a specific news
     @GetMapping("/news/{id}")
     public ResponseEntity<?> getNewsById(@PathVariable Long id) {
         // Get the news from news service
@@ -47,7 +46,7 @@ public class NewsController {
         }
     }
 
-    // POST - Dodaj nowy news
+    // POST - Add a new news
     @PostMapping("/news/add")
     public ResponseEntity<?> addNews(@RequestBody News news) {
         try {
@@ -59,7 +58,7 @@ public class NewsController {
         }
     }
 
-    // PUT - Zaktualizuj istniejący news
+    // PUT - Update an existing news
     @PutMapping("/news/edit/{id}")
     public ResponseEntity<News> updateNews(@PathVariable Long id, @RequestBody News updatedNews) {
         // Get the news from news service
@@ -73,6 +72,7 @@ public class NewsController {
             existingNews.setDate(updatedNews.getDate());
             existingNews.setAuthorId(updatedNews.getAuthorId());
             existingNews.setPicture(updatedNews.getPicture());
+
             News savedNews = newsService.saveNews(existingNews);
             return new ResponseEntity<>(savedNews, HttpStatus.OK);
 
@@ -81,7 +81,7 @@ public class NewsController {
         }
     }
 
-    // DELETE - Usuń lub przywróć news
+    // DELETE - Delete or restore news
     @DeleteMapping("/news/{id}")
     public ResponseEntity<News> deleteNews(@PathVariable Long id) {
         // Get the news from news service

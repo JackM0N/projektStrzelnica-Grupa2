@@ -5,11 +5,8 @@ p {
 
 .pagination {
     margin-bottom: 20px;
-}
-
-.pagination {
-    display: inline-block;
     text-align: center;
+    display: inline-block;
 }
 
 .pagination select, .pagination button {
@@ -32,10 +29,14 @@ p {
 
 .pagination button:hover {
     background-color: #4CAF50;
-    color: white;
     border: 1px solid #4CAF50;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .text-label {
     font-size: 16px;
+}
+
+.selected {
+    background-color: #71dd74;
 }
