@@ -7,6 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
 
@@ -36,12 +38,28 @@ public class WeaponService {
     }
 
     // Method to update an existing weapon
-    public Weapon updateWeapon(Integer id, Weapon updatedWeapon) {
-        if (weaponRepository.existsById(id)) {
-            updatedWeapon.setId(id);
-            return weaponRepository.save(updatedWeapon);
+    public ResponseEntity<Weapon> updateWeapon(Integer id, Weapon updatedWeapon) {
+        // Get the weapon from weapon service
+        Optional<Weapon> optionalWeapon = this.getWeaponById(id);
+
+        // Update the weapon if it exists
+        if (optionalWeapon.isPresent()) {
+            Weapon existingWeapon = optionalWeapon.get();
+            existingWeapon.setName(updatedWeapon.getName());
+            existingWeapon.setUsesSinceLastMaintenance(updatedWeapon.getUsesSinceLastMaintenance());
+            existingWeapon.setMaintenanceEvery(updatedWeapon.getMaintenanceEvery());
+            existingWeapon.setFitForUse(updatedWeapon.getFitForUse());
+            existingWeapon.setPricePerHour(updatedWeapon.getPricePerHour());
+            existingWeapon.setInMaintenance(updatedWeapon.getInMaintenance());
+            existingWeapon.setSerialNumber(updatedWeapon.getSerialNumber());
+            existingWeapon.setCompetitionweapons(updatedWeapon.getCompetitionweapons());
+            existingWeapon.setWeaponreservations(updatedWeapon.getWeaponreservations());
+
+            Weapon savedWeapon = this.saveWeapon(existingWeapon);
+            return new ResponseEntity<>(savedWeapon, HttpStatus.OK);
+
         } else {
-            throw new IllegalArgumentException("Weapon with ID " + id + " does not exist");
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 

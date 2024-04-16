@@ -57,28 +57,7 @@ public class WeaponController {
     // PUT - Update an existing weapon
     @PutMapping("/weapons/edit/{id}")
     public ResponseEntity<Weapon> updateWeapon(@PathVariable Integer id, @RequestBody Weapon updatedWeapon) {
-        // Get the weapon from weapon service
-        Optional<Weapon> optionalWeapon = weaponService.getWeaponById(id);
-
-        // Update the weapon if it exists
-        if (optionalWeapon.isPresent()) {
-            Weapon existingWeapon = optionalWeapon.get();
-            existingWeapon.setName(updatedWeapon.getName());
-            existingWeapon.setUsesSinceLastMaintenance(updatedWeapon.getUsesSinceLastMaintenance());
-            existingWeapon.setMaintenanceEvery(updatedWeapon.getMaintenanceEvery());
-            existingWeapon.setFitForUse(updatedWeapon.getFitForUse());
-            existingWeapon.setPricePerHour(updatedWeapon.getPricePerHour());
-            existingWeapon.setInMaintenance(updatedWeapon.getInMaintenance());
-            existingWeapon.setSerialNumber(updatedWeapon.getSerialNumber());
-            existingWeapon.setCompetitionweapons(updatedWeapon.getCompetitionweapons());
-            existingWeapon.setWeaponreservations(updatedWeapon.getWeaponreservations());
-
-            Weapon savedWeapon = weaponService.saveWeapon(existingWeapon);
-            return new ResponseEntity<>(savedWeapon, HttpStatus.OK);
-
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return weaponService.updateWeapon(id, updatedWeapon);
     }
 
     // DELETE - Delete or restore a weapon
