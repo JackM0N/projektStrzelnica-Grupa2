@@ -49,6 +49,7 @@ public class AuthController {
         user.setSurname(registerDto.getSurname());
         user.setDateOfBirth(registerDto.getDate_of_birth());
         user.setEmail(registerDto.getEmail());
+        user.setClubMember(false);
         user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
 
         Role roles = roleRepository.findByName("USER");

@@ -25,7 +25,10 @@ export class UsersFormComponent implements OnInit {
   public responsePopupMessage = '';
   public responsePopupNgClass = '';
   userId: number = 0;
+  isRegisterRoute: boolean;
+  actionText = '';
 
+  
   user: Users = {
     id: 0,
     name: '',
@@ -41,7 +44,12 @@ export class UsersFormComponent implements OnInit {
     private userService: UserService,
     private route: ActivatedRoute,
     private router: Router
-  ) {}
+  ) {
+    this.isRegisterRoute = this.route.snapshot.routeConfig?.path?.includes('/register') == true;
+    if(!this.isRegisterRoute) {
+      this.actionText = 'Zarejestruj nowego użytkownika';
+    }
+  }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -50,6 +58,8 @@ export class UsersFormComponent implements OnInit {
         this.userService.getUserById(this.userId).subscribe((user: Users) => {
           this.user = user;
         });
+      } else if (this.router.url.includes('register')) {
+        this.isRegisterRoute = true; // Set to true when registering
       }
     });
   }
@@ -61,12 +71,20 @@ export class UsersFormComponent implements OnInit {
   
       const observer: Observer<any> = {
         next: response => {
-          this.responsePopupHeader = 'Pomyślnie zaktualizowano użytkownika ' + this.user.name + '.';
+          if (this.isRegisterRoute){
+            this.responsePopupHeader = 'Pomyślnie zarejestrowano użytkownika użytkownika ' + this.user.name + '.';
+          }else{
+            this.responsePopupHeader = 'Pomyślnie zaktualizowano użytkownika ' + this.user.name + '.';
+          }
           this.responsePopupNgClass = 'popupSuccess';
           this.responsePopup.open();
         },
         error: error => {
-          this.responsePopupHeader = 'Przy aktualizacji użytkownika napotkano błąd.';
+          if (this.isRegisterRoute){
+            this.responsePopupHeader = 'Ten e-mail już został zarejestrowany! Spróbuj inny lub odzyskaj hasło.';
+          }else{
+            this.responsePopupHeader = 'Przy aktualizacji użytkownika napotkano błąd.';
+          }
           this.responsePopupMessage = error.error.message + ' (' + error.message + ')';
           this.responsePopupNgClass = 'popupError';
           this.responsePopup.open();
@@ -74,8 +92,14 @@ export class UsersFormComponent implements OnInit {
         complete: () => {}
       };
 
+      console.log(this.user)
+
       // Subscribe using the observer object
-      this.userService.updateUser(this.user).subscribe(observer);
+      if (this.isRegisterRoute){
+        this.userService.registerUser(this.user).subscribe(observer);
+      }else {
+        this.userService.updateUser(this.user).subscribe(observer);
+      }
     }
   }
 
@@ -87,5 +111,9 @@ export class UsersFormComponent implements OnInit {
   // User clicks go back from the form page
   public goBack(): void {
     this.location.back();
+  }
+
+  isRegisterPage(): boolean {
+    return this.isRegisterRoute;
   }
 }
