@@ -2,6 +2,9 @@ package edu.grupa2.strzelnica.models;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.springframework.http.ResponseEntity;
+
+import java.util.List;
 
 @Entity
 @Table(name = "userrole")

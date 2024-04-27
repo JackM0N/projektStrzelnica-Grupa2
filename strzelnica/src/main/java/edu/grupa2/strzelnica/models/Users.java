@@ -1,5 +1,6 @@
 package edu.grupa2.strzelnica.models;
 
+import edu.grupa2.strzelnica.services.UserroleService;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -7,6 +8,7 @@ import jakarta.persistence.Table;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -89,5 +91,4 @@ public class Users {
     public void setClubMember(Boolean clubMember) {
         this.clubMember = clubMember;
     }
-
 }

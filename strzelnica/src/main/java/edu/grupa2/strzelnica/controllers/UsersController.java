@@ -46,6 +46,21 @@ public class UsersController {
         }
     }
 
+    // GET - Get a specific user
+    @GetMapping("/users/{name}")
+    public ResponseEntity<?> getUserByEmail(@PathVariable String email) {
+        // Get the user from news service
+        Optional<Users> optionalUsers = usersService.getUserByEmail(email);
+
+        // Send the user if they exists
+        if (optionalUsers.isPresent()) {
+            return ResponseEntity.ok(optionalUsers.get());
+
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"message\": \"error_news_not_found\"}");
+        }
+    }
+
     // POST - Add a new user
     @PostMapping("/users/add")
     public ResponseEntity<?> addUser(@RequestBody Users user) {

@@ -32,6 +32,11 @@ public class UsersService {
         return usersRepository.findById(id);
     }
 
+    // Method to get a specific user by their Name
+    public Optional<Users> getUserByEmail(String email) {
+        return usersRepository.findByEmail(email);
+    }
+
     // Method to save a new user
     public Users saveUser(Users user) {
         return usersRepository.save(user);
