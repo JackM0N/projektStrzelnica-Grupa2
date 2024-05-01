@@ -18,6 +18,7 @@ const routes: Routes = [
   { path: 'weapons/edit/:id', component: WeaponFormComponent },
   { path: 'about', component: AboutComponent },
   { path: 'users', component: UsersComponent },
+  { path: 'register', component: UsersFormComponent },
   { path: 'users/edit/:id', component: UsersFormComponent }
 ];
 
