@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collection;
 import java.util.Collections;
 
 @RestController
@@ -27,8 +28,6 @@ public class AuthController {
     private UsersRepository usersRepository;
     private RoleRepository roleRepository;
     private PasswordEncoder passwordEncoder;
-    private UserroleRepository userroleRepository;
-
     @Autowired
     private AuthController(AuthenticationManager authenticationManager, UsersRepository usersRepository,
                            RoleRepository roleRepository, PasswordEncoder passwordEncoder){
@@ -40,7 +39,7 @@ public class AuthController {
 
     @PostMapping("register")
     public ResponseEntity<String> register(@RequestBody RegisterDto registerDto){
-        if(usersRepository.findByEmail(registerDto.getEmail()) != null){
+        if(usersRepository.existsByEmail(registerDto.getEmail())){
             return new ResponseEntity<>("Podany e-mail jest już zajęty!", HttpStatus.BAD_REQUEST);
         }
 
@@ -53,8 +52,7 @@ public class AuthController {
         user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
 
         Role roles = roleRepository.findByName("USER");
-        UserroleService userroleService = new UserroleService(userroleRepository);
-        userroleService.setRoles(user,Collections.singletonList(roles));
+        user.setRoles(Collections.singletonList(roles));
 
         usersRepository.save(user);
 

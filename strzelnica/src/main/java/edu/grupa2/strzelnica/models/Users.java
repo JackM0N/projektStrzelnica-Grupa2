@@ -2,17 +2,23 @@ package edu.grupa2.strzelnica.models;
 
 import edu.grupa2.strzelnica.services.UserroleService;
 import jakarta.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
+import org.springframework.security.core.GrantedAuthority;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
 @Table(name = "users")
+@Data
+@NoArgsConstructor
 public class Users {
     @Id
-    @ColumnDefault("nextval('user_id_seq'")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
