@@ -1,20 +1,24 @@
 package edu.grupa2.strzelnica.models;
 
 import edu.grupa2.strzelnica.services.UserroleService;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
+import org.springframework.security.core.GrantedAuthority;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
 @Table(name = "users")
+@Data
+@NoArgsConstructor
 public class Users {
     @Id
-    @ColumnDefault("nextval('user_id_seq'")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
@@ -35,6 +39,11 @@ public class Users {
 
     @Column(name = "club_member", nullable = false)
     private Boolean clubMember = false;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "Userrole", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+    inverseJoinColumns = @JoinColumn(name = "role_id",referencedColumnName = "id"))
+    private List<Role> roles = new ArrayList<>();
 
     public Long getId() {
         return id;
