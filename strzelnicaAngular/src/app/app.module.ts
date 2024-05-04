@@ -16,6 +16,7 @@ import { AboutComponent } from './components/about.component';
 import { UsersComponent } from './components/users.component';
 import { UsersFormComponent } from './components/usersform.component';
 import { WeaponDeleteComponent } from './components/weapondelete.component';
+import { RegistrationComponent } from './components/registration.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,8 @@ import { WeaponDeleteComponent } from './components/weapondelete.component';
     AboutComponent,
     UsersComponent,
     UsersFormComponent,
+    RegistrationComponent,
+
   ],
 
   imports: [

@@ -58,7 +58,7 @@ public class AuthController {
 
         return new ResponseEntity<>("Użytkownik został zarejestrowany!", HttpStatus.OK);
     }
-    @PostMapping("login")
+ /*   @PostMapping("login")
     public ResponseEntity<String> login(@RequestBody LoginDto loginDto) {
         // Extract username and password from LoginDto
         String username = loginDto.getEmail();
@@ -73,5 +73,5 @@ public class AuthController {
             // Authentication failed
             return new ResponseEntity<>("Invalid username or password", HttpStatus.UNAUTHORIZED);
         }
-    }
+    }*/
 }

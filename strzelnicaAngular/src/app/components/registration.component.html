@@ -1,0 +1,33 @@
+<!-- registration.component.html -->
+<div class="form-container">
+    <form #f="ngForm" (ngSubmit)="onSubmit()">
+        <div>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" ngModel required>
+        </div>
+
+        <div>
+            <label for="surname">Surname:</label>
+            <input type="text" id="surname" name="surname" ngModel required>
+        </div>
+
+        <div>
+            <label for="dateOfBirth">Date of Birth:</label>
+            <input type="date" id="dateOfBirth" name="dateOfBirth" ngModel required>
+        </div>
+
+        <div>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" ngModel required>
+        </div>
+
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" ngModel required>
+        </div>
+
+        <div class="button-container">
+            <button type="submit">Register</button>
+        </div>
+    </form>
+</div>
