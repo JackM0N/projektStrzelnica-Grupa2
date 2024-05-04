@@ -1,0 +1,35 @@
+<div class="welcome">
+    <p>Lista broni</p>
+    <hr>
+</div>
+
+<div class="data-container">
+    <button type="button" id="weapon-add-button" class="generic-button" [routerLink]="['/weapons/add']">Dodaj nową broń</button>
+    
+    <div *ngFor="let weapon of weaponList" class="item-card" [ngClass]="{ 'item-card-deleted': !weapon.fitForUse }">
+        <h2>{{ weapon.name }}</h2>
+
+        <div class="item-card-details">
+            <p>Cena za godzinę: <span id="weapon-price">{{ weapon.pricePerHour }}zł</span></p>
+            <p>
+                Liczba użyć od ostatniej konserwacji: {{ weapon.usesSinceLastMaintenance }}<br>
+                Konserwacja co {{ weapon.maintenanceEvery }} strzałów
+            </p>
+            <p>Numer seryjny: {{ weapon.serialNumber }}</p>
+        </div>
+
+        <p *ngIf="showAdminProperties">
+            Zdatny do użytku: {{ weapon.fitForUse }}<br>
+            W konserwacji: {{ weapon.inMaintenance }}
+        </p>
+
+        <div id="button-container">
+            <button type="button" id="weapon-edit-button" class="generic-button" [routerLink]="['/weapons/edit', weapon.id]">Edytuj</button>
+            <app-weapon-delete [weapon]="weapon"></app-weapon-delete>
+        </div>
+    </div>
+
+    <app-pagination #paginationComponent
+        (onPageChange)="fetchWeapons()">
+    </app-pagination>
+</div>

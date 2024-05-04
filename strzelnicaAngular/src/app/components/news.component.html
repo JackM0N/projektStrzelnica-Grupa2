@@ -1,0 +1,31 @@
+<div class="welcome">
+    <p>Aktualności</p>
+    <hr>
+</div>
+
+<div class="data-container">
+    <button type="button" id="news-add-button" class="generic-button" [routerLink]="['/news/add']">Dodaj nowy post</button>
+    
+    <div *ngFor="let news of newsList" class="item-card" [ngClass]="{ 'item-card-deleted': news.deleted }">
+        <h2>{{ news.title }}</h2>
+
+        <ng-container *ngIf="news.picture">
+            <img [src]="news.picture" alt="{{ news.title }}" onerror="this.style.display='none'">
+        </ng-container>
+
+        <div class="item-card-details">
+            <p>Autor: {{ news.authorId }}</p>
+            <div class="news-content" [innerHTML]="news.content"></div>
+            <p class="news-date">Data posta: {{ formatDate(news.date) }}</p>
+        </div>
+
+        <div id="button-container">
+            <button type="button" id="news-edit-button" class="generic-button" [routerLink]="['/news/edit', news.id]">Edytuj</button>
+            <app-news-delete [news]="news"></app-news-delete>
+        </div>
+    </div>
+
+    <app-pagination #paginationComponent
+        (onPageChange)="fetchNews()">
+    </app-pagination>
+</div>

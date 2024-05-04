@@ -1,0 +1,13 @@
+
+#weapon-add-button {
+    margin-bottom: 20px;
+}
+
+#weapon-price {
+    font-weight: bold;
+    color: green;
+}
+
+#weapon-edit-button {
+    margin-right: 10px; /* Margin between the buttons */
+  }

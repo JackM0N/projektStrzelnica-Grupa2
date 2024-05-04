@@ -1,0 +1,13 @@
+<div class="pagination">
+    <button (click)="goToPageNum(1)" *ngIf="totalPages > 5">&laquo; <span class="text-label">Pierwsza</span></button>
+
+    <button (click)="goToPreviousPage()" [disabled]="currentPage === 1 || totalPages == 1">&laquo;</button>
+    <button (click)="goToPageNum(pageNumbers[0])" *ngIf="pageNumbers[0] != null" [class.selected]="isCurrentPage(pageNumbers[0])">{{pageNumbers[0]}}</button>
+    <button (click)="goToPageNum(pageNumbers[1])" *ngIf="pageNumbers[1] != null" [class.selected]="isCurrentPage(pageNumbers[1])">{{pageNumbers[1]}}</button>
+    <button (click)="goToPageNum(pageNumbers[2])" *ngIf="pageNumbers[2] != null" [class.selected]="isCurrentPage(pageNumbers[2])">{{pageNumbers[2]}}</button>
+    <button (click)="goToPageNum(pageNumbers[3])" *ngIf="pageNumbers[3] != null" [class.selected]="isCurrentPage(pageNumbers[3])">{{pageNumbers[3]}}</button>
+    <button (click)="goToPageNum(pageNumbers[4])" *ngIf="pageNumbers[4] != null" [class.selected]="isCurrentPage(pageNumbers[4])">{{pageNumbers[4]}}</button>
+    <button (click)="goToNextPage()" [disabled]="currentPage === totalPages || totalPages == 1">&raquo;</button>
+
+    <button (click)="goToLastPage()" *ngIf="totalPages > 5"><span class="text-label">Ostatnia</span> &raquo;</button>
+</div>
