@@ -1,0 +1,90 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+}
+
+hr {
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+
+.centered {
+  text-align: center;
+  max-width: 65%;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  padding: 20px;
+  padding-top: 0;
+  line-height: 120%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.left {
+  position: absolute;
+  left: 1%;
+  display: flex;
+  justify-content: left;
+  justify-items: center;
+  text-align: center;
+  flex-direction: column;
+  max-width: 12%;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  padding: 20px;
+  padding-top: 0;
+  line-height: 120%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 80%;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* source: https://www.codehim.com/html5-css3/image-and-text-side-by-side-html-css/ */
+img
+{
+	       max-width: 500px;
+               height: auto;
+}
+
+.image-left, .image-right
+{
+	margin: 1em 0;
+}
+
+@media (min-width: 20em)
+{
+	.image-left, .image-right
+	{
+		display: flex;
+		align-items: center;
+	}
+
+	.image-left img
+	{
+
+		margin-right: 1em;
+		float: left; /* fallback */
+	}
+
+	.image-right img
+	{
+		order: 1;
+		margin-left: 1em;
+		float: right; /* fallback */
+	}
+	
+	/* clearfix for fallback */
+	.image-left::after,
+	.image-right::after
+	{
+		content: "";
+  	display: block;
+		clear: both;
+	}
+}

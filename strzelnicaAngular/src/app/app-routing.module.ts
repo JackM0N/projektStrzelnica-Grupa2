@@ -7,6 +7,7 @@ import { AboutComponent } from './components/about.component';
 import { WeaponFormComponent } from './components/weaponform.component';
 import { UsersComponent } from './components/users.component';
 import { UsersFormComponent } from './components/usersform.component';
+import { OfferComponent } from './components/offer.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'news', pathMatch: 'full' },
@@ -18,7 +19,8 @@ const routes: Routes = [
   { path: 'weapons/edit/:id', component: WeaponFormComponent },
   { path: 'about', component: AboutComponent },
   { path: 'users', component: UsersComponent },
-  { path: 'users/edit/:id', component: UsersFormComponent }
+  { path: 'users/edit/:id', component: UsersFormComponent },
+  { path: 'offer', component: OfferComponent },
 ];
 
 @NgModule({
