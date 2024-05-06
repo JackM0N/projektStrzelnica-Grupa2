@@ -23,7 +23,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/")
 public class AuthController {
 
     private AuthenticationManager authenticationManager;
@@ -56,7 +56,7 @@ public class AuthController {
 
         usersRepository.save(user);
 
-        return new ResponseEntity<>("Użytkownik został zarejestrowany!", HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
  /*   @PostMapping("login")
     public ResponseEntity<String> login(@RequestBody LoginDto loginDto) {
