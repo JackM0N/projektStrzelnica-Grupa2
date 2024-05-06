@@ -1,9 +1,12 @@
 package edu.grupa2.strzelnica.models;
 
 import jakarta.persistence.*;
-
+import lombok.Getter;
+import lombok.Setter;
 import java.math.BigDecimal;
 
+@Setter
+@Getter
 @Entity
 @Table(name = "track")
 public class Track {
@@ -17,29 +20,4 @@ public class Track {
 
     @Column(name = "price_per_hour", nullable = false)
     private BigDecimal pricePerHour;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Tracktype getType() {
-        return type;
-    }
-
-    public void setType(Tracktype type) {
-        this.type = type;
-    }
-
-    public BigDecimal getPricePerHour() {
-        return pricePerHour;
-    }
-
-    public void setPricePerHour(BigDecimal pricePerHour) {
-        this.pricePerHour = pricePerHour;
-    }
-
 }

@@ -6,7 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NewsComponent } from './components/news.component';
 import { NewsDeleteComponent } from './components/newsdelete.component';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NewsFormComponent } from './components/newsform.component'
 import { PopupComponent } from './components/popup.component';
 import { PaginationComponent } from './components/pagination.component';
@@ -16,6 +16,7 @@ import { AboutComponent } from './components/about.component';
 import { UsersComponent } from './components/users.component';
 import { UsersFormComponent } from './components/usersform.component';
 import { WeaponDeleteComponent } from './components/weapondelete.component';
+import { RegistrationComponent } from './components/registration.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,8 @@ import { WeaponDeleteComponent } from './components/weapondelete.component';
     AboutComponent,
     UsersComponent,
     UsersFormComponent,
+    RegistrationComponent,
+
   ],
 
   imports: [
@@ -38,7 +41,8 @@ import { WeaponDeleteComponent } from './components/weapondelete.component';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
 
   providers: [

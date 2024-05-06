@@ -8,8 +8,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -30,6 +28,11 @@ public class UsersService {
     // Method to get a specific user by their ID
     public Optional<Users> getUserById(Long id) {
         return usersRepository.findById(id);
+    }
+
+    // Method to get a specific user by their Name
+    public Optional<Users> getUserByEmail(String email) {
+        return usersRepository.findByEmail(email);
     }
 
     // Method to save a new user
