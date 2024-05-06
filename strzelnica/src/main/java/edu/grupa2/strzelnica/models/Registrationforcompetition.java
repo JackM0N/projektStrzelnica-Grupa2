@@ -1,8 +1,12 @@
 package edu.grupa2.strzelnica.models;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
+@Setter
+@Getter
 @Entity
 @Table(name = "registrationforcompetition")
 public class Registrationforcompetition {
@@ -18,29 +22,4 @@ public class Registrationforcompetition {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "competition_id", nullable = false)
     private Competition competition;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Users getUser() {
-        return user;
-    }
-
-    public void setUser(Users user) {
-        this.user = user;
-    }
-
-    public Competition getCompetition() {
-        return competition;
-    }
-
-    public void setCompetition(Competition competition) {
-        this.competition = competition;
-    }
-
 }

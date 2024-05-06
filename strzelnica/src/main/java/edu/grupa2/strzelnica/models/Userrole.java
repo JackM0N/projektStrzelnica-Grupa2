@@ -1,11 +1,12 @@
 package edu.grupa2.strzelnica.models;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
-import org.springframework.http.ResponseEntity;
 
-import java.util.List;
-
+@Setter
+@Getter
 @Entity
 @Table(name = "userrole")
 public class Userrole {
@@ -21,29 +22,4 @@ public class Userrole {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Users getUser() {
-        return user;
-    }
-
-    public void setUser(Users user) {
-        this.user = user;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
 }

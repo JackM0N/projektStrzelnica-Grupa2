@@ -7,7 +7,7 @@ import { Users } from '../interfaces/users';
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
-  styleUrls: ['../styles/registration.component.css']
+  styleUrls: []
 })
 export class RegistrationComponent implements OnInit {
   registrationForm: FormGroup;

@@ -1,7 +1,11 @@
 package edu.grupa2.strzelnica.models;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
 @Entity
 @Table(name = "score")
 public class Score {
@@ -21,45 +25,4 @@ public class Score {
 
     @Column(name = "place")
     private Integer place;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Competition getCompetition() {
-        return competition;
-    }
-
-    public void setCompetition(Competition competition) {
-        this.competition = competition;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public Integer getPoints() {
-        return points;
-    }
-
-    public void setPoints(Integer points) {
-        this.points = points;
-    }
-
-    public Integer getPlace() {
-        return place;
-    }
-
-    public void setPlace(Integer place) {
-        this.place = place;
-    }
-
 }

@@ -5,7 +5,6 @@ import edu.grupa2.strzelnica.models.Userrole;
 import edu.grupa2.strzelnica.models.Users;
 import edu.grupa2.strzelnica.repositories.UserroleRepository;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 

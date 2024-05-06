@@ -1,8 +1,12 @@
 package edu.grupa2.strzelnica.models;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
+@Setter
+@Getter
 @Entity
 @Table(name = "competitionweapon")
 public class Competitionweapon {
@@ -21,37 +25,4 @@ public class Competitionweapon {
 
     @Column(name = "shots_taken")
     private Integer shotsTaken;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Weapon getWeapon() {
-        return weapon;
-    }
-
-    public void setWeapon(Weapon weapon) {
-        this.weapon = weapon;
-    }
-
-    public Competition getCompetition() {
-        return competition;
-    }
-
-    public void setCompetition(Competition competition) {
-        this.competition = competition;
-    }
-
-    public Integer getShotsTaken() {
-        return shotsTaken;
-    }
-
-    public void setShotsTaken(Integer shotsTaken) {
-        this.shotsTaken = shotsTaken;
-    }
-
 }

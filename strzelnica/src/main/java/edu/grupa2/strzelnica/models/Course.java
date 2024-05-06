@@ -4,10 +4,13 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
-
 import java.math.BigDecimal;
 
+@Setter
+@Getter
 @Entity
 @Table(name = "course")
 public class Course {
@@ -24,37 +27,4 @@ public class Course {
 
     @Column(name = "price", nullable = false)
     private BigDecimal price;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getTrainerId() {
-        return trainerId;
-    }
-
-    public void setTrainerId(Integer trainerId) {
-        this.trainerId = trainerId;
-    }
-
-    public String getCourseName() {
-        return courseName;
-    }
-
-    public void setCourseName(String courseName) {
-        this.courseName = courseName;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
 }
