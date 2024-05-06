@@ -11,16 +11,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
-
-    private UsersRepository usersRepository;
+    private final UsersRepository usersRepository;
 
     @Autowired
     public CustomUserDetailsService(UsersRepository usersRepository) {
@@ -31,6 +28,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Users user = usersRepository.findByEmail(email).orElseThrow(()
                 -> new UsernameNotFoundException("Użytkownik o podanym e-mailu nie został znaleziony"));
+
         return new User(user.getEmail(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));
     }
 

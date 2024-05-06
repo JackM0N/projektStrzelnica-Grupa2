@@ -8,10 +8,9 @@
     (closeEvent)="responsePopupCancelAction()">
 </app-popup>
 
-
 <div class="form-container">
     <div>
-    <form #f="ngForm" (ngSubmit)="onSubmit()">
+    <form #f="ngForm" (ngSubmit)="onSubmit(f)">
         <div>
             <label for="name">Imię:</label>
             <input type="text" id="name" name="name" [(ngModel)]="user.name" required>
@@ -32,6 +31,7 @@
             <input type="email" id="email" name="email" [(ngModel)]="user.email" required>
         </div>
 
+        <div>
             <label for="clubMember">Członek klubu:</label>
             <input type="checkbox" id="clubMember" name="clubMember" [(ngModel)]="user.clubMember">
         </div>

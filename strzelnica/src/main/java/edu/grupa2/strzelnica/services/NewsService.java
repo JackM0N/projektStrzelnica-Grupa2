@@ -10,7 +10,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -68,7 +67,7 @@ public class NewsService {
         // Delete news if it exists
         if (optionalNews.isPresent()) {
             News existingNews = optionalNews.get();
-            existingNews.setDeleted(!existingNews.getDeleted());
+            existingNews.setDeleted(!existingNews.isDeleted());
 
             // Save the news to the database using the new service
             News deletedNews = this.saveNews(existingNews);

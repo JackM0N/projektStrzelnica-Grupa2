@@ -1,11 +1,14 @@
 package edu.grupa2.strzelnica.models;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
-
 import java.math.BigDecimal;
 import java.time.Instant;
 
+@Setter
+@Getter
 @Entity
 @Table(name = "trackreservation")
 public class Trackreservation {
@@ -30,53 +33,4 @@ public class Trackreservation {
 
     @Column(name = "price", nullable = false)
     private BigDecimal price;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Users getUser() {
-        return user;
-    }
-
-    public void setUser(Users user) {
-        this.user = user;
-    }
-
-    public Track getTrack() {
-        return track;
-    }
-
-    public void setTrack(Track track) {
-        this.track = track;
-    }
-
-    public Instant getReservedFrom() {
-        return reservedFrom;
-    }
-
-    public void setReservedFrom(Instant reservedFrom) {
-        this.reservedFrom = reservedFrom;
-    }
-
-    public Instant getReservedTo() {
-        return reservedTo;
-    }
-
-    public void setReservedTo(Instant reservedTo) {
-        this.reservedTo = reservedTo;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
 }
