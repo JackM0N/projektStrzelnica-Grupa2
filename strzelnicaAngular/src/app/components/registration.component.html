@@ -1,17 +1,17 @@
 <div class="form-container">
     <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
         <div>
-            <label for="name">Name:</label>
+            <label for="name">Imie:</label>
             <input type="text" id="name" formControlName="name">
         </div>
 
         <div>
-            <label for="surname">Surname:</label>
+            <label for="surname">Nazwisko:</label>
             <input type="text" id="surname" formControlName="surname">
         </div>
 
         <div>
-            <label for="dateOfBirth">Date of Birth:</label>
+            <label for="dateOfBirth">Data urodzenia:</label>
             <input type="date" id="dateOfBirth" formControlName="dateOfBirth">
         </div>
 
@@ -21,12 +21,12 @@
         </div>
 
         <div>
-            <label for="password">Password:</label>
+            <label for="password">Hasło:</label>
             <input type="password" id="password" formControlName="password">
         </div>
 
         <div class="button-container">
-            <button type="submit" [disabled]="!registrationForm.valid">Register</button>
+            <button type="submit" [disabled]="!registrationForm.valid">Zarejestruj</button>
         </div>
     </form>
 </div>
