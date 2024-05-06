@@ -9,8 +9,9 @@ import { Users } from '../interfaces/users';
 // Service for handling CRUD operations on users
 export class UserService {
   private baseUrl = 'http://localhost:8080/users';
-  private postUrl = 'http://localhost:8080/register';
+  private postUrl = 'http://localhost:8080/users/add';
   private editUrl = 'http://localhost:8080/users/edit';
+  private registerUrl = 'http://localhost:8080/register';
 
   constructor(private http: HttpClient) { }
 
@@ -33,9 +34,7 @@ export class UserService {
     const url = `${this.baseUrl}/${userId}`;
     return this.http.get<Users>(url);
   }
-
-  // Adding user to the database
-  registerUser(user?: Users): Observable<Users>{
-    return this.http.post<Users>(this.postUrl, user);
+  registerUser(userData: Users): Observable<any> {
+    return this.http.post<any>(this.registerUrl, userData);
   }
 }
