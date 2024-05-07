@@ -14,7 +14,7 @@ import { Location } from '@angular/common';
     // Style exclusive for this component
     '../styles/weaponform.component.css',
     // Shared button styles
-    '../styles/button-styles.css',
+    '../styles/shared-button-styles.css',
     // Shared form styles
     '../styles/shared-form-styles.css'
   ]

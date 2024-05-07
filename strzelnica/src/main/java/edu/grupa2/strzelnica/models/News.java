@@ -5,36 +5,30 @@ import lombok.Getter;
 import lombok.Setter;
 import java.util.Date;
 
+@Getter
 @Setter
 @Entity
 @Table(name = "news")
 public class News {
-    @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Getter
-    @Column(name = "title")
+    @Column(name = "title", nullable = false)
     private String title;
 
-    @Getter
     @Column(name = "picture")
     private String picture;
 
-    @Getter
     @Column(name = "date")
     private Date date;
 
-    @Getter
-    @Column(name = "author_id")
+    @Column(name = "author_id", nullable = false)
     private Long authorId;
 
-    @Getter
     @Column(name = "content")
     private String content;
 
-    @Getter
     @Column(name = "deleted")
     private boolean deleted;
 }

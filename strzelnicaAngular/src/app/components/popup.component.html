@@ -3,6 +3,8 @@
         <h2 id="popup-header">{{headerName}}</h2>
 
         <p>{{messageText}}</p>
+        
+        <ng-content></ng-content>
 
         <div class="button-container">
             <button class="popup-close-button" *ngIf="showCloseButton" (click)="close()">{{closeButtonLabel}}</button>

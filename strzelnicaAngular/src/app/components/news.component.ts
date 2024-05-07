@@ -13,7 +13,7 @@ import { PaginationComponent } from './pagination.component';
     // Styles shared between all the list components
     '../styles/shared-list-styles.css',
     // Shared button styles
-    '../styles/button-styles.css']
+    '../styles/shared-button-styles.css']
 })
 
 // Component that displays the news
@@ -46,8 +46,8 @@ export class NewsComponent implements AfterViewInit {
           if (!isImageValid(item.picture)) {
             item.picture = '';
           }
-          
       });
+      
       this.newsList = news.content;
     });
   }

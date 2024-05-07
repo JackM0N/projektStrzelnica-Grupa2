@@ -17,6 +17,13 @@ import { UsersComponent } from './components/users.component';
 import { UsersFormComponent } from './components/usersform.component';
 import { WeaponDeleteComponent } from './components/weapondelete.component';
 import { RegistrationComponent } from './components/registration.component';
+import { OfferComponent } from './components/offer.component';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatInputModule } from '@angular/material/input';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -33,7 +40,7 @@ import { RegistrationComponent } from './components/registration.component';
     UsersComponent,
     UsersFormComponent,
     RegistrationComponent,
-
+    OfferComponent,
   ],
 
   imports: [
@@ -42,11 +49,17 @@ import { RegistrationComponent } from './components/registration.component';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatInputModule,
   ],
 
   providers: [
     provideClientHydration(),
+    provideAnimationsAsync(),
+    { provide: MAT_DATE_LOCALE, useValue: 'en-US' }
   ],
   
   bootstrap: [AppComponent]

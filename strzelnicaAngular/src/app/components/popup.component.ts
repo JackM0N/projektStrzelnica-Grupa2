@@ -7,7 +7,7 @@ import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@a
     // Style exclusive for this component
     '../styles/popup.component.css',
     // Shared button styles
-    '../styles/button-styles.css',
+    '../styles/shared-button-styles.css',
     // Popup styles
     '../styles/popup-styles.css'
   ]
@@ -37,16 +37,19 @@ export class PopupComponent implements OnInit {
   public open(): void {
     this.showPopup = true;
   }
-  
   // Hide the pop-up
   public close(): void {
     this.showPopup = false;
-    this.closeEvent.emit();
   }
   
+  // User clicks cancel
+  public cancel(): void {
+    this.close();
+    this.closeEvent.emit();
+  }
   // User clicks confirm, delete the news from the database
   public confirm(): void {
-    this.showPopup = false;
+    this.close();
     this.confirmEvent.emit();
   }
 

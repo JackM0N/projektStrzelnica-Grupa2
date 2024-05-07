@@ -5,7 +5,7 @@ import { PopupComponent } from './popup.component';
 @Component({
   selector: 'app-weapon-delete',
   templateUrl: './weapondelete.component.html',
-  styleUrls: ['../styles/button-styles.css']
+  styleUrls: ['../styles/shared-button-styles.css']
 })
 
 // Confirm pop-up for deleting weapons

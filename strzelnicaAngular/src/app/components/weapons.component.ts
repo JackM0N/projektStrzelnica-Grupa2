@@ -12,7 +12,7 @@ import { WeaponService } from '../services/weapon.service';
     // Styles shared between all the list components
     '../styles/shared-list-styles.css',
     // Shared button styles
-    '../styles/button-styles.css'
+    '../styles/shared-button-styles.css'
   ]
 })
 

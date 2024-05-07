@@ -7,6 +7,7 @@
     margin-bottom: 20px;
 }
 .welcome p {
+    margin-top: 24px;
     font-size: 48px;
     margin-bottom: 20px;
 }
@@ -42,9 +43,10 @@
     background: repeating-linear-gradient(160deg, #f9f9f9, #f9f9f9 70px, #dddddd 10px, #dddddd 80px);
 }
 .item-card h2 {
+    margin-top: 10px;
     font-size: 1.5rem;
     font-weight: bold;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     color: #333;
 }
 .item-card img {
