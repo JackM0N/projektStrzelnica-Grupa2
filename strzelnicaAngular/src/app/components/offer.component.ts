@@ -46,6 +46,13 @@ export class OfferComponent implements AfterViewInit {
   availableDatesList: DateAvailability[] = [];
   unavailableDatesList: DateAvailability[] = [];
   selectedDate: Date | null = null;
+  selectedReservationTime?: number;
+  datesWithSameDate: DateAvailability[] = [];
+  confirmButtonClass: string = "button-confirm-disabled";
+  reservationText_Title: string = "";
+  reservationText_Service: string = "";
+  reservationText_Date: string = "";
+  reservationText_Time: string = "";
   
   serviceReservation : ServiceReservation = {
     serviceId: -1,
@@ -222,6 +229,59 @@ export class OfferComponent implements AfterViewInit {
 
     this.serviceUnavailabilitiesService.getServiceUnavailabilitiesByServiceId(service.id).subscribe(observer);
   }
+
+  public selectReservationTime(num: number): void {
+    if (this.selectedReservationTime == num) {
+      this.selectedReservationTime = undefined;
+      this.confirmButtonClass = "button-confirm-disabled";
+    } else {
+      this.selectedReservationTime = num;
+      this.confirmButtonClass = "button-confirm";
+    }
+  }
+
+  public timeFormat(time: DateAvailability): string {
+    var str = "";
+  
+    if (time.startTime) {
+      const parts = time.startTime.split(':');
+      str += parts[0] + ":" + parts[1];
+
+      if (parts[2] != "00") {
+        str += ":" + parts[2];
+      }
+
+      // Separator between start and end time
+      str += " - ";
+    }
+  
+    if (time.endTime) {
+      const parts = time.endTime.split(':');
+      str += parts[0] + ":" + parts[1];
+
+      if (parts[2] != "00") {
+        str += ":" + parts[2];
+      }
+    }
+  
+    return str;
+  }
+
+  public onDateChange(): void {
+    this.datesWithSameDate = [];
+
+    if (this.selectedDate != undefined) {
+      const selectedDateWithoutTime = new Date(this.selectedDate);
+      selectedDateWithoutTime.setHours(0, 0, 0, 0);
+
+      // Filtering availableDatesList to get dates with the same date as selectedDate
+      this.datesWithSameDate = this.availableDatesList.filter(dateAvaialability => {
+          const currentDate = new Date(dateAvaialability.date);
+          currentDate.setHours(0, 0, 0, 0);
+          return currentDate.getTime() === selectedDateWithoutTime.getTime();
+      });
+    }
+  }
   
   public openReservingPopup(service: Service): void {
     this.currentService = service;
@@ -233,14 +293,31 @@ export class OfferComponent implements AfterViewInit {
     this.reservationPopup.close();
     this.currentService = undefined;
     this.selectedDate = null;
+    this.datesWithSameDate = [];
+    this.selectedReservationTime = undefined;
+    this.confirmButtonClass = "button-confirm-disabled";
+    this.reservationText_Title = "";
+    this.reservationText_Service = "";
+    this.reservationText_Date = "";
   }
 
   public reservationPopupConfirmAction(): void {
-    this.reservationPopup.close();
+    if (this.selectedReservationTime != undefined) {
+      this.reservationPopup.close();
 
-    if (this.currentService && this.selectedDate) {
-      this.confirmReservationPopupMessage = "Czy na pewno chcesz zarezerwować: " + this.currentService.name + "?"
-      this.confirmReservationPopup.open();
+      if (this.currentService && this.selectedDate) {
+        this.reservationText_Title = "Czy na pewno chcesz zarezerwować: ";
+        this.reservationText_Service = this.currentService.name;
+
+        const day = String(this.selectedDate.getDate()).padStart(2, '0');
+        const month = String(this.selectedDate.getMonth() + 1).padStart(2, '0');
+        const year = String(this.selectedDate.getFullYear());
+
+        this.reservationText_Date = "dnia " + day + "." + month + "." + year;
+        this.reservationText_Time = "w godzinach: " + this.timeFormat(this.datesWithSameDate[this.selectedReservationTime]) + "?";
+
+        this.confirmReservationPopup.open();
+      }
     }
   }
 
@@ -248,10 +325,6 @@ export class OfferComponent implements AfterViewInit {
     this.confirmReservationPopup.close();
 
     if (this.currentService && this.selectedDate) {
-      console.log("trying to make a reservation");
-      console.log(this.currentService.name);
-      console.log(this.selectedDate);
-
       const observer: Observer<any> = {
         next: response => {
           this.responsePopupHeader = 'Pomyślnie zarezerwowano.';
@@ -272,6 +345,7 @@ export class OfferComponent implements AfterViewInit {
       
       this.serviceReservationsService.addServiceReservation(this.serviceReservation).subscribe(observer);
 
+      this.datesWithSameDate = [];
     }
   }
 

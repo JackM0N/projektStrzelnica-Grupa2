@@ -34,4 +34,7 @@ public class ServiceAvailability {
 
     @Column(name = "service_time_start", nullable = false)
     private String service_time_start;
+
+    @Column(name = "service_time_end", nullable = false)
+    private String service_time_end;
 }

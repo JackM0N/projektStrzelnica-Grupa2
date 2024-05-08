@@ -37,6 +37,10 @@
   background-color: #f4b136;
 }
 
+.button-confirm-disabled {
+  background-color: #b68426;
+}
+
 .button-confirm:hover {
   background-color: #da980c;
 }

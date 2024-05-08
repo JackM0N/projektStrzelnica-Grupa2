@@ -91,3 +91,30 @@ img {
   background-color: #da980c;
 }
 
+#times-table {
+  margin-bottom: 22px;
+}
+
+#times-table button {
+  display: block;
+  margin-bottom: 10px;
+}
+
+#times-table button {
+  display: block;
+  margin-bottom: 10px;
+}
+
+#times-table button.selected {
+  background-color: #007bff;
+  color: #ffffff;
+}
+
+#reservation-text-title {
+  font-size: 22px;
+}
+
+#reservation-details {
+  font-size: 14px;
+  margin: 10px;
+}

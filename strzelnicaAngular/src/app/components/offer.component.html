@@ -16,6 +16,14 @@
     confirmButtonNgClass="button-confirm"
     closeButtonLabel="Anuluj"
     (confirmEvent)="confirmReservation()">
+
+    <div id="reservation-text-title">{{reservationText_Title}}</div>
+    <div id="reservation-details">
+        <b>{{reservationText_Service}}</b><br>
+        {{reservationText_Date}}<br>
+        {{reservationText_Time}}<br>
+    </div>
+
 </app-popup>
 
 <!-- Reserving pop-up -->
@@ -24,8 +32,9 @@
     messageText=""
     [showConfirmButton]="true"
     confirmButtonLabel="Potwierdź"
-    confirmButtonNgClass="button-confirm"
+    confirmButtonNgClass="{{confirmButtonClass}}"
     closeButtonLabel="Anuluj"
+    [disableDefaultButtonCancels]="true"
     (closeEvent)="reservationPopupCancelAction()"
     (confirmEvent)="reservationPopupConfirmAction()">
 
@@ -33,10 +42,14 @@
 
     <mat-form-field>
         <mat-label>Data</mat-label>
-        <input matInput #datePicker [matDatepicker]="picker" [matDatepickerFilter]="dateFilter" [min]="minDate" [max]="maxDate" placeholder="Wybierz datę"  [(ngModel)]="selectedDate">
+        <input matInput #datePicker [matDatepicker]="picker" [matDatepickerFilter]="dateFilter" [min]="minDate" [max]="maxDate" placeholder="Wybierz datę" [(ngModel)]="selectedDate" (dateChange)="onDateChange()">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
+
+    <div id="times-table">
+        <button *ngFor="let timeSlot of datesWithSameDate; let i = index" class="generic-button" type="button" (click)="selectReservationTime(i)" [class.selected]="selectedReservationTime === i">{{ timeFormat(timeSlot) }}</button>
+    </div>
 
 </app-popup>
 

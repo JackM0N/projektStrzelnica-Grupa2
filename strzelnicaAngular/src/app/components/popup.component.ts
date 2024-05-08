@@ -28,6 +28,7 @@ export class PopupComponent implements OnInit {
   @Input() ngClass: string = '';
   @Output() closeEvent = new EventEmitter<void>();
   @Output() confirmEvent = new EventEmitter<void>();
+  @Input() disableDefaultButtonCancels: boolean = false;
 
   constructor() {}
   
@@ -42,14 +43,18 @@ export class PopupComponent implements OnInit {
     this.showPopup = false;
   }
   
-  // User clicks cancel
+  // User clicks the cancel button
   public cancel(): void {
-    this.close();
+    if (!this.disableDefaultButtonCancels) {
+      this.close();
+    }
     this.closeEvent.emit();
   }
-  // User clicks confirm, delete the news from the database
+  // User clicks the confirm button
   public confirm(): void {
-    this.close();
+    if (!this.disableDefaultButtonCancels) {
+      this.close();
+    }
     this.confirmEvent.emit();
   }
 
@@ -57,7 +62,7 @@ export class PopupComponent implements OnInit {
   @HostListener("document:keydown", ["$event"])
   public keydown(event: KeyboardEvent): void {
     if (event.code === "Escape") {
-      this.close();
+      this.cancel();
     }
   }
 
@@ -66,7 +71,7 @@ export class PopupComponent implements OnInit {
   public documentClick(event: MouseEvent): void {
     const targetElement = event.target as HTMLElement;
     if (targetElement.className == "popup-overlay") {
-      this.close();
+      this.cancel();
     }
   }
 }
