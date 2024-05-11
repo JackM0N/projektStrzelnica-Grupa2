@@ -1,11 +1,11 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { WeaponService } from '../services/weapon.service';
-import { PopupComponent } from './popup.component';
+import { WeaponService } from '../../services/weapon.service';
+import { PopupComponent } from '../popup.component';
 
 @Component({
   selector: 'app-weapon-delete',
   templateUrl: './weapondelete.component.html',
-  styleUrls: ['../styles/shared-button-styles.css']
+  styleUrls: ['/src/app/styles/shared-button-styles.css']
 })
 
 // Confirm pop-up for deleting weapons

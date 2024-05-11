@@ -1,9 +1,9 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { News } from '../interfaces/news';
-import { NewsService } from '../services/news.service';
+import { News } from '../../interfaces/news';
+import { NewsService } from '../../services/news.service';
 import { ActivatedRoute } from '@angular/router';
 import { NgForm } from '@angular/forms';
-import { PopupComponent } from './popup.component';
+import { PopupComponent } from '../popup.component';
 import { Observer } from 'rxjs';
 import { Location } from '@angular/common';
 
@@ -12,9 +12,9 @@ import { Location } from '@angular/common';
   templateUrl: './newsform.component.html',
   styleUrls: [
     // Shared button styles
-    '../styles/shared-button-styles.css',
+    '/src/app/styles/shared-button-styles.css',
     // Shared form styles
-    '../styles/shared-form-styles.css'
+    '/src/app/styles/shared-form-styles.css'
   ]
 })
 

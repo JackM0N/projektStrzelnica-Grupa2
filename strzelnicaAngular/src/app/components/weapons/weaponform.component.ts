@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgForm } from '@angular/forms';
-import { PopupComponent } from './popup.component';
+import { PopupComponent } from '../popup.component';
 import { Observer } from 'rxjs';
-import { Weapon } from '../interfaces/weapon';
-import { WeaponService } from '../services/weapon.service';
+import { Weapon } from '../../interfaces/weapon';
+import { WeaponService } from '../../services/weapon.service';
 import { Location } from '@angular/common';
 
 @Component({
@@ -12,11 +12,11 @@ import { Location } from '@angular/common';
   templateUrl: './weaponform.component.html',
   styleUrls: [
     // Style exclusive for this component
-    '../styles/weaponform.component.css',
+    '/src/app/styles/weaponform.component.css',
     // Shared button styles
-    '../styles/shared-button-styles.css',
+    '/src/app/styles/shared-button-styles.css',
     // Shared form styles
-    '../styles/shared-form-styles.css'
+    '/src/app/styles/shared-form-styles.css'
   ]
 })
 

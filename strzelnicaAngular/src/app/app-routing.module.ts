@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { NewsComponent } from './components/news.component';
-import { NewsFormComponent } from './components/newsform.component';
-import { WeaponsComponent } from './components/weapons.component';
-import { AboutComponent } from './components/about.component';
-import { WeaponFormComponent } from './components/weaponform.component';
-import { UsersComponent } from './components/users.component';
-import { UsersFormComponent } from './components/usersform.component';
-import { OfferComponent } from './components/offer.component';
-import { RegistrationComponent } from './components/registration.component';
-import { LoginComponent } from './components/login.component';
+import { NewsComponent } from './components/news/news.component';
+import { NewsFormComponent } from './components/news/newsform.component';
+import { WeaponsComponent } from './components/weapons/weapons.component';
+import { AboutComponent } from './components/about/about.component';
+import { WeaponFormComponent } from './components/weapons/weaponform.component';
+import { UsersComponent } from './components/users/users.component';
+import { UsersFormComponent } from './components/users/usersform.component';
+import { OfferComponent } from './components/offer/offer.component';
+import { RegistrationComponent } from './components/authentication/registration.component';
+import { LoginComponent } from './components/authentication/login.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'news', pathMatch: 'full' },

@@ -1,11 +1,11 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { NewsService } from '../services/news.service';
-import { PopupComponent } from './popup.component';
+import { NewsService } from '../../services/news.service';
+import { PopupComponent } from '../popup.component';
 
 @Component({
   selector: 'app-news-delete',
   templateUrl: './newsdelete.component.html',
-  styleUrls: ['../styles/shared-button-styles.css']
+  styleUrls: ['/src/app/styles/shared-button-styles.css']
 })
 
 // Confirm pop-up for deleting news

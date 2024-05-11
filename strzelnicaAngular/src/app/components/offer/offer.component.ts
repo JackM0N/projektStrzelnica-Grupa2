@@ -1,31 +1,31 @@
 import { AfterViewInit, Component, ChangeDetectorRef, ViewChild } from '@angular/core';
-import { PopupComponent } from './popup.component';
+import { PopupComponent } from '../popup.component';
 import { DateFilterFn } from '@angular/material/datepicker';
-import { Service } from '../interfaces/service';
-import { ServicesService } from '../services/services.service';
-import { PaginationComponent } from './pagination.component';
-import { isImageValid } from '../utils/utils';
-import { ServiceAvailabilitiesService } from '../services/serviceavailabilities.service';
-import { ServiceAvailability } from '../interfaces/serviceavailability';
-import { ServiceUnavailabilitiesService } from '../services/serviceunavailabilities.service';
-import { ServiceUnavailability } from '../interfaces/serviceunavailability';
-import { ServiceReservationsService } from '../services/servicereservations.service';
-import { DateAvailability } from '../interfaces/dateavailability';
+import { Service } from '../../interfaces/service';
+import { ServicesService } from '../../services/services.service';
+import { PaginationComponent } from '../pagination.component';
+import { isImageValid } from '../../utils/utils';
+import { ServiceAvailabilitiesService } from '../../services/serviceavailabilities.service';
+import { ServiceAvailability } from '../../interfaces/serviceavailability';
+import { ServiceUnavailabilitiesService } from '../../services/serviceunavailabilities.service';
+import { ServiceUnavailability } from '../../interfaces/serviceunavailability';
+import { ServiceReservationsService } from '../../services/servicereservations.service';
+import { DateAvailability } from '../../interfaces/dateavailability';
 import { Observable, Observer, forkJoin } from 'rxjs';
-import { ServiceReservation } from '../interfaces/servicereservation';
+import { ServiceReservation } from '../../interfaces/servicereservation';
 
 @Component({
   selector: 'app-offer',
   templateUrl: './offer.component.html',
   styleUrls: [
     // Style exclusive for this component
-    '../styles/offer.component.css',
+    '/src/app/styles/offer.component.css',
     // Styles shared between all the list components
-    '../styles/shared-list-styles.css',
+    '/src/app/styles/shared-list-styles.css',
     // Shared button styles
-    '../styles/shared-button-styles.css',
+    '/src/app/styles/shared-button-styles.css',
     // Shared styles for Material Design
-    '../styles/material-styles.scss',
+    '/src/app/styles/material-styles.scss',
   ]
 })
 

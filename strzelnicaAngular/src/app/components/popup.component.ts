@@ -5,11 +5,11 @@ import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@a
   templateUrl: './popup.component.html',
   styleUrls: [
     // Style exclusive for this component
-    '../styles/popup.component.css',
+    '/src/app/styles/popup.component.css',
     // Shared button styles
-    '../styles/shared-button-styles.css',
+    '/src/app/styles/shared-button-styles.css',
     // Popup styles
-    '../styles/popup-styles.css'
+    '/src/app/styles/popup-styles.css'
   ]
 })
 

@@ -1,16 +1,16 @@
 import { ChangeDetectorRef, Component, ViewChild} from '@angular/core';
-import { PaginationComponent } from './pagination.component';
-import { UserService } from '../services/users.service';
-import { Users } from '../interfaces/users';
+import { PaginationComponent } from '../pagination.component';
+import { UserService } from '../../services/users.service';
+import { Users } from '../../interfaces/users';
 
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
   styleUrls: [
     // Styles shared between all the list components
-    '../styles/shared-list-styles.css',
+    '/src/app/styles/shared-list-styles.css',
     // Shared button styles
-    '../styles/shared-button-styles.css'
+    '/src/app/styles/shared-button-styles.css'
   ]
 })
 export class UsersComponent {

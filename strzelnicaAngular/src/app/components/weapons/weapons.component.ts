@@ -1,18 +1,18 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
-import { PaginationComponent } from './pagination.component';
-import { Weapon } from '../interfaces/weapon';
-import { WeaponService } from '../services/weapon.service';
+import { PaginationComponent } from '../pagination.component';
+import { Weapon } from '../../interfaces/weapon';
+import { WeaponService } from '../../services/weapon.service';
 
 @Component({
   selector: 'app-weapons',
   templateUrl: './weapons.component.html',
   styleUrls: [
     // Style exclusive for this component
-    '../styles/weapons.component.css',
+    '/src/app/styles/weapons.component.css',
     // Styles shared between all the list components
-    '../styles/shared-list-styles.css',
+    '/src/app/styles/shared-list-styles.css',
     // Shared button styles
-    '../styles/shared-button-styles.css'
+    '/src/app/styles/shared-button-styles.css'
   ]
 })
 

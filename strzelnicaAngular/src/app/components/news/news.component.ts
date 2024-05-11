@@ -1,19 +1,19 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
-import { NewsService } from '../services/news.service';
-import { News } from '../interfaces/news';
-import { isImageValid } from '../utils/utils';
-import { PaginationComponent } from './pagination.component';
+import { NewsService } from '../../services/news.service';
+import { News } from '../../interfaces/news';
+import { isImageValid } from '../../utils/utils';
+import { PaginationComponent } from '../pagination.component';
 
 @Component({
   selector: 'app-news',
   templateUrl: './news.component.html',
   styleUrls: [
     // Style exclusive for this component
-    '../styles/news.component.css',
+    '/src/app/styles/news.component.css',
     // Styles shared between all the list components
-    '../styles/shared-list-styles.css',
+    '/src/app/styles/shared-list-styles.css',
     // Shared button styles
-    '../styles/shared-button-styles.css']
+    '/src/app/styles/shared-button-styles.css']
 })
 
 // Component that displays the news

@@ -1,18 +1,18 @@
 
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { UserService } from '../services/users.service';
-import { Users } from '../interfaces/users';
+import { UserService } from '../../services/users.service';
+import { Users } from '../../interfaces/users';
 import { Observer } from 'rxjs';
 
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
-  styleUrls: ['../styles/registration.component.css',
+  styleUrls: ['/src/app/styles/registration.component.css',
         // Shared button styles
-        '../styles/shared-button-styles.css',
+        '/src/app/styles/shared-button-styles.css',
         // Shared form styles
-        '../styles/shared-form-styles.css'
+        '/src/app/styles/shared-form-styles.css'
   ]
 })
 export class RegistrationComponent implements OnInit {

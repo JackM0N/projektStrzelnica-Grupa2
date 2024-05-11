@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router'
-import { UserService } from '../services/users.service';
-import { Users } from '../interfaces/users';
-import { PopupComponent } from './popup.component';
+import { UserService } from '../../services/users.service';
+import { Users } from '../../interfaces/users';
+import { PopupComponent } from '../popup.component';
 import { Location } from '@angular/common';
 import { NgForm } from '@angular/forms';
 import { Observer } from 'rxjs';
@@ -12,11 +12,11 @@ import { Observer } from 'rxjs';
   templateUrl: './usersform.component.html',
   styleUrls: [
     // Style exclusive for this component
-    '../styles/usersform.component.css',
+    '/src/app/styles/usersform.component.css',
     // Shared button styles
-    '../styles/shared-button-styles.css',
+    '/src/app/styles/shared-button-styles.css',
     // Shared form styles
-    '../styles/shared-form-styles.css'
+    '/src/app/styles/shared-form-styles.css'
   ]
 })
 export class UsersFormComponent implements OnInit {

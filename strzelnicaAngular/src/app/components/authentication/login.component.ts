@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { UserService } from '../services/users.service';
+import { UserService } from '../../services/users.service';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['../styles/login.component.css',
+  styleUrls: ['/src/app/styles/login.component.css',
             // Shared button styles
-            '../styles/shared-button-styles.css',
+            '/src/app/styles/shared-button-styles.css',
             // Shared form styles
-            '../styles/shared-form-styles.css']
+            '/src/app/styles/shared-form-styles.css']
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
