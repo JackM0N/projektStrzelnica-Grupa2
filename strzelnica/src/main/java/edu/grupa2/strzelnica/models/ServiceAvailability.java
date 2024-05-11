@@ -7,8 +7,7 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
-
-import java.util.Date;
+import java.sql.Time;
 
 @Setter
 @Getter
@@ -33,8 +32,8 @@ public class ServiceAvailability {
     private String service_day;
 
     @Column(name = "service_time_start", nullable = false)
-    private String service_time_start;
+    private Time service_time_start;
 
     @Column(name = "service_time_end", nullable = false)
-    private String service_time_end;
+    private Time service_time_end;
 }

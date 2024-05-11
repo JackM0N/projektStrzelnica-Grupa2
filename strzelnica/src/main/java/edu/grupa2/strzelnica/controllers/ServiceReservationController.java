@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import java.util.Optional;
+import java.util.List;
 
 @Controller
 public class ServiceReservationController {
@@ -26,17 +26,16 @@ public class ServiceReservationController {
         return serviceReservationsService.getPaginatedServiceReservations(page, size);
     }
 
-    // GET - Get specific service reservation from the database
+    // GET - Get service reservation list for a specific service from the database
     @GetMapping("/servicereservations/{id}")
     public ResponseEntity<?> getServiceReservationById(@PathVariable Integer id) {
-        Optional<ServiceReservation> optionalServiceReservation = serviceReservationsService.getServiceReservationById(id);
+        List<ServiceReservation> got = serviceReservationsService.getServiceReservationsById(id);
 
-        // Send if the service reservation it exists
-        if (optionalServiceReservation.isPresent()) {
-            return ResponseEntity.ok(optionalServiceReservation.get());
+        if (got.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"message\": \"error_service_reservations_empty\"}");
 
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"message\": \"error_service_reservation_not_found\"}");
+            return ResponseEntity.ok(got);
         }
     }
 

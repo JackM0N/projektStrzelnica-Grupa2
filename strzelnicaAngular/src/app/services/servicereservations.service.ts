@@ -21,6 +21,12 @@ export class ServiceReservationsService {
       .set('size', size.toString());
     return this.http.get<any>(this.baseUrl, {params});
   }
+
+  // Fetch list of service reservations for a specific service from the database
+  getServiceReservationsByServiceId(serviceId: number): Observable<ServiceReservation[]> {
+    const url = `${this.baseUrl}/${serviceId}`;
+    return this.http.get<ServiceReservation[]>(url);
+  }
   
   // Adding a service reservation to the database
   addServiceReservation(serviceReservation?: ServiceReservation): Observable<ServiceReservation> {
@@ -37,11 +43,5 @@ export class ServiceReservationsService {
   deleteServiceReservation(serviceReservationId: number): Observable<ServiceReservation> {
     const url = `${this.baseUrl}/${serviceReservationId}`;
     return this.http.delete<ServiceReservation>(url);
-  }
-
-  // Fetch a specific service reservation from the database
-  getServiceReservationById(serviceReservationId: number): Observable<ServiceReservation> {
-    const url = `${this.baseUrl}/${serviceReservationId}`;
-    return this.http.get<ServiceReservation>(url);
   }
 }

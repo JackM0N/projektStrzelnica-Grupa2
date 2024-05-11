@@ -3,7 +3,7 @@ package edu.grupa2.strzelnica.models;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-
+import java.sql.Time;
 import java.util.Date;
 
 @Setter
@@ -21,4 +21,10 @@ public class ServiceReservation {
 
     @Column(name = "date", nullable = false)
     private Date date;
+
+    @Column(name = "start_time", nullable = false)
+    private Time start_time;
+
+    @Column(name = "end_time", nullable = false)
+    private Time end_time;
 }

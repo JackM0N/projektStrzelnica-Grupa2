@@ -10,6 +10,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -24,6 +26,10 @@ public class ServiceReservationsService {
     public Page<ServiceReservation> getPaginatedServiceReservations(int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "id"));
         return serviceReservationRepository.findAll(pageable);
+    }
+
+    public List<ServiceReservation> getServiceReservationsById(Integer serviceId) {
+        return serviceReservationRepository.findByServiceId(serviceId);
     }
 
     public Optional<ServiceReservation> getServiceReservationById(Integer id) {
@@ -41,6 +47,8 @@ public class ServiceReservationsService {
             ServiceReservation existingServiceReservation = optionalServiceReservation.get();
             existingServiceReservation.setServiceId(updatedServiceReservation.getServiceId());
             existingServiceReservation.setDate(updatedServiceReservation.getDate());
+            existingServiceReservation.setStart_time(updatedServiceReservation.getStart_time());
+            existingServiceReservation.setEnd_time(updatedServiceReservation.getEnd_time());
 
             ServiceReservation savedServiceReservation = this.saveServiceReservation(existingServiceReservation);
             return new ResponseEntity<>(savedServiceReservation, HttpStatus.OK);
