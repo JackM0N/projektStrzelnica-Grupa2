@@ -12,6 +12,7 @@ export class UserService {
   private postUrl = 'http://localhost:8080/users/add';
   private editUrl = 'http://localhost:8080/users/edit';
   private registerUrl = 'http://localhost:8080/register';
+  private loginUrl = 'http://localhost:8080/login';
 
   constructor(private http: HttpClient) { }
 
@@ -36,5 +37,8 @@ export class UserService {
   }
   registerUser(userData: Users): Observable<any> {
     return this.http.post<any>(this.registerUrl, userData);
+  }
+  login(credentials: { email: string, password: string }): Observable<any> {
+    return this.http.post<any>(this.loginUrl, credentials);
   }
 }

@@ -24,6 +24,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { LoginComponent } from './components/login.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
     UsersFormComponent,
     RegistrationComponent,
     OfferComponent,
+    LoginComponent,
   ],
 
   imports: [
