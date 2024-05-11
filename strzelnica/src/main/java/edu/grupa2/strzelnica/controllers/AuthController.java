@@ -1,11 +1,13 @@
 package edu.grupa2.strzelnica.controllers;
 
+import edu.grupa2.strzelnica.dto.AuthResponseDTO;
 import edu.grupa2.strzelnica.dto.LoginDto;
 import edu.grupa2.strzelnica.dto.RegisterDto;
 import edu.grupa2.strzelnica.models.Role;
 import edu.grupa2.strzelnica.models.Users;
 import edu.grupa2.strzelnica.repositories.RoleRepository;
 import edu.grupa2.strzelnica.repositories.UsersRepository;
+import edu.grupa2.strzelnica.security.JWTGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,13 +31,16 @@ public class AuthController {
     private UsersRepository usersRepository;
     private RoleRepository roleRepository;
     private PasswordEncoder passwordEncoder;
+    private JWTGenerator generator;
+
     @Autowired
     private AuthController(AuthenticationManager authenticationManager, UsersRepository usersRepository,
-                           RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+                           RoleRepository roleRepository, PasswordEncoder passwordEncoder, JWTGenerator generator) {
         this.usersRepository = usersRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
+        this.generator = generator;
     }
 
     @PostMapping("register")
@@ -59,34 +64,36 @@ public class AuthController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
     @PostMapping("login")
-    public ResponseEntity<Object> login(@RequestBody LoginDto loginDto) {
+    public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginDto loginDto) {
         // Extract username and password from LoginDto
         String username = loginDto.getEmail();
         String password = loginDto.getPassword();
 
         // Authenticate the user
-        try {
-            Authentication authentication = authenticationManager.authenticate
-                    (new UsernamePasswordAuthenticationToken(username, password));
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            return ResponseEntity.ok()
-                    .body(Map.of("message", "Login successful"));
-        } catch (BadCredentialsException e) {
-            // Invalid username or password
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(Map.of("message", "Invalid username or password"));
-        } catch (LockedException e) {
-            // Account locked due to multiple failed login attempts
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(Map.of("message", "Account locked"));
-        } catch (DisabledException e) {
-            // Account disabled
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(Map.of("message", "Account disabled"));
-        } catch (AuthenticationException e) {
-            // Other authentication failures
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(Map.of("message", "Authentication failed"));
-        }
+        Authentication authentication = authenticationManager.authenticate
+                (new UsernamePasswordAuthenticationToken(username, password));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String jwt = generator.generateToken(authentication);
+        return new ResponseEntity<>(new AuthResponseDTO(jwt), HttpStatus.OK);
+
+//            return ResponseEntity.ok()
+//                    .body(Map.of("message", "Login successful"));
+//        } catch (BadCredentialsException e) {
+//            // Invalid username or password
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+//                    .body(Map.of("message", "Invalid username or password"));
+//        } catch (LockedException e) {
+//            // Account locked due to multiple failed login attempts
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+//                    .body(Map.of("message", "Account locked"));
+//        } catch (DisabledException e) {
+//            // Account disabled
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+//                    .body(Map.of("message", "Account disabled"));
+//        } catch (AuthenticationException e) {
+//            // Other authentication failures
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+//                    .body(Map.of("message", "Authentication failed"));
+//        }
     }
 }

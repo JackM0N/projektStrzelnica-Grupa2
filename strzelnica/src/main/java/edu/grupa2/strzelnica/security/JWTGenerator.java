@@ -20,13 +20,12 @@ public class JWTGenerator {
         Date now = new Date();
         Date expiration = new Date(now.getTime() + SecurityConstants.JWT_TOKEN_EXPIRATION_TIME);
 
-        String token = Jwts.builder()
+        return Jwts.builder()
                 .subject(email)
                 .issuedAt(new Date())
                 .expiration(expiration)
                 .signWith(getKeyFromToken())
                 .compact();
-        return token;
     }
 
     public String getUsernameFromToken(String token) {
