@@ -1,77 +1,79 @@
+
+<!-- Success/failure response pop-up -->
+<app-popup #responsePopup
+    headerName="{{responsePopupHeader}}"
+    messageText="{{responsePopupMessage}}"
+    [ngClass]="responsePopupNgClass"
+    closeButtonLabel="Ok">
+</app-popup>
+
+<!-- Confirm reservation pop-up -->
+<app-popup #confirmReservationPopup
+    headerName="Rezerawacja"
+    messageText="{{confirmReservationPopupMessage}}"
+    [showConfirmButton]="true"
+    confirmButtonLabel="Potwierdź rezerwację"
+    confirmButtonNgClass="button-confirm"
+    closeButtonLabel="Anuluj"
+    (confirmEvent)="confirmReservation()">
+
+    <div id="reservation-text-title">{{reservationText_Title}}</div>
+    <div id="reservation-details">
+        <b>{{reservationText_Service}}</b><br>
+        {{reservationText_Date}}<br>
+        {{reservationText_Time}}<br>
+    </div>
+
+</app-popup>
+
+<!-- Reserving pop-up -->
+<app-popup #reservationPopup
+    headerName=""
+    messageText=""
+    [showConfirmButton]="true"
+    confirmButtonLabel="Potwierdź"
+    confirmButtonNgClass="{{confirmButtonClass}}"
+    closeButtonLabel="Anuluj"
+    [disableDefaultButtonCancels]="true"
+    (closeEvent)="reservationPopupCancelAction()"
+    (confirmEvent)="reservationPopupConfirmAction()">
+
+    <h1>Rezerwacja</h1>
+
+    <mat-form-field>
+        <mat-label>Data</mat-label>
+        <input matInput #datePicker [matDatepicker]="picker" [matDatepickerFilter]="dateFilter" [min]="minDate" [max]="maxDate" placeholder="Wybierz datę" [(ngModel)]="selectedDate" (dateChange)="onDateChange()">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <div id="times-table">
+        <button *ngFor="let timeSlot of datesWithSameDate; let i = index" class="generic-button" type="button" (click)="selectReservationTime(i)" [class.selected]="selectedReservationTime === i">{{ timeFormat(timeSlot) }}</button>
+    </div>
+
+</app-popup>
+
+<div class="welcome">
+    <p>Oferta</p>
+    <hr>
+</div>
+
 <div class="container">
     <div class="centered">
-        <h1>
-            Oferta
-        </h1>
-        <hr>
-            <div class = "image-left">
-                <img src="https://www.miamigunsinc.com/wp-content/uploads/2020/03/IMG_2287.jpeg" alt="obraz">
-                <div style="text-align: left;">
-                    <h2>Sesja Indywidualnego Strzelania z Pistoletu Glock 17 Gen 5</h2>
-                    <p>
-                        Zapraszamy do skorzystania z naszej sesji indywidualnego strzelania z renomowanego pistoletu Glock 17 Gen 5 na naszej krytej strzelnicy w Chorzowie. To doskonała okazja dla osób poszukujących spokojnego i precyzyjnego doświadczenia strzeleckiego pod okiem profesjonalnego instruktora.
-                    </p>
-                        Co zawiera nasz pakiet:
-                        <ul>
-                            <li>
-                                Naukę praktycznego posługiwania się bronią: Nasz doświadczony instruktor przeprowadzi Cię przez wszystkie etapy obsługi pistoletu Glock 17 Gen 5, począwszy od właściwej postawy strzeleckiej, poprzez ładowanie i rozładowywanie broni, aż po precyzyjne oddawanie strzałów.
-                            </li>
-                            <li>
-                                50 strzałów z pistoletu: Podczas sesji będziesz miał okazję oddać 50 strzałów z pistoletu Glock 17 Gen 5, poznając jego charakterystykę oraz ucząc się kontrolować celność i stabilność strzałów.
-                            </li>
-                            <li>
-                                Dostęp do profesjonalnego toru strzeleckiego: Nasza kryta strzelnica zapewnia komfortowe warunki do strzelania przez cały rok, bez względu na warunki atmosferyczne.
-                            </li>
-                        </ul>
-                </div>
-            </div>
-            <hr>
 
-            <div class = "image-right">
-                <img src="https://barbaraiweins.com/wp-content/uploads/2021/06/Shooting-Range.jpg" alt="obraz">
-                <div style="text-align: left;">
-                    <h2>Sesja Indywidualnego Strzelania z Pistoletu Glock 17 Gen 5</h2>
-                    <p>
-                        Zapraszamy do skorzystania z naszej sesji indywidualnego strzelania z renomowanego pistoletu Glock 17 Gen 5 na naszej krytej strzelnicy w Chorzowie. To doskonała okazja dla osób poszukujących spokojnego i precyzyjnego doświadczenia strzeleckiego pod okiem profesjonalnego instruktora.
-                    </p>
-                        Co zawiera nasz pakiet:
-                        <ul>
-                            <li>
-                                Naukę praktycznego posługiwania się bronią: Nasz doświadczony instruktor przeprowadzi Cię przez wszystkie etapy obsługi pistoletu Glock 17 Gen 5, począwszy od właściwej postawy strzeleckiej, poprzez ładowanie i rozładowywanie broni, aż po precyzyjne oddawanie strzałów.
-                            </li>
-                            <li>
-                                50 strzałów z pistoletu: Podczas sesji będziesz miał okazję oddać 50 strzałów z pistoletu Glock 17 Gen 5, poznając jego charakterystykę oraz ucząc się kontrolować celność i stabilność strzałów.
-                            </li>
-                            <li>
-                                Dostęp do profesjonalnego toru strzeleckiego: Nasza kryta strzelnica zapewnia komfortowe warunki do strzelania przez cały rok, bez względu na warunki atmosferyczne.
-                            </li>
-                        </ul>
-                </div>
+    <div *ngFor="let service of serviceList; let i = index" [class.image-left]="i % 2 === 0" [class.image-right]="i % 2 !== 0">
+        <div class = "image-left">
+            <img [src]="service.image_url" alt="obraz">
+            <div class="text-content">
+                <h2>{{service.name}}</h2>
+                <div class="service-description" [innerHTML]="service.description"></div>
+                <button id="reserve-button" class="generic-button" type="button" (click)="openReservingPopup(service)">Zarezerwuj</button>
             </div>
-            <hr>
-            
-
-            <div class = "image-left">
-                <img src="https://centennialgunclub.com/wp-content/uploads/2014/06/Shooting-Range.jpg" alt="obraz">
-                <div style="text-align: left;">
-                    <h2>Sesja Indywidualnego Strzelania z Pistoletu Glock 17 Gen 5</h2>
-                    <p>
-                        Zapraszamy do skorzystania z naszej sesji indywidualnego strzelania z renomowanego pistoletu Glock 17 Gen 5 na naszej krytej strzelnicy w Chorzowie. To doskonała okazja dla osób poszukujących spokojnego i precyzyjnego doświadczenia strzeleckiego pod okiem profesjonalnego instruktora.
-                    </p>
-                        Co zawiera nasz pakiet:
-                        <ul>
-                            <li>
-                                Naukę praktycznego posługiwania się bronią: Nasz doświadczony instruktor przeprowadzi Cię przez wszystkie etapy obsługi pistoletu Glock 17 Gen 5, począwszy od właściwej postawy strzeleckiej, poprzez ładowanie i rozładowywanie broni, aż po precyzyjne oddawanie strzałów.
-                            </li>
-                            <li>
-                                50 strzałów z pistoletu: Podczas sesji będziesz miał okazję oddać 50 strzałów z pistoletu Glock 17 Gen 5, poznając jego charakterystykę oraz ucząc się kontrolować celność i stabilność strzałów.
-                            </li>
-                            <li>
-                                Dostęp do profesjonalnego toru strzeleckiego: Nasza kryta strzelnica zapewnia komfortowe warunki do strzelania przez cały rok, bez względu na warunki atmosferyczne.
-                            </li>
-                        </ul>
-                </div>
-            </div>
-            <hr>
+        </div>
     </div>
+    
+    <hr>
+    <app-pagination #paginationComponent
+        (onPageChange)="fetchServices()">
+    </app-pagination>
 </div>

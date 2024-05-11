@@ -35,6 +35,7 @@
               "src/assets"
             ],
             "styles": [
+              "src/app/styles/material-styles.scss",
               "src/styles.css"
             ],
             "scripts": [],
@@ -99,6 +100,7 @@
               "src/assets"
             ],
             "styles": [
+              "src/app/styles/material-styles.scss",
               "src/styles.css"
             ],
             "scripts": []

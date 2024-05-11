@@ -10,7 +10,7 @@ import { Users } from '../interfaces/users';
     // Styles shared between all the list components
     '../styles/shared-list-styles.css',
     // Shared button styles
-    '../styles/button-styles.css'
+    '../styles/shared-button-styles.css'
   ]
 })
 export class UsersComponent {
@@ -20,14 +20,14 @@ export class UsersComponent {
   constructor(private userService: UserService, private cd: ChangeDetectorRef) {}
 
   // After init - because we need the pagination to load first
-  // Fetch weapons from the database and display them
+  // Fetch users from the database and display them
   ngAfterViewInit(): void {
     this.fetchUsers();
     // The DOM has been changed, we need to detect the changes to prevent ExpressionChangedAfterItHasBeenCheckedError
     this.cd.detectChanges();
   }
 
-  // Fetches all weapons from the database
+  // Fetches all users from the database
   fetchUsers(): void {
     this.userService.getPaginatedUsers(this.paginationComponent.currentPage, this.paginationComponent.maxItems).subscribe(users => {
       this.paginationComponent.totalPages = users.totalPages;

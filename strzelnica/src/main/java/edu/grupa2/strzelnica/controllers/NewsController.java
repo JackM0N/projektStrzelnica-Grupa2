@@ -16,7 +16,6 @@ import java.util.Optional;
 
 @Controller
 public class NewsController {
-    // Service for handling the news repository
     private final NewsService newsService;
 
     @Autowired
@@ -34,7 +33,6 @@ public class NewsController {
     // GET - Get a specific news
     @GetMapping("/news/{id}")
     public ResponseEntity<?> getNewsById(@PathVariable Long id) {
-        // Get the news from news service
         Optional<News> optionalNews = newsService.getNewsById(id);
 
         // Send the news if it exists

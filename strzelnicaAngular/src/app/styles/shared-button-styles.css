@@ -5,7 +5,6 @@
   font-weight: bold;
   text-transform: uppercase;
   border: 2px solid #555;
-  color: #555;
   border-radius: 5px;
   color: #333;
   cursor: pointer;
@@ -32,6 +31,18 @@
 
 .button-restore-deleted:hover {
   background-color: #1eaccc;
+}
+
+.button-confirm {
+  background-color: #f4b136;
+}
+
+.button-confirm-disabled {
+  background-color: #b68426;
+}
+
+.button-confirm:hover {
+  background-color: #da980c;
 }
 
 .form-container button {
