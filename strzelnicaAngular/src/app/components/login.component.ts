@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../services/users.service';
-import { Users } from '../interfaces/users';
-import { Observer } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -15,8 +14,11 @@ import { Observer } from 'rxjs';
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
+  loggedInUsername: string = ''; // Initialize with an empty string
 
-  constructor(private formBuilder: FormBuilder, private userService: UserService) {
+  constructor(private formBuilder: FormBuilder, 
+              private userService: UserService,
+              private router: Router) { // Inject Router service
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
@@ -24,6 +26,13 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+    // Check if user is already logged in
+    this.loggedInUsername = localStorage.getItem('username') ?? ''; // Use nullish coalescing operator
+  }
+
+  // Method to update the "Zaloguj" text in the header based on login status
+  getLoginButtonText() {
+    return this.loggedInUsername ? this.loggedInUsername : 'Zaloguj';
   }
 
   onSubmit() {
@@ -41,7 +50,11 @@ export class LoginComponent implements OnInit {
         this.userService.login(credentials).subscribe(
           () => {
             console.log("Login successful");
-            // TODO: Handle successful login (e.g., navigate to home page)
+            // Navigate to home page upon successful login
+            this.router.navigate(['/news']);
+            // Set the logged-in username
+            this.loggedInUsername = credentials.email;
+            localStorage.setItem('username', this.loggedInUsername); // Save username to localStorage
           },
           error => {
             console.error("Login failed:", error);
