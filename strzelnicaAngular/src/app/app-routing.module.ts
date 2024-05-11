@@ -9,6 +9,7 @@ import { UsersComponent } from './components/users.component';
 import { UsersFormComponent } from './components/usersform.component';
 import { OfferComponent } from './components/offer.component';
 import { RegistrationComponent } from './components/registration.component';
+import { LoginComponent } from './components/login.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'news', pathMatch: 'full' },
@@ -22,7 +23,8 @@ const routes: Routes = [
   { path: 'users', component: UsersComponent },
   { path: 'users/edit/:id', component: UsersFormComponent },
   { path: 'offer', component: OfferComponent },
-  { path: 'register', component: RegistrationComponent}
+  { path: 'register', component: RegistrationComponent},
+  { path: 'login', component: LoginComponent},
 ];
 
 @NgModule({

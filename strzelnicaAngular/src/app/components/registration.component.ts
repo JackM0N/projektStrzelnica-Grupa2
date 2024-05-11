@@ -10,7 +10,7 @@ import { Observer } from 'rxjs';
   templateUrl: './registration.component.html',
   styleUrls: ['../styles/registration.component.css',
         // Shared button styles
-        '../styles/button-styles.css',
+        '../styles/shared-button-styles.css',
         // Shared form styles
         '../styles/shared-form-styles.css'
   ]
