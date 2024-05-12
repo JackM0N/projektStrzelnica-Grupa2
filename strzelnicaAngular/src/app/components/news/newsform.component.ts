@@ -6,6 +6,7 @@ import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { PopupComponent } from '../popup.component';
 import { Observer } from 'rxjs';
 import { Location } from '@angular/common';
+import { formatDateForInput } from '../../utils/utils';
 
 @Component({
   selector: 'app-add-news',
@@ -26,6 +27,7 @@ export class NewsFormComponent implements OnInit {
   public responsePopupNgClass = '';
   @ViewChild('dateInput') dateInput?: ElementRef;
   newsForm: FormGroup;
+  formatDateForInput = formatDateForInput;
   
   isAddNewsRoute: boolean;
   newsId: number = 0;
@@ -60,19 +62,11 @@ export class NewsFormComponent implements OnInit {
     });
   }
 
-  formatDateForInput(dateString: Date): string {
-    const date2 = new Date(dateString);
-    const year = date2.getFullYear();
-    let month = (date2.getMonth() + 1).toString().padStart(2, '0');
-    let day = date2.getDate().toString().padStart(2, '0');
-    return `${year}-${month}-${day}`;
-  }
-
   // On init, if there is an id in the page URL, fetch the news with that id and display it
   ngOnInit() {
     this.route.params.subscribe(params => {
       if (params['id']) {
-        this.newsId = +params['id'];
+        this.newsId = + params['id'];
         this.newsService.getNewsById(this.newsId).subscribe((news: News) => {
           this.news = news;
         });

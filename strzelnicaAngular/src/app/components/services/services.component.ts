@@ -321,7 +321,7 @@ export class ServicesComponent implements AfterViewInit {
                 const availEndTime = convertStringDatetime(dateAvailability.date, dateAvailability.endTime);
 
                 unavailable = (unavailStartTime.getTime() <= availStartTime.getTime()
-                        && unavailEndTime.getTime() >= availEndTime.getTime());
+                  && unavailEndTime.getTime() >= availEndTime.getTime());
               }
             });
           }

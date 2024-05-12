@@ -48,7 +48,7 @@ public class ServiceUnavailabilityController {
             return ResponseEntity.ok().body("{\"message\": \"success_service_availability_added_successfully\"}");
 
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"message\": \"Error adding service availability: " + e.getMessage() + "\"}");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"message\": \"Error adding service unavailability: " + e.getMessage() + "\"}");
         }
     }
 
@@ -66,7 +66,7 @@ public class ServiceUnavailabilityController {
             return ResponseEntity.ok().build();
 
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"message\": \"Error deleting service availability: " + e.getMessage() + "\"}");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"message\": \"Error deleting service unavailability: " + e.getMessage() + "\"}");
         }
     }
 }
