@@ -16,11 +16,12 @@
   margin-top: 20px;
   padding: 20px;
   padding-top: 0;
-  line-height: 120%;
+  line-height: 150%;
   border: 1px solid #ccc;
   width: 80%;
   background-color: #f9f9f9;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  
 }
 
 .centered h1 {
