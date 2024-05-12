@@ -415,22 +415,47 @@ export class OfferComponent implements AfterViewInit {
     }
   
     const selectedDate = new Date(date);
-  
-    // Check if the selected date is in the unavailableDatesList
-    for (const unavailableDate of this.unavailableDatesList) {
-      if (this.isSameDay(selectedDate, unavailableDate.date)) {
-        return false;
-      }
-    }
+
+    let availableDates = [];
+    let newAvailableDates = [];
   
     // Check if there is any availability for the selected date
     for (const availableDate of this.availableDatesList) {
       if (this.isSameDay(selectedDate, availableDate.date)) {
-        return true;
+        availableDates.push(availableDate);
+      }
+    }
+
+    if (availableDates.length == 0) {
+      return false;
+    }
+
+    // Check if the selected date is in the unavailableDatesList
+    for (const availableDate of availableDates) {
+      let available = true;
+      for (const unavailableDate of this.unavailableDatesList) {
+        if (this.isSameDay(availableDate.date, unavailableDate.date)
+          && unavailableDate.startTime && unavailableDate.endTime
+          && availableDate.startTime && availableDate.endTime
+        ) {
+          const unavailStartTime = this.convertStringDatetime(unavailableDate.date, unavailableDate.startTime);
+          const unavailEndTime = this.convertStringDatetime(unavailableDate.date, unavailableDate.endTime);
+          
+          const availStartTime = this.convertStringDatetime(availableDate.date, availableDate.startTime);
+          const availEndTime = this.convertStringDatetime(availableDate.date, availableDate.endTime);
+
+          if(unavailStartTime.getTime() <= availStartTime.getTime() && unavailEndTime.getTime() >= availEndTime.getTime()) {
+            available = false;
+            break;
+          }
+        }
+      }
+      if(available) {
+        newAvailableDates.push(availableDate);
       }
     }
   
-    return false;
+    return newAvailableDates.length > 0 ? true : false;
   };
 
   private isSameDay(date1: Date, date2: Date): boolean {

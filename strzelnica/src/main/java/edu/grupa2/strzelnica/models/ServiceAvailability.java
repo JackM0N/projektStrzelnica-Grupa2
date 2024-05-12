@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import java.sql.Time;
+import java.util.Date;
 
 @Setter
 @Getter
@@ -23,10 +24,10 @@ public class ServiceAvailability {
     private Integer serviceId;
 
     @Column(name = "start_date", nullable = false)
-    private String start_date;
+    private Date start_date;
 
     @Column(name = "end_date")
-    private String end_date;
+    private Date end_date;
 
     @Column(name = "service_day", nullable = false)
     private String service_day;

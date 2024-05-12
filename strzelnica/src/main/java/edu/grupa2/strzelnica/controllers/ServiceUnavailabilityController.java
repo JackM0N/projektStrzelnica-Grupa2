@@ -20,7 +20,7 @@ public class ServiceUnavailabilityController {
 
     // GET - Get service unavailability list for a specific service from the database
     @GetMapping("/serviceunavailabilities/{id}")
-    public ResponseEntity<?> getWeaponById(@PathVariable Integer id) {
+    public ResponseEntity<?> getServiceUnavailabilityById(@PathVariable Integer id) {
         List<ServiceUnavailability> got = serviceUnavailabilitiesService.getServiceUnavailabilitiesByServiceId(id);
 
         if (got.isEmpty()) {
@@ -33,7 +33,7 @@ public class ServiceUnavailabilityController {
 
     // POST - Add a new service unavailability to the database
     @PostMapping("/serviceunavailabilities/add")
-    public ResponseEntity<?> addWeapon(@RequestBody ServiceUnavailability serviceUnavailability) {
+    public ResponseEntity<?> addServiceUnavailability(@RequestBody ServiceUnavailability serviceUnavailability) {
         try {
             serviceUnavailabilitiesService.saveServiceUnavailability(serviceUnavailability);
             return ResponseEntity.ok().body("{\"message\": \"success_service_availability_added_successfully\"}");
