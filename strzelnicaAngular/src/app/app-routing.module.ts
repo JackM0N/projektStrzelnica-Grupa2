@@ -10,6 +10,7 @@ import { UsersFormComponent } from './components/users/usersform.component';
 import { RegistrationComponent } from './components/authentication/registration.component';
 import { LoginComponent } from './components/authentication/login.component';
 import { ServicesComponent } from './components/services/services.component';
+import { ServiceFormComponent } from './components/services/serviceform.component';
 import { ReservationsComponent } from './components/services/reservations.component';
 import { AvailabilitiesComponent } from './components/services/availabilities.component';
 
@@ -29,6 +30,8 @@ const routes: Routes = [
   { path: 'users/edit/:id', component: UsersFormComponent },
 
   { path: 'offer', component: ServicesComponent },
+  { path: 'offer/add', component: ServiceFormComponent },
+  { path: 'offer/edit/:id', component: ServiceFormComponent },
   { path: 'reservations', component: ReservationsComponent },
   { path: 'availabilities', component: AvailabilitiesComponent },
 

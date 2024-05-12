@@ -1,0 +1,36 @@
+<!-- Success/failure response pop-up -->
+<app-popup #responsePopup
+    headerName="{{responsePopupHeader}}"
+    messageText="{{responsePopupMessage}}"
+    [ngClass]="responsePopupNgClass"
+    closeButtonLabel="Ok"
+    (closeEvent)="responsePopupCancelAction()">
+</app-popup>
+
+<div class="form-container">
+    <h1>{{actionText}}</h1>
+
+    <form [formGroup]="serviceForm" (ngSubmit)="onSubmit()">
+      <div>
+        <label for="name">Nazwa:</label>
+        <input type="text" id="name" name="name" [(ngModel)]="service.name" formControlName="name" required>
+      </div>
+
+      <div>
+        <label for="image_url">URL obrazka:</label>
+        <input type="text" id="image_url" name="image_url" [(ngModel)]="service.image_url" formControlName="image_url">
+      </div>
+
+      <div>
+        <label for="description">Opis:</label>
+        <textarea id="description" name="description" placeholder="Wpisz opis..." [(ngModel)]="service.description" formControlName="description" required></textarea>
+      </div>
+
+      <div class="button-container">
+        <button type="button" class="form-button go-back-button" (click)="goBack()">Cofnij</button>
+        <button type="submit" class="form-button" [disabled]="!serviceForm.valid" [class.disabled-button]="!serviceForm.valid">
+          Zapisz
+        </button>
+      </div>
+    </form>
+</div>

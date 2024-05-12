@@ -18,6 +18,7 @@ import { UsersFormComponent } from './components/users/usersform.component';
 import { WeaponDeleteComponent } from './components/weapons/weapondelete.component';
 import { RegistrationComponent } from './components/authentication/registration.component';
 import { ServicesComponent } from './components/services/services.component';
+import { ServiceFormComponent } from './components/services/serviceform.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -44,6 +45,7 @@ import { AvailabilitiesComponent } from './components/services/availabilities.co
     UsersFormComponent,
     RegistrationComponent,
     ServicesComponent,
+    ServiceFormComponent,
     ReservationsComponent,
     LoginComponent,
     AvailabilitiesComponent,
