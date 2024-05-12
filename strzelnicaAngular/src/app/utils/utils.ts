@@ -43,3 +43,17 @@ export function getPolishDayOfWeek(date: Date): string {
     const dayIndex = new Date(date).getDay();
     return daysOfWeek[dayIndex];
 }
+
+export function isPastDate(date: Date): boolean {
+    const currentDate = new Date();
+    const comparisonDate = new Date(date);
+    return comparisonDate < currentDate;
+}
+
+export function formatDateForInput(dateString: Date): string {
+    const date2 = new Date(dateString);
+    const year = date2.getFullYear();
+    let month = (date2.getMonth() + 1).toString().padStart(2, '0');
+    let day = date2.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}

@@ -26,7 +26,7 @@ public class ServiceUnavailability {
     @Column(name = "start_date", nullable = false)
     private Date start_date;
 
-    @Column(name = "start_time", nullable = false)
+    @Column(name = "start_time")
     private String start_time;
 
     @Column(name = "end_date")

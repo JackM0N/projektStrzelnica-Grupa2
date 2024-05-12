@@ -43,6 +43,10 @@ public class ServiceAvailabilitiesService {
         if (optionalServiceAvailability.isPresent()) {
             ServiceAvailability existingServiceAvailability = optionalServiceAvailability.get();
             existingServiceAvailability.setServiceId(updatedServiceAvailability.getServiceId());
+            existingServiceAvailability.setStart_date(updatedServiceAvailability.getStart_date());
+            existingServiceAvailability.setEnd_date(updatedServiceAvailability.getEnd_date());
+            existingServiceAvailability.setService_time_start(updatedServiceAvailability.getService_time_start());
+            existingServiceAvailability.setService_time_end(updatedServiceAvailability.getService_time_end());
 
             ServiceAvailability savedServiceAvailability = this.saveServiceAvailability(existingServiceAvailability);
             return new ResponseEntity<>(savedServiceAvailability, HttpStatus.OK);

@@ -23,7 +23,7 @@ button.selected {
   border: 1px solid rgb(157, 157, 157);
   cursor: pointer;
   font-family: "Roboto", sans-serif;
-  font-weight: 400;
+  font-weight: 500;
   font-style: normal;
 }
 
@@ -50,13 +50,13 @@ button.selected {
 
 .divider p {
   margin-top: 24px;
-  font-size: 18px;
+  font-size: 22px;
   margin-bottom: 14px;
 }
 
 .divider hr {
   margin-top: 0;
-  width: 40%;
+  width: 70%;
   border: none;
   border-top: 3px solid #bbb;
   margin-bottom: 0px;
@@ -68,4 +68,21 @@ button.selected {
 
 .past-date {
   color: #eb4034;
+}
+
+.data-card {
+  padding: 30px;
+  margin: 16px;
+  border: 1px solid rgb(200, 200, 200);
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 50%;
+  min-width: max-content;
+}
+
+.add-button {
+  margin: 10px;
 }

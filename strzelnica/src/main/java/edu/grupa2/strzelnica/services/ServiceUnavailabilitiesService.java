@@ -47,6 +47,10 @@ public class ServiceUnavailabilitiesService {
         if (optionalServiceUnavailability.isPresent()) {
             ServiceUnavailability existingServiceUnavailability = optionalServiceUnavailability.get();
             existingServiceUnavailability.setServiceId(updatedServiceUnavailability.getServiceId());
+            existingServiceUnavailability.setStart_date(updatedServiceUnavailability.getStart_date());
+            existingServiceUnavailability.setEnd_date(updatedServiceUnavailability.getEnd_date());
+            existingServiceUnavailability.setStart_time(updatedServiceUnavailability.getStart_time());
+            existingServiceUnavailability.setEnd_time(updatedServiceUnavailability.getEnd_time());
 
             ServiceUnavailability savedServiceUnavailability = this.saveServiceUnavailability(existingServiceUnavailability);
             return new ResponseEntity<>(savedServiceUnavailability, HttpStatus.OK);

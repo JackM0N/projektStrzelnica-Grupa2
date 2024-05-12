@@ -30,7 +30,7 @@ public class ServiceAvailability {
     private Date end_date;
 
     @Column(name = "service_day", nullable = false)
-    private String service_day;
+    private Date service_day;
 
     @Column(name = "service_time_start", nullable = false)
     private Time service_time_start;

@@ -1,4 +1,64 @@
 
+<!-- Success/failure response pop-up -->
+<app-popup #responsePopup
+    headerName="{{responsePopupHeader}}"
+    messageText="{{responsePopupMessage}}"
+    [ngClass]="responsePopupNgClass"
+    closeButtonLabel="Ok"
+    (closeEvent)="responsePopupCancelAction()">
+</app-popup>
+
+<!-- Form pop-up -->
+<app-popup #formPopup
+    headerName="Rezerwacja"
+    [showCloseButton]="false"
+    [showConfirmButton]="false"
+    style="width: 400px;">
+
+    <div class="form-container">
+      <form [formGroup]="reservationForm">
+        <div>
+          <label for="serviceId">Oferta</label>
+          <input type="text" id="serviceId" name="serviceId" [(ngModel)]="reservation.serviceId" formControlName="serviceId" required>
+        </div>
+
+        <div>
+          <label for="date">Data:</label>
+          <input #dateInput type="date" id="date" name="date" formControlName="date" value="{{formatDateForInput(reservation.date)}}" required>
+        </div>
+
+        <div>
+          <label for="start_time">Czas zaczęcia:</label>
+          <input type="text" id="start_time" name="start_time" [(ngModel)]="reservation.start_time" formControlName="start_time" required>
+        </div>
+
+        <div>
+          <label for="end_time">Czas zaczęcia:</label>
+          <input type="text" id="end_time" name="end_time" [(ngModel)]="reservation.end_time" formControlName="end_time" required>
+        </div>
+
+        <div class="button-container">
+          <button type="button" class="form-button" ngClass="go-back-button" (click)="closeForm()">Cofnij</button>
+          <button type="submit" class="form-button" [disabled]="!reservationForm.valid" [class.disabled-button]="!reservationForm.valid" (click)="submitForm()">
+            Zapisz
+          </button>
+        </div>
+      </form>
+    </div>
+
+</app-popup>
+
+<!-- Confirm action pop-up - deleting/restoring -->
+<app-popup #confirmDeletionPopup
+    headerName="{{confirmDeletionPopupHeader}}"
+    messageText="{{confirmDeletionPopupMessage}}"
+    [showConfirmButton]="true"
+    confirmButtonLabel="{{confirmDeletionPopupConfirmText}}"
+    confirmButtonNgClass="{{confirmDeletionPopupConfirmNgClass}}"
+    closeButtonLabel="Anuluj"
+    (confirmEvent)="confirmDeletionAction()">
+</app-popup>
+
 <div class="welcome">
   <p>Rezerwacje</p>
   <hr>
@@ -28,28 +88,33 @@
         </tr>
       </thead>
       <tbody>
+
         <!-- Check if the reservationList is empty -->
         <ng-container *ngIf="reservationList.length === 0; else notEmpty">
           <tr>
             <td colspan="4" id="list-empty">Brak rezerwacji dla tej oferty</td>
           </tr>
         </ng-container>
+
         <!-- If not empty, display the reservationList -->
         <ng-template #notEmpty>
           <tr *ngFor="let reservation of reservationList">
             <td>{{ reservation.id }}</td>
+            
             <td [ngClass]="{ 'past-date': isPastDate(reservation.date) }">
               {{ getFormattedDate(reservation.date) | date: 'dd.MM.yyyy' }}
             </td>
+
             <td>{{ getFormattedTime(reservation.start_time) }}</td>
             <td>{{ getFormattedTime(reservation.end_time) }}</td>
 
             <td>
-              <button type="button" class="generic-button" ngClass="edit-button">Edytuj</button>
-              <button type="button" class="generic-button">Usuń</button>
+              <button type="button" class="generic-button" ngClass="edit-button" (click)="openPopupForm(reservation)">Edytuj</button>
+              <button type="button" class="generic-button" (click)="this.confirmDelete(reservation)">Usuń</button>
             </td>
           </tr>
         </ng-template>
+
       </tbody>
     </table>
   </div>
