@@ -17,7 +17,7 @@ import { UsersComponent } from './components/users/users.component';
 import { UsersFormComponent } from './components/users/usersform.component';
 import { WeaponDeleteComponent } from './components/weapons/weapondelete.component';
 import { RegistrationComponent } from './components/authentication/registration.component';
-import { OfferComponent } from './components/offer/offer.component';
+import { ServicesComponent } from './components/services/services.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -25,6 +25,8 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { LoginComponent } from './components/authentication/login.component';
+import { ReservationsComponent } from './components/services/reservations.component';
+import { AvailabilitiesComponent } from './components/services/availabilities.component';
 
 @NgModule({
   declarations: [
@@ -41,8 +43,10 @@ import { LoginComponent } from './components/authentication/login.component';
     UsersComponent,
     UsersFormComponent,
     RegistrationComponent,
-    OfferComponent,
+    ServicesComponent,
+    ReservationsComponent,
     LoginComponent,
+    AvailabilitiesComponent,
   ],
 
   imports: [

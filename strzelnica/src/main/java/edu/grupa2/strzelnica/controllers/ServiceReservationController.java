@@ -26,10 +26,17 @@ public class ServiceReservationController {
         return serviceReservationsService.getPaginatedServiceReservations(page, size);
     }
 
+    // GET - Get paginated service reservation list for a specific service from the database
+    @GetMapping("/servicereservations/paginated/{id}")
+    @ResponseBody
+    public Page<ServiceReservation> getPaginatedServiceReservationByServiceId(@PathVariable Integer id, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        return serviceReservationsService.getPaginatedServiceReservationsByServiceId(id, page, size);
+    }
+
     // GET - Get service reservation list for a specific service from the database
     @GetMapping("/servicereservations/{id}")
-    public ResponseEntity<?> getServiceReservationById(@PathVariable Integer id) {
-        List<ServiceReservation> got = serviceReservationsService.getServiceReservationsById(id);
+    public ResponseEntity<?> getServiceReservationByServiceId(@PathVariable Integer id) {
+        List<ServiceReservation> got = serviceReservationsService.getServiceReservationsByServiceId(id);
 
         if (got.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"message\": \"error_service_reservations_empty\"}");

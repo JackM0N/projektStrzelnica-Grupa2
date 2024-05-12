@@ -1,8 +1,13 @@
 package edu.grupa2.strzelnica.services;
 
 import edu.grupa2.strzelnica.models.ServiceAvailability;
+import edu.grupa2.strzelnica.models.ServiceReservation;
 import edu.grupa2.strzelnica.repositories.ServiceAvailabilityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -17,6 +22,11 @@ public class ServiceAvailabilitiesService {
     @Autowired
     public ServiceAvailabilitiesService(ServiceAvailabilityRepository serviceAvailabilityRepository) {
         this.serviceAvailabilityRepository = serviceAvailabilityRepository;
+    }
+
+    public Page<ServiceAvailability> getPaginatedServiceAvailabilitiesByServiceId(Integer serviceId, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "id"));
+        return serviceAvailabilityRepository.findPaginatedByServiceId(serviceId, pageable);
     }
 
     public List<ServiceAvailability> getServiceAvailabilitiesByServiceId(Integer serviceId) {

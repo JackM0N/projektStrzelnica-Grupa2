@@ -4,7 +4,7 @@ import { DateFilterFn } from '@angular/material/datepicker';
 import { Service } from '../../interfaces/service';
 import { ServicesService } from '../../services/services.service';
 import { PaginationComponent } from '../pagination.component';
-import { isImageValid } from '../../utils/utils';
+import { convertStringDatetime, isImageValid, isSameDay } from '../../utils/utils';
 import { ServiceAvailabilitiesService } from '../../services/serviceavailabilities.service';
 import { ServiceAvailability } from '../../interfaces/serviceavailability';
 import { ServiceUnavailabilitiesService } from '../../services/serviceunavailabilities.service';
@@ -15,8 +15,8 @@ import { Observable, Observer, forkJoin } from 'rxjs';
 import { ServiceReservation } from '../../interfaces/servicereservation';
 
 @Component({
-  selector: 'app-offer',
-  templateUrl: './offer.component.html',
+  selector: 'app-service-reservation',
+  templateUrl: './services.component.html',
   styleUrls: [
     // Style exclusive for this component
     '/src/app/styles/offer.component.css',
@@ -29,8 +29,7 @@ import { ServiceReservation } from '../../interfaces/servicereservation';
   ]
 })
 
-// Component that displays offer
-export class OfferComponent implements AfterViewInit {
+export class ServicesComponent implements AfterViewInit {
   @ViewChild('paginationComponent', { static: false }) paginationComponent!: PaginationComponent;
   @ViewChild('confirmReservationPopup') confirmReservationPopup!: PopupComponent;
   @ViewChild('reservationPopup') reservationPopup!: PopupComponent;
@@ -309,17 +308,17 @@ export class OfferComponent implements AfterViewInit {
 
           let unavailable: boolean = false;
 
-          if (this.isSameDay(dateAvailability.date, selectedDateWithoutTime)) {
+          if (isSameDay(dateAvailability.date, selectedDateWithoutTime)) {
             this.unavailableDatesList.forEach((unavailableDate: DateAvailability) => {
-              if (this.isSameDay(unavailableDate.date, dateAvailability.date)
+              if (isSameDay(unavailableDate.date, dateAvailability.date)
                   && unavailableDate.startTime && unavailableDate.endTime
                   && dateAvailability.startTime && dateAvailability.endTime
                 ) {
-                const unavailStartTime = this.convertStringDatetime(unavailableDate.date, unavailableDate.startTime);
-                const unavailEndTime = this.convertStringDatetime(unavailableDate.date, unavailableDate.endTime);
+                const unavailStartTime = convertStringDatetime(unavailableDate.date, unavailableDate.startTime);
+                const unavailEndTime = convertStringDatetime(unavailableDate.date, unavailableDate.endTime);
                 
-                const availStartTime = this.convertStringDatetime(dateAvailability.date, dateAvailability.startTime);
-                const availEndTime = this.convertStringDatetime(dateAvailability.date, dateAvailability.endTime);
+                const availStartTime = convertStringDatetime(dateAvailability.date, dateAvailability.startTime);
+                const availEndTime = convertStringDatetime(dateAvailability.date, dateAvailability.endTime);
 
                 unavailable = (unavailStartTime.getTime() <= availStartTime.getTime()
                         && unavailEndTime.getTime() >= availEndTime.getTime());
@@ -421,7 +420,7 @@ export class OfferComponent implements AfterViewInit {
   
     // Check if there is any availability for the selected date
     for (const availableDate of this.availableDatesList) {
-      if (this.isSameDay(selectedDate, availableDate.date)) {
+      if (isSameDay(selectedDate, availableDate.date)) {
         availableDates.push(availableDate);
       }
     }
@@ -434,15 +433,15 @@ export class OfferComponent implements AfterViewInit {
     for (const availableDate of availableDates) {
       let available = true;
       for (const unavailableDate of this.unavailableDatesList) {
-        if (this.isSameDay(availableDate.date, unavailableDate.date)
+        if (isSameDay(availableDate.date, unavailableDate.date)
           && unavailableDate.startTime && unavailableDate.endTime
           && availableDate.startTime && availableDate.endTime
         ) {
-          const unavailStartTime = this.convertStringDatetime(unavailableDate.date, unavailableDate.startTime);
-          const unavailEndTime = this.convertStringDatetime(unavailableDate.date, unavailableDate.endTime);
+          const unavailStartTime = convertStringDatetime(unavailableDate.date, unavailableDate.startTime);
+          const unavailEndTime = convertStringDatetime(unavailableDate.date, unavailableDate.endTime);
           
-          const availStartTime = this.convertStringDatetime(availableDate.date, availableDate.startTime);
-          const availEndTime = this.convertStringDatetime(availableDate.date, availableDate.endTime);
+          const availStartTime = convertStringDatetime(availableDate.date, availableDate.startTime);
+          const availEndTime = convertStringDatetime(availableDate.date, availableDate.endTime);
 
           if(unavailStartTime.getTime() <= availStartTime.getTime() && unavailEndTime.getTime() >= availEndTime.getTime()) {
             available = false;
@@ -457,18 +456,4 @@ export class OfferComponent implements AfterViewInit {
   
     return newAvailableDates.length > 0 ? true : false;
   };
-
-  private isSameDay(date1: Date, date2: Date): boolean {
-    return date1.getDate() === date2.getDate() &&
-           date1.getMonth() === date2.getMonth() &&
-           date1.getFullYear() === date2.getFullYear();
-  }
-
-  private convertStringDatetime(date: Date, time: String) {
-    const dateTime = new Date(date);
-    dateTime.setHours( Number(time.split(":")[0]) );
-    dateTime.setMinutes( Number(time.split(":")[1]) );
-    return dateTime;
-  }
-
 }

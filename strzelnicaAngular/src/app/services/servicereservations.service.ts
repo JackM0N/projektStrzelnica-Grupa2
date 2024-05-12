@@ -27,6 +27,15 @@ export class ServiceReservationsService {
     const url = `${this.baseUrl}/${serviceId}`;
     return this.http.get<ServiceReservation[]>(url);
   }
+
+  // Fetch paginated list of service reservations for a specific service from the database
+  getPaginatedServiceReservationsByServiceId(serviceId: number, page: number, size: number): Observable<ServiceReservation[]> {
+    const params = new HttpParams()
+      .set('page', (page - 1).toString())
+      .set('size', size.toString());
+    const url = `${this.baseUrl}/paginated/${serviceId}`;
+    return this.http.get<ServiceReservation[]>(url, {params});
+  }
   
   // Adding a service reservation to the database
   addServiceReservation(serviceReservation?: ServiceReservation): Observable<ServiceReservation> {

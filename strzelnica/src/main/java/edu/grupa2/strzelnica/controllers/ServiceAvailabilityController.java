@@ -1,8 +1,10 @@
 package edu.grupa2.strzelnica.controllers;
 
 import edu.grupa2.strzelnica.models.ServiceAvailability;
+import edu.grupa2.strzelnica.models.ServiceReservation;
 import edu.grupa2.strzelnica.services.ServiceAvailabilitiesService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -29,6 +31,13 @@ public class ServiceAvailabilityController {
         } else {
             return ResponseEntity.ok(got);
         }
+    }
+
+    // GET - Get paginated service availability list for a specific service from the database
+    @GetMapping("/serviceavailabilities/paginated/{id}")
+    @ResponseBody
+    public Page<ServiceAvailability> getPaginatedServiceReservationByServiceId(@PathVariable Integer id, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        return serviceAvailabilitiesService.getPaginatedServiceAvailabilitiesByServiceId(id, page, size);
     }
 
     // POST - Add a new service availability to the database

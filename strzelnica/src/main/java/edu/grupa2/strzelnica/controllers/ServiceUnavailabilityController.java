@@ -1,8 +1,10 @@
 package edu.grupa2.strzelnica.controllers;
 
+import edu.grupa2.strzelnica.models.ServiceAvailability;
 import edu.grupa2.strzelnica.models.ServiceUnavailability;
 import edu.grupa2.strzelnica.services.ServiceUnavailabilitiesService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -29,6 +31,13 @@ public class ServiceUnavailabilityController {
         } else {
             return ResponseEntity.ok(got);
         }
+    }
+
+    // GET - Get paginated service unavailability list for a specific service from the database
+    @GetMapping("/serviceunavailabilities/paginated/{id}")
+    @ResponseBody
+    public Page<ServiceUnavailability> getPaginatedServiceReservationByServiceId(@PathVariable Integer id, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        return serviceUnavailabilitiesService.getPaginatedServiceUnavailabilitiesByServiceId(id, page, size);
     }
 
     // POST - Add a new service unavailability to the database

@@ -9,6 +9,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import edu.grupa2.strzelnica.models.Service;
+
+import java.util.List;
 import java.util.Optional;
 
 @org.springframework.stereotype.Service
@@ -18,6 +20,10 @@ public class ServicesService {
     @Autowired
     public ServicesService(ServiceRepository serviceRepository) {
         this.serviceRepository = serviceRepository;
+    }
+
+    public List<Service> getAllServices() {
+        return serviceRepository.findAll();
     }
 
     public Page<Service> getPaginatedServices(int page, int size) {

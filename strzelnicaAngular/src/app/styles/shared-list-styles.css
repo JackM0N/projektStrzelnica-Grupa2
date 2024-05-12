@@ -7,14 +7,14 @@
     margin-bottom: 20px;
 }
 .welcome p {
-    margin-top: 24px;
-    font-size: 48px;
+    margin-top: 26px;
+    font-size: 38px;
     margin-bottom: 20px;
 }
 .welcome hr {
     margin-top: 0;
     width: 60%;
-    border-top: 8px solid #bbb;
+    border-top: 6px solid #bbb;
     border-radius: 5px;
     margin-bottom: 0px;
 }

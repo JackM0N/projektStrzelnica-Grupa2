@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ServiceAvailability } from '../interfaces/serviceavailability';
 
@@ -18,6 +18,15 @@ export class ServiceAvailabilitiesService {
   getServiceAvailabilitiesByServiceId(serviceId: number): Observable<ServiceAvailability[]> {
     const url = `${this.baseUrl}/${serviceId}`;
     return this.http.get<ServiceAvailability[]>(url);
+  }
+
+  // Fetch paginated list of service availabilities for a specific service from the database
+  getPaginatedServiceAvailabilitiesByServiceId(serviceId: number, page: number, size: number): Observable<ServiceAvailability[]> {
+    const params = new HttpParams()
+      .set('page', (page - 1).toString())
+      .set('size', size.toString());
+    const url = `${this.baseUrl}/paginated/${serviceId}`;
+    return this.http.get<ServiceAvailability[]>(url, {params});
   }
   
   // Adding a service availability to the database

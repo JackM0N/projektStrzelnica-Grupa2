@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ServiceUnavailability } from '../interfaces/serviceunavailability';
 
@@ -20,6 +20,15 @@ export class ServiceUnavailabilitiesService {
     return this.http.get<ServiceUnavailability[]>(url);
   }
   
+  // Fetch paginated list of service unavailabilities for a specific service from the database
+  getPaginatedServiceUnavailabilitiesByServiceId(serviceId: number, page: number, size: number): Observable<ServiceUnavailability[]> {
+    const params = new HttpParams()
+      .set('page', (page - 1).toString())
+      .set('size', size.toString());
+    const url = `${this.baseUrl}/paginated/${serviceId}`;
+    return this.http.get<ServiceUnavailability[]>(url, {params});
+  }
+
   // Adding a service unavailability to the database
   addServiceUnavailability(serviceUnavailability?: ServiceUnavailability): Observable<ServiceUnavailability> {
     return this.http.post<ServiceUnavailability>(this.postUrl, serviceUnavailability);

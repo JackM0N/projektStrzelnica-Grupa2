@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -19,11 +21,18 @@ public class ServiceController {
         this.servicesService = servicesService;
     }
 
-    // GET - Get all services from the database
+    // GET - Get paginated services from the database
     @GetMapping("/services")
     @ResponseBody
-    public Page<Service> getService(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+    public Page<Service> getPaginatedServices(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         return servicesService.getPaginatedServices(page, size);
+    }
+
+    // GET - Get all services from the database
+    @GetMapping("/services/all")
+    @ResponseBody
+    public List<Service> getAllServices() {
+        return servicesService.getAllServices();
     }
 
     // GET - Get specific service from the database

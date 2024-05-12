@@ -10,7 +10,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -28,7 +27,12 @@ public class ServiceReservationsService {
         return serviceReservationRepository.findAll(pageable);
     }
 
-    public List<ServiceReservation> getServiceReservationsById(Integer serviceId) {
+    public Page<ServiceReservation> getPaginatedServiceReservationsByServiceId(Integer serviceId, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "id"));
+        return serviceReservationRepository.findPaginatedByServiceId(serviceId, pageable);
+    }
+
+    public List<ServiceReservation> getServiceReservationsByServiceId(Integer serviceId) {
         return serviceReservationRepository.findByServiceId(serviceId);
     }
 

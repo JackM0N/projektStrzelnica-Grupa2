@@ -21,6 +21,12 @@ export class ServicesService {
       .set('size', size.toString());
     return this.http.get<any>(this.baseUrl, {params});
   }
+
+  // Fetch pall services from the database
+  getAllServices(): Observable<any> {
+    const url = `${this.baseUrl}/all`;
+    return this.http.get<any>(url);
+  }
   
   // Adding a service to the database
   addService(service?: Service): Observable<Service> {
