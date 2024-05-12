@@ -5,11 +5,11 @@ import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@a
   templateUrl: './popup.component.html',
   styleUrls: [
     // Style exclusive for this component
-    '../styles/popup.component.css',
+    '/src/app/styles/popup.component.css',
     // Shared button styles
-    '../styles/button-styles.css',
+    '/src/app/styles/shared-button-styles.css',
     // Popup styles
-    '../styles/popup-styles.css'
+    '/src/app/styles/popup-styles.css'
   ]
 })
 
@@ -28,6 +28,7 @@ export class PopupComponent implements OnInit {
   @Input() ngClass: string = '';
   @Output() closeEvent = new EventEmitter<void>();
   @Output() confirmEvent = new EventEmitter<void>();
+  @Input() disableDefaultButtonCancels: boolean = false;
 
   constructor() {}
   
@@ -37,16 +38,23 @@ export class PopupComponent implements OnInit {
   public open(): void {
     this.showPopup = true;
   }
-  
   // Hide the pop-up
   public close(): void {
     this.showPopup = false;
-    this.closeEvent.emit();
   }
   
-  // User clicks confirm, delete the news from the database
+  // User clicks the cancel button
+  public cancel(): void {
+    if (!this.disableDefaultButtonCancels) {
+      this.close();
+    }
+    this.closeEvent.emit();
+  }
+  // User clicks the confirm button
   public confirm(): void {
-    this.showPopup = false;
+    if (!this.disableDefaultButtonCancels) {
+      this.close();
+    }
     this.confirmEvent.emit();
   }
 
@@ -54,7 +62,7 @@ export class PopupComponent implements OnInit {
   @HostListener("document:keydown", ["$event"])
   public keydown(event: KeyboardEvent): void {
     if (event.code === "Escape") {
-      this.close();
+      this.cancel();
     }
   }
 
@@ -63,7 +71,7 @@ export class PopupComponent implements OnInit {
   public documentClick(event: MouseEvent): void {
     const targetElement = event.target as HTMLElement;
     if (targetElement.className == "popup-overlay") {
-      this.close();
+      this.cancel();
     }
   }
 }

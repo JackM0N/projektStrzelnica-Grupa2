@@ -21,28 +21,22 @@ public class WeaponService {
         this.weaponRepository = weaponRepository;
     }
 
-    // Method to get a paginated list of weapons
     public Page<Weapon> getPaginatedWeapons(int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "id"));
         return weaponRepository.findAll(pageable);
     }
 
-    // Method to get specific weapon by its ID
     public Optional<Weapon> getWeaponById(Integer id) {
         return weaponRepository.findById(id);
     }
 
-    // Method to save a new weapon
     public Weapon saveWeapon(Weapon weapon) {
         return weaponRepository.save(weapon);
     }
 
-    // Method to update an existing weapon
     public ResponseEntity<Weapon> updateWeapon(Integer id, Weapon updatedWeapon) {
-        // Get the weapon from weapon service
         Optional<Weapon> optionalWeapon = this.getWeaponById(id);
 
-        // Update the weapon if it exists
         if (optionalWeapon.isPresent()) {
             Weapon existingWeapon = optionalWeapon.get();
             existingWeapon.setName(updatedWeapon.getName());
@@ -63,7 +57,6 @@ public class WeaponService {
         }
     }
 
-    // Method to delete a weapon by its ID
     public void deleteWeaponById(Integer id) {
         weaponRepository.deleteById(id);
     }

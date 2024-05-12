@@ -1,3 +1,4 @@
+
 .container {
   display: flex;
   flex-direction: column;
@@ -17,15 +18,27 @@
   padding-top: 0;
   line-height: 120%;
   border: 1px solid #ccc;
-  border-radius: 5px;
   width: 80%;
   background-color: #f9f9f9;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+.centered h1 {
+  margin-top: 12px;
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.centered img {
+  margin: 10px;
+}
+
+.centered p {
+  margin: 10px;
+}
+
 .map_image {
   border: 2px solid #ccc;
-  margin:10px;
-  border-radius: 10%;
+  margin: 12px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
 }

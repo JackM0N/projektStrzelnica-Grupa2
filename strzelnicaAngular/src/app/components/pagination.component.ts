@@ -3,7 +3,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 @Component({
   selector: 'app-pagination',
   templateUrl: './pagination.component.html',
-  styleUrls: ['../styles/pagination-component.css']
+  styleUrls: ['/src/app/styles/pagination-component.css']
 })
 
 // Pagination component on the bottom of the page

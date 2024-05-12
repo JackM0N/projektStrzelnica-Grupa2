@@ -16,7 +16,6 @@ import java.util.Optional;
 
 @Controller
 public class UsersController {
-    // Service for handling the users repository
     private final UsersService usersService;
 
     @Autowired
@@ -32,7 +31,7 @@ public class UsersController {
     }
 
     // GET - Get a specific user
-    @GetMapping("/users/{id}")
+    @GetMapping("/users/id/{id}")
     public ResponseEntity<?> getUserById(@PathVariable Long id) {
         // Get the user from news service
         Optional<Users> optionalUsers = usersService.getUserById(id);
@@ -47,9 +46,8 @@ public class UsersController {
     }
 
     // GET - Get a specific user
-    @GetMapping("/users/{name}")
+    @GetMapping("/users/email/{name}")
     public ResponseEntity<?> getUserByEmail(@PathVariable String email) {
-        // Get the user from news service
         Optional<Users> optionalUsers = usersService.getUserByEmail(email);
 
         // Send the user if they exists
@@ -91,6 +89,7 @@ public class UsersController {
         try {
             usersService.deleteUserById(id);
             return ResponseEntity.ok().build();
+
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"message\": \"Error deleting user: " + e.getMessage() + "\"}");
         }

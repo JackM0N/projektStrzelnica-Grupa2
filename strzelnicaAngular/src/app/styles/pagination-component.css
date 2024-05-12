@@ -27,9 +27,8 @@ p {
     cursor: pointer;
 }
 
-.pagination button:hover {
+.pagination button:not(.disabled-button):hover {
     background-color: #4CAF50;
-    border: 1px solid #4CAF50;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -37,6 +36,14 @@ p {
     font-size: 16px;
 }
 
-.selected {
+.pagination button.selected {
     background-color: #71dd74;
+}
+
+.pagination button.disabled-button {
+    background-color: #b8b8b8;
+}
+
+.pagination button.disabled-button:hover {
+    cursor: not-allowed;
 }

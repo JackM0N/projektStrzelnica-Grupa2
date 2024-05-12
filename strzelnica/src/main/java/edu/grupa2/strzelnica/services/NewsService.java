@@ -21,28 +21,22 @@ public class NewsService {
         this.newsRepository = newsRepository;
     }
 
-    // Method to get paginated news
     public Page<News> getPaginatedNews(int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "date"));
         return newsRepository.findAll(pageable);
     }
 
-    // Method to get specific news by its ID
     public Optional<News> getNewsById(Long id) {
         return newsRepository.findById(id);
     }
 
-    // Method to save new news
     public News saveNews(News news) {
         return newsRepository.save(news);
     }
 
-    // Method to update an existing news
     public ResponseEntity<News> updateNews(Long id, News updatedNews) {
-        // Get the news from news service
         Optional<News> optionalNews = this.getNewsById(id);
 
-        // Update the news if it exists
         if (optionalNews.isPresent()) {
             News existingNews = optionalNews.get();
             existingNews.setTitle(updatedNews.getTitle());
@@ -59,17 +53,13 @@ public class NewsService {
         }
     }
 
-    // Method to delete a news by its ID
     public ResponseEntity<News> deleteNewsById(Long id) {
-        // Get the news from news service
         Optional<News> optionalNews = this.getNewsById(id);
 
-        // Delete news if it exists
         if (optionalNews.isPresent()) {
             News existingNews = optionalNews.get();
             existingNews.setDeleted(!existingNews.isDeleted());
 
-            // Save the news to the database using the new service
             News deletedNews = this.saveNews(existingNews);
             return new ResponseEntity<>(deletedNews, HttpStatus.OK);
 

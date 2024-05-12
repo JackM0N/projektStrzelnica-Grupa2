@@ -12,7 +12,6 @@ import java.util.Optional;
 
 @Controller
 public class WeaponController {
-    // Service for handling the weapon repository
     private final WeaponService weaponService;
 
     @Autowired
@@ -30,7 +29,6 @@ public class WeaponController {
     // GET - Get specific weapon from the database
     @GetMapping("/weapons/{id}")
     public ResponseEntity<?> getWeaponById(@PathVariable Integer id) {
-        // Get the weapon from weapon service
         Optional<Weapon> optionalWeapon = weaponService.getWeaponById(id);
 
         // Send the weapon if it exists
@@ -66,6 +64,7 @@ public class WeaponController {
         try {
             weaponService.deleteWeaponById(id);
             return ResponseEntity.ok().build();
+
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"message\": \"Error deleting weapon: " + e.getMessage() + "\"}");
         }

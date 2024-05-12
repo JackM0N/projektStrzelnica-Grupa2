@@ -1,21 +1,27 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+
 <header class="header">
   <div class="container">
     <h1 class="logo">Klub strzelecki</h1>
     <nav class="navbar">
       <ul class="nav-list">
-        <li class="nav-item"><a routerLink="/" routerLinkActive="active">Strona główna</a></li>
+        <li class="nav-item"><a routerLink="/news" routerLinkActive="active">Strona główna</a></li>
         <li class="nav-item"><a routerLink="/offer" routerLinkActive="active">Oferta</a></li>
+        <li class="nav-item"><a routerLink="/reservations" routerLinkActive="active">Rezerwacje</a></li>
+        <li class="nav-item"><a routerLink="/availabilities" routerLinkActive="active">Terminy</a></li>
         <li class="nav-item"><a routerLink="/weapons" routerLinkActive="active">Lista broni</a></li>
         <li class="nav-item"><a routerLink="/users" routerlinkActive="active">Lista użytkowników</a></li>
         <li class="nav-item"><a routerLink="/about" routerLinkActive="active">O nas</a></li>
+        <li class="nav-item"><a routerLink="/register" routerLinkActive="active">Zarejestruj</a></li>
+        <li class="nav-item"><a routerLink="/login" routerLinkActive="active">Zaloguj</a></li>
       </ul>
     </nav>
   </div>
 </header>
 
-
 <main>
-  <!-- News component content goes here -->
   <router-outlet></router-outlet>
 </main>
 
