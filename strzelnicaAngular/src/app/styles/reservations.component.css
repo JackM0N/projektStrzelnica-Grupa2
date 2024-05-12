@@ -9,18 +9,22 @@ button.selected {
 }
 
 .service-list-item {
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
 
 .service-list-button {
-  padding: 6px;
+  padding: 4px;
   padding-left: 12px;
   padding-right: 12px;
   width: 500px;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   border-radius: 0px;
+  border: 1px solid rgb(157, 157, 157);
   cursor: pointer;
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-style: normal;
 }
 
 .service-list-button:not(.selected):hover {
@@ -53,11 +57,15 @@ button.selected {
 .divider hr {
   margin-top: 0;
   width: 40%;
+  border: none;
   border-top: 3px solid #bbb;
-  border-radius: 5px;
   margin-bottom: 0px;
 }
 
 .edit-button {
   margin-right: 8px;
+}
+
+.past-date {
+  color: #eb4034;
 }

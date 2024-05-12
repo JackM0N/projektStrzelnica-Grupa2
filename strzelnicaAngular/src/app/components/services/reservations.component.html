@@ -24,6 +24,7 @@
           <th>Data</th>
           <th>Czas zaczęcia</th>
           <th>Czas zakończenia</th>
+          <th>Opcje</th>
         </tr>
       </thead>
       <tbody>
@@ -37,9 +38,16 @@
         <ng-template #notEmpty>
           <tr *ngFor="let reservation of reservationList">
             <td>{{ reservation.id }}</td>
-            <td>{{ reservation.date | date: 'dd.MM.yyyy' }}</td>
-            <td>{{ reservation.start_time }}</td>
-            <td>{{ reservation.end_time }}</td>
+            <td [ngClass]="{ 'past-date': isPastDate(reservation.date) }">
+              {{ getFormattedDate(reservation.date) | date: 'dd.MM.yyyy' }}
+            </td>
+            <td>{{ getFormattedTime(reservation.start_time) }}</td>
+            <td>{{ getFormattedTime(reservation.end_time) }}</td>
+
+            <td>
+              <button type="button" class="generic-button" ngClass="edit-button">Edytuj</button>
+              <button type="button" class="generic-button">Usuń</button>
+            </td>
           </tr>
         </ng-template>
       </tbody>

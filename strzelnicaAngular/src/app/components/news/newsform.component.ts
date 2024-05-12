@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { News } from '../../interfaces/news';
 import { NewsService } from '../../services/news.service';
 import { ActivatedRoute } from '@angular/router';
-import { NgForm } from '@angular/forms';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { PopupComponent } from '../popup.component';
 import { Observer } from 'rxjs';
 import { Location } from '@angular/common';
@@ -25,6 +25,7 @@ export class NewsFormComponent implements OnInit {
   public responsePopupMessage = '';
   public responsePopupNgClass = '';
   @ViewChild('dateInput') dateInput?: ElementRef;
+  newsForm: FormGroup;
   
   isAddNewsRoute: boolean;
   newsId: number = 0;
@@ -44,11 +45,19 @@ export class NewsFormComponent implements OnInit {
     private location: Location,
     private route: ActivatedRoute,
     private newsService: NewsService,
+    private formBuilder: FormBuilder,
   ) {
     this.isAddNewsRoute = this.route.snapshot.routeConfig?.path?.includes('/add') == true;
     if(!this.isAddNewsRoute) {
       this.actionText = 'Edytuj post';
     }
+
+    this.newsForm = this.formBuilder.group({
+      title: ['', Validators.required],
+      picture: ['', Validators.required],
+      date: [new Date(), Validators.required],
+      content: ['', Validators.required]
+    });
   }
 
   formatDateForInput(dateString: Date): string {
@@ -72,11 +81,11 @@ export class NewsFormComponent implements OnInit {
   }
 
   // On submit, user clicks to confirm adding/editing news, complete it with the database
-  onSubmit(f: NgForm) {
-    if (f.valid) {
-      this.news.title = f.value.title;
-      this.news.picture = f.value.picture;
-      this.news.content = f.value.content;
+  onSubmit() {
+    if (this.newsForm.valid) {
+      this.news.title = this.newsForm.value.title;
+      this.news.picture = this.newsForm.value.picture;
+      this.news.content = this.newsForm.value.content;
 
       // Get the date value directly from the component to avoid problems
       if(this.dateInput != undefined) {

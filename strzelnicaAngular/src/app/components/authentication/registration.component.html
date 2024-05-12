@@ -1,3 +1,4 @@
+
 <div class="form-container">
     <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
         <div>
@@ -26,7 +27,9 @@
         </div>
 
         <div class="button-container">
-            <button type="submit" [disabled]="!registrationForm.valid">Zarejestruj</button>
+            <button type="submit" class="form-button" [disabled]="!registrationForm.valid" [class.disabled-button]="!registrationForm.valid">
+                Zarejestruj
+            </button>
         </div>
     </form>
 </div>

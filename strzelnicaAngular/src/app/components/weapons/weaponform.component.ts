@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NgForm } from '@angular/forms';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { PopupComponent } from '../popup.component';
 import { Observer } from 'rxjs';
 import { Weapon } from '../../interfaces/weapon';
@@ -26,6 +26,7 @@ export class WeaponFormComponent implements OnInit {
   public responsePopupHeader = '';
   public responsePopupMessage = '';
   public responsePopupNgClass = '';
+  weaponForm: FormGroup;
   
   isAddWeaponRoute: boolean;
   weaponId: number = 0;
@@ -46,11 +47,22 @@ export class WeaponFormComponent implements OnInit {
     private location: Location,
     private route: ActivatedRoute,
     private weaponService: WeaponService,
+    private formBuilder: FormBuilder,
   ) {
     this.isAddWeaponRoute = this.route.snapshot.routeConfig?.path?.includes('/add') == true;
     if(!this.isAddWeaponRoute) {
       this.actionText = 'Edytuj broń';
     }
+
+    this.weaponForm = this.formBuilder.group({
+      name: ['', Validators.required],
+      usesSinceLastMaintenance: ['', Validators.required],
+      maintenanceEvery: ['', Validators.required],
+      fitForUse: [false, Validators.required],
+      pricePerHour: ['', Validators.required],
+      inMaintenance: [false, Validators.required],
+      serialNumber: ['', Validators.required],
+    });
   }
 
   // On init, if there is an id in the page URL, fetch the weapon with that id and display it
@@ -66,15 +78,15 @@ export class WeaponFormComponent implements OnInit {
   }
 
   // On submit, user clicks to confirm adding/editing a weapon, complete it with the database
-  onSubmit(f: NgForm) {
-    if (f.valid) {
-      this.weapon.name = f.value.name;
-      this.weapon.usesSinceLastMaintenance = f.value.usesSinceLastMaintenance;
-      this.weapon.maintenanceEvery = f.value.maintenanceEvery;
-      this.weapon.fitForUse = f.value.fitForUse;
-      this.weapon.pricePerHour = f.value.pricePerHour;
-      this.weapon.inMaintenance = f.value.inMaintenance;
-      this.weapon.serialNumber = f.value.serialNumber;
+  onSubmit() {
+    if (this.weaponForm.valid) {
+      this.weapon.name = this.weaponForm.value.name;
+      this.weapon.usesSinceLastMaintenance = this.weaponForm.value.usesSinceLastMaintenance;
+      this.weapon.maintenanceEvery = this.weaponForm.value.maintenanceEvery;
+      this.weapon.fitForUse = this.weaponForm.value.fitForUse;
+      this.weapon.pricePerHour = this.weaponForm.value.pricePerHour;
+      this.weapon.inMaintenance = this.weaponForm.value.inMaintenance;
+      this.weapon.serialNumber = this.weaponForm.value.serialNumber;
   
       const observer: Observer<any> = {
         next: response => {

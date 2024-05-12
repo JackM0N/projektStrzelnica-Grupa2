@@ -31,7 +31,7 @@ public class UsersController {
     }
 
     // GET - Get a specific user
-    @GetMapping("/users/{id}")
+    @GetMapping("/users/id/{id}")
     public ResponseEntity<?> getUserById(@PathVariable Long id) {
         // Get the user from news service
         Optional<Users> optionalUsers = usersService.getUserById(id);
@@ -46,7 +46,7 @@ public class UsersController {
     }
 
     // GET - Get a specific user
-    @GetMapping("/users/{name}")
+    @GetMapping("/users/email/{name}")
     public ResponseEntity<?> getUserByEmail(@PathVariable String email) {
         Optional<Users> optionalUsers = usersService.getUserByEmail(email);
 

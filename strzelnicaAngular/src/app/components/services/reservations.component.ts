@@ -5,6 +5,7 @@ import { ServicesService } from '../../services/services.service';
 import { ServiceReservationsService } from '../../services/servicereservations.service';
 import { ServiceReservation } from '../../interfaces/servicereservation';
 import { Observer } from 'rxjs';
+import { getFormattedDate, getFormattedTime, getPolishDayOfWeek } from '../../utils/utils';
 
 @Component({
   selector: 'app-offers',
@@ -23,6 +24,9 @@ export class ReservationsComponent {
   serviceList: Service[] = [];
   reservationList: ServiceReservation[] = [];
   selectedService?: Service;
+  getFormattedDate = getFormattedDate;
+  getFormattedTime = getFormattedTime;
+  getPolishDayOfWeek = getPolishDayOfWeek;
 
   constructor(
     private servicesService: ServicesService,
@@ -72,5 +76,11 @@ export class ReservationsComponent {
     };
 
     this.reservationsService.getPaginatedServiceReservationsByServiceId(id, this.paginationComponent.currentPage, this.paginationComponent.maxItems).subscribe(observer);
+  }
+
+  isPastDate(date: Date): boolean {
+    const currentDate = new Date();
+    const comparisonDate = new Date(date);
+    return comparisonDate < currentDate;
   }
 }

@@ -8,17 +8,21 @@ import { Observer } from 'rxjs';
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
-  styleUrls: ['/src/app/styles/registration.component.css',
-        // Shared button styles
-        '/src/app/styles/shared-button-styles.css',
-        // Shared form styles
-        '/src/app/styles/shared-form-styles.css'
+  styleUrls: [
+    '/src/app/styles/authentication.component.css',
+    // Shared button styles
+    '/src/app/styles/shared-button-styles.css',
+    // Shared form styles
+    '/src/app/styles/shared-form-styles.css'
   ]
 })
 export class RegistrationComponent implements OnInit {
   registrationForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private userService: UserService) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private userService: UserService
+  ) {
     this.registrationForm = this.formBuilder.group({
       name: ['', Validators.required],
       surname: ['', Validators.required],

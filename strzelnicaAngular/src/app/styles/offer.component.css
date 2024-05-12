@@ -19,7 +19,6 @@ hr {
   padding-top: 0;
   line-height: 120%;
   border: 1px solid #ccc;
-  border-radius: 5px;
   background-color: #f9f9f9;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -39,7 +38,6 @@ hr {
   padding-top: 0;
   line-height: 120%;
   border: 1px solid #ccc;
-  border-radius: 5px;
   width: 80%;
   background-color: #f9f9f9;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -85,6 +83,7 @@ img {
 #reserve-button {
   float: center;
   background-color: #f4b136;
+  margin: 6px;
 }
 
 #reserve-button:hover {

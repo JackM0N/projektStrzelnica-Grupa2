@@ -7,8 +7,7 @@ import { ServiceAvailability } from '../../interfaces/serviceavailability';
 import { ServiceAvailabilitiesService } from '../../services/serviceavailabilities.service';
 import { ServiceUnavailabilitiesService } from '../../services/serviceunavailabilities.service';
 import { ServiceUnavailability } from '../../interfaces/serviceunavailability';
-import { ServiceReservation } from '../../interfaces/servicereservation';
-import { ServiceReservationsService } from '../../services/servicereservations.service';
+import { getFormattedDate, getFormattedTime, getPolishDayOfWeek } from '../../utils/utils';
 
 @Component({
   selector: 'app-availabilities',
@@ -29,6 +28,9 @@ export class AvailabilitiesComponent {
   availabilitiesList: ServiceAvailability[] = [];
   unavailabilitiesList: ServiceUnavailability[] = [];
   selectedService?: Service;
+  getFormattedDate = getFormattedDate;
+  getFormattedTime = getFormattedTime;
+  getPolishDayOfWeek = getPolishDayOfWeek;
 
   constructor(
     private servicesService: ServicesService,
@@ -111,32 +113,5 @@ export class AvailabilitiesComponent {
     };
 
     this.unavailabilitiesService.getPaginatedServiceUnavailabilitiesByServiceId(id, this.paginationComponent2.currentPage, this.paginationComponent2.maxItems).subscribe(observer);
-  }
-  
-  getFormattedDate(date: Date | undefined): string {
-    if (!date) {
-      return '-';
-    }
-    return date.toString();
-  }
-
-  getFormattedTime(time: string | undefined): string {
-    if (!time) {
-        return '-';
-    }
-
-    const formattedTime = time.split(":")[0] + ":" + time.split(":")[1];
-
-    return formattedTime;
-  }
-
-  getPolishDayOfWeek(date: Date): string {
-    if (!date) {
-      return '-';
-    }
-
-    const daysOfWeek = ['Niedziela', 'Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota'];
-    const dayIndex = new Date(date).getDay();
-    return daysOfWeek[dayIndex];
   }
 }

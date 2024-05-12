@@ -4,7 +4,7 @@ import { UserService } from '../../services/users.service';
 import { Users } from '../../interfaces/users';
 import { PopupComponent } from '../popup.component';
 import { Location } from '@angular/common';
-import { NgForm } from '@angular/forms';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Observer } from 'rxjs';
 
 @Component({
@@ -25,6 +25,7 @@ export class UsersFormComponent implements OnInit {
   public responsePopupMessage = '';
   public responsePopupNgClass = '';
   userId: number = 0;
+  userForm: FormGroup;
 
   user: Users = {
     id: 0,
@@ -40,8 +41,16 @@ export class UsersFormComponent implements OnInit {
     private location: Location,
     private userService: UserService,
     private route: ActivatedRoute,
-    private router: Router
-  ) {}
+    private formBuilder: FormBuilder,
+  ) {
+    this.userForm = this.formBuilder.group({
+      name: ['', Validators.required],
+      surname: ['', Validators.required],
+      dateOfBirth: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      clubMember: [false],
+    });
+  }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -55,9 +64,9 @@ export class UsersFormComponent implements OnInit {
   }
 
   // On submit, user clicks to confirm adding/editing a user, complete it with the database
-  onSubmit(f: NgForm) {
-    if (f.valid) {
-      this.user.name = f.value.name;
+  onSubmit() {
+    if (this.userForm.valid) {
+      this.user.name = this.userForm.value.name;
   
       const observer: Observer<any> = {
         next: response => {

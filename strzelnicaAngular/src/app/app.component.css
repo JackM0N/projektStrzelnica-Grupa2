@@ -1,8 +1,14 @@
-/* app.component.css */
+
+* {
+  font-family: "Roboto Slab", serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
 
 /* Header styles */
 .header {
-  background-color: #333;
+  background-color: #4d784e;
   color: #fff;
   top: 0;
   left: 0;

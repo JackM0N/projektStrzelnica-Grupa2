@@ -1,4 +1,3 @@
-<!-- newsform.component.html -->
 
 <!-- Success/failure response pop-up -->
 <app-popup #responsePopup
@@ -10,32 +9,34 @@
 </app-popup>
 
 <div class="form-container">
-    <h2>{{actionText}}</h2>
+    <h1>{{actionText}}</h1>
 
-    <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+    <form [formGroup]="newsForm" (ngSubmit)="onSubmit()">
       <div>
         <label for="title">Tytuł:</label>
-        <input type="text" id="title" name="title" [(ngModel)]="news.title" required>
+        <input type="text" id="title" name="title" [(ngModel)]="news.title" formControlName="title" required>
       </div>
 
       <div>
-        <label for="picture">URL zdjęcie:</label>
-        <input type="text" id="picture" name="picture" [(ngModel)]="news.picture">
+        <label for="picture">URL zdjęcia:</label>
+        <input type="text" id="picture" name="picture" [(ngModel)]="news.picture" formControlName="picture">
       </div>
 
       <div>
         <label for="date">Data:</label>
-        <input #dateInput type="date" id="date" name="date" value="{{formatDateForInput(news.date)}}" required>
+        <input #dateInput type="date" id="date" name="date" formControlName="date" value="{{formatDateForInput(news.date)}}" required>
       </div>
       
       <div>
         <label for="content">Treść:</label>
-        <textarea id="content" name="content" placeholder="Wpisz treść..." [(ngModel)]="news.content" required></textarea>
+        <textarea id="content" name="content" placeholder="Wpisz treść..." [(ngModel)]="news.content" formControlName="content" required></textarea>
       </div>
 
       <div class="button-container">
-        <button type="button" class="go-back-button" (click)="goBack()">Cofnij</button>
-        <button type="submit">Zapisz</button>
+        <button type="button" class="form-button" ngClass="go-back-button" (click)="goBack()">Cofnij</button>
+        <button type="submit" class="form-button" [disabled]="!newsForm.valid" [class.disabled-button]="!newsForm.valid">
+          Zapisz
+        </button>
       </div>
     </form>
 </div>

@@ -9,7 +9,7 @@ import { Users } from '../interfaces/users';
 // Service for handling CRUD operations on users
 export class UserService {
   private baseUrl = 'http://localhost:8080/users';
-  private postUrl = 'http://localhost:8080/users/add';
+  private getByIdUrl = 'http://localhost:8080/users/id';
   private editUrl = 'http://localhost:8080/users/edit';
   private registerUrl = 'http://localhost:8080/register';
   private loginUrl = 'http://localhost:8080/login';
@@ -32,12 +32,14 @@ export class UserService {
 
   // Fetch a specific user from the database
   getUserById(userId: number): Observable<Users> {
-    const url = `${this.baseUrl}/${userId}`;
+    const url = `${this.getByIdUrl}/${userId}`;
     return this.http.get<Users>(url);
   }
+
   registerUser(userData: Users): Observable<any> {
     return this.http.post<any>(this.registerUrl, userData);
   }
+
   login(credentials: { email: string, password: string }): Observable<any> {
     return this.http.post<any>(this.loginUrl, credentials);
   }

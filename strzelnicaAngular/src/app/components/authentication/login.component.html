@@ -1,3 +1,4 @@
+
 <div class="form-container">
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <div>
@@ -11,8 +12,9 @@
       </div>
   
       <div class="button-container">
-        <button *ngIf="!loggedInUsername" (click)="onSubmit()">Zaloguj</button>
+        <button type="submit" class="form-button" *ngIf="!loggedInUsername" [disabled]="!loginForm.valid" [class.disabled-button]="!loginForm.valid" (click)="onSubmit()">
+          Zaloguj
+        </button>
       </div>
     </form>
 </div>
-  

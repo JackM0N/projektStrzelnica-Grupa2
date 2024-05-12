@@ -2,23 +2,27 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../../services/users.service';
 import { Router } from '@angular/router';
+import { Observer } from 'rxjs';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['/src/app/styles/login.component.css',
-            // Shared button styles
-            '/src/app/styles/shared-button-styles.css',
-            // Shared form styles
-            '/src/app/styles/shared-form-styles.css']
+  styleUrls: [
+    '/src/app/styles/authentication.component.css',
+    // Shared button styles
+    '/src/app/styles/shared-button-styles.css',
+    // Shared form styles
+    '/src/app/styles/shared-form-styles.css']
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
-  loggedInUsername: string = ''; // Initialize with an empty string
+  loggedInUsername: string = '';
 
-  constructor(private formBuilder: FormBuilder, 
-              private userService: UserService,
-              private router: Router) { // Inject Router service
+  constructor(
+    private formBuilder: FormBuilder, 
+    private userService: UserService,
+    private router: Router
+  ) {
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
@@ -47,23 +51,27 @@ export class LoginComponent implements OnInit {
       };
   
       if (credentials.email && credentials.password) {
-        this.userService.login(credentials).subscribe(
-          () => {
+
+        const observer: Observer<any> = {
+          next: response => {
             console.log("Login successful");
             // Navigate to home page upon successful login
             this.router.navigate(['/news']);
-            // Set the logged-in username
             this.loggedInUsername = credentials.email;
             localStorage.setItem('username', this.loggedInUsername); // Save username to localStorage
           },
-          error => {
+          error: error => {
             console.error("Login failed:", error);
             // TODO: Handle login error (e.g., display error message)
-          }
-        );
+          },
+          complete: () => {}
+        };
+        this.userService.login(credentials).subscribe(observer);
+
       } else {
         console.log("Email or password is empty.");
       }
+      
     } else {
       console.log("Form is invalid or null. Cannot submit.");
     }
