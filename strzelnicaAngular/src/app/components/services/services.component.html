@@ -60,7 +60,7 @@
 
 <div class="container">
     <div class="centered">
-        <button type="button" id="services-add-button" class="generic-button" [routerLink]="['/offer/add']">Dodaj nową ofertę    MAJA wystyluj pozycję tego guzika tak jak na News</button> 
+        <button type="button" id="services-add-button" class="generic-button" [routerLink]="['/offer/add']">Dodaj nową ofertę</button> 
 
     <div *ngFor="let service of serviceList; let i = index" [class.image-left]="i % 2 === 0" [class.image-right]="i % 2 !== 0">
         <div class = "image-left">
@@ -70,6 +70,7 @@
                 <div class="service-description" [innerHTML]="service.description"></div>
                 <div id="button-container">
                     <button type="button" id="service-edit-button" class="generic-button" [routerLink]="['/offer/edit', service.id]">Edytuj</button>
+                    <app-service-delete [service]="service"></app-service-delete>
                     <button id="reserve-button" class="generic-button" type="button" (click)="openReservingPopup(service)">Zarezerwuj</button>
                 </div>
             </div>

@@ -1,0 +1,21 @@
+<!-- Confirm action pop-up - deleting/restoring -->
+<app-popup #confirmDeletionPopup
+    headerName="{{confirmDeletionPopupHeader}}"
+    messageText="{{confirmDeletionPopupMessage}}"
+    [showConfirmButton]="true"
+    confirmButtonLabel="{{confirmDeletionPopupConfirmText}}"
+    confirmButtonNgClass="{{confirmDeletionPopupConfirmNgClass}}"
+    closeButtonLabel="Anuluj"
+    (confirmEvent)="confirmAction()">
+</app-popup>
+
+<!-- Success/failure response pop-up -->
+<app-popup #responsePopup
+    headerName="{{responsePopupHeader}}"
+    messageText="{{responsePopupMessage}}"
+    [ngClass]="responsePopupNgClass"
+    closeButtonLabel="Ok"
+    (closeEvent)="responsePopupCancelAction()">
+</app-popup>
+
+<button type="button" class="generic-button" [ngClass]="isDeleted ? 'button-restore-deleted' : 'button-delete'" (click)="openConfirmPopup()">{{confirmDeletionPopupConfirmText}}</button>

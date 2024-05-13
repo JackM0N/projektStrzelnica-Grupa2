@@ -19,6 +19,7 @@ import { WeaponDeleteComponent } from './components/weapons/weapondelete.compone
 import { RegistrationComponent } from './components/authentication/registration.component';
 import { ServicesComponent } from './components/services/services.component';
 import { ServiceFormComponent } from './components/services/serviceform.component';
+import { ServiceDeleteComponent } from './components/services/servicedelete.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -47,6 +48,7 @@ import { QuillModule } from 'ngx-quill';
     RegistrationComponent,
     ServicesComponent,
     ServiceFormComponent,
+    ServiceDeleteComponent,
     ReservationsComponent,
     LoginComponent,
     AvailabilitiesComponent,
