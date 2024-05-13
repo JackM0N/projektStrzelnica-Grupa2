@@ -1,3 +1,4 @@
+
 <!-- Success/failure response pop-up -->
 <app-popup #responsePopup
     headerName="{{responsePopupHeader}}"
@@ -6,8 +7,6 @@
     closeButtonLabel="Ok"
     (closeEvent)="responsePopupCancelAction()">
 </app-popup>
-
-
 
 <div class="form-container">
     <h1>{{actionText}}</h1>
@@ -28,7 +27,6 @@
         <quill-editor [(ngModel)]="service.description" [modules]="{ toolbar: quillToolbarOptions }" formControlName="description"></quill-editor>
       </div>
       
-
       <div class="button-container">
         <button type="button" class="form-button go-back-button" (click)="goBack()">Cofnij</button>
         <button type="submit" class="form-button" [disabled]="!serviceForm.valid" [class.disabled-button]="!serviceForm.valid">

@@ -83,6 +83,9 @@ img {
 #reserve-button {
   float: center;
   background-color: #f4b136;
+}
+
+#service-edit-button, #reserve-button {
   margin: 6px;
 }
 

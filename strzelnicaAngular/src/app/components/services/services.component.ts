@@ -19,7 +19,7 @@ import { ServiceReservation } from '../../interfaces/servicereservation';
   templateUrl: './services.component.html',
   styleUrls: [
     // Style exclusive for this component
-    '/src/app/styles/offer.component.css',
+    '/src/app/styles/service.component.css',
     // Styles shared between all the list components
     '/src/app/styles/shared-list-styles.css',
     // Shared button styles

@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Service } from '../../interfaces/service';
 import { ServicesService } from '../../services/services.service';
 import { ActivatedRoute } from '@angular/router';
@@ -54,7 +54,6 @@ export class ServiceFormComponent implements OnInit {
 
     ['clean']                                         // remove formatting button
   ];
-
 
   constructor (
     private location: Location,
