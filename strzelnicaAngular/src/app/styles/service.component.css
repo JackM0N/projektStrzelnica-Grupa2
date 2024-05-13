@@ -120,3 +120,8 @@ img {
   font-size: 14px;
   margin: 10px;
 }
+
+#services-add-button {
+  margin-top: 24px;
+  width: 200px;
+}
