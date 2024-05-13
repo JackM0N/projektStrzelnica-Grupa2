@@ -7,6 +7,8 @@
     (closeEvent)="responsePopupCancelAction()">
 </app-popup>
 
+
+
 <div class="form-container">
     <h1>{{actionText}}</h1>
 
@@ -23,8 +25,9 @@
 
       <div>
         <label for="description">Opis:</label>
-        <textarea id="description" name="description" placeholder="Wpisz opis..." [(ngModel)]="service.description" formControlName="description" required></textarea>
+        <quill-editor [(ngModel)]="service.description" [modules]="{ toolbar: quillToolbarOptions }" formControlName="description"></quill-editor>
       </div>
+      
 
       <div class="button-container">
         <button type="button" class="form-button go-back-button" (click)="goBack()">Cofnij</button>

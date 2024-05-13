@@ -28,6 +28,7 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { LoginComponent } from './components/authentication/login.component';
 import { ReservationsComponent } from './components/services/reservations.component';
 import { AvailabilitiesComponent } from './components/services/availabilities.component';
+import { QuillModule } from 'ngx-quill';
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import { AvailabilitiesComponent } from './components/services/availabilities.co
     MatDatepickerModule,
     MatNativeDateModule,
     MatInputModule,
+    QuillModule.forRoot(), // nah nothing wrong here
   ],
 
   providers: [
