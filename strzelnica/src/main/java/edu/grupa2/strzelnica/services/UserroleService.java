@@ -5,9 +5,12 @@ import edu.grupa2.strzelnica.models.Userrole;
 import edu.grupa2.strzelnica.models.Users;
 import edu.grupa2.strzelnica.repositories.UserroleRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class UserroleService {
 
     private final UserroleRepository userroleRepository;

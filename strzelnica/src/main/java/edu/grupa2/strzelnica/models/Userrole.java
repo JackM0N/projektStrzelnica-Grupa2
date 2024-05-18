@@ -12,6 +12,7 @@ import org.hibernate.annotations.ColumnDefault;
 public class Userrole {
     @Id
     @ColumnDefault("nextval('userroles_id_seq'")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
