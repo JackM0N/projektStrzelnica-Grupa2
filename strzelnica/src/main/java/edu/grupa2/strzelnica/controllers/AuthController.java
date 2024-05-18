@@ -75,25 +75,5 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = generator.generateToken(authentication);
         return new ResponseEntity<>(new AuthResponseDTO(jwt), HttpStatus.OK);
-
-//            return ResponseEntity.ok()
-//                    .body(Map.of("message", "Login successful"));
-//        } catch (BadCredentialsException e) {
-//            // Invalid username or password
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-//                    .body(Map.of("message", "Invalid username or password"));
-//        } catch (LockedException e) {
-//            // Account locked due to multiple failed login attempts
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-//                    .body(Map.of("message", "Account locked"));
-//        } catch (DisabledException e) {
-//            // Account disabled
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-//                    .body(Map.of("message", "Account disabled"));
-//        } catch (AuthenticationException e) {
-//            // Other authentication failures
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-//                    .body(Map.of("message", "Authentication failed"));
-//        }
     }
 }

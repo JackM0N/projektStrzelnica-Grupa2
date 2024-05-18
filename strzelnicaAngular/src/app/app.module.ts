@@ -73,7 +73,7 @@ import { AuthGuard } from './guards/auth.guard';
         tokenGetter: () => {
           return localStorage.getItem('access_token'); // Get token from localStorage
         },
-        allowedDomains: ['localhost:8080'], // Replace with your backend domain
+        allowedDomains: [''], // Replace with your backend domain
         disallowedRoutes: ['localhost:8080/login'] // Replace with your auth endpoint
       }
     }),
