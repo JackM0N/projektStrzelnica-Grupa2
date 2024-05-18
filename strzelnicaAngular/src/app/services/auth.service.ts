@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { catchError, map } from 'rxjs/operators';
@@ -8,15 +9,18 @@ import { throwError } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-
-  constructor(private http: HttpClient, public jwtHelper: JwtHelperService) { }
+  constructor(
+    private http: HttpClient,
+    public jwtHelper: JwtHelperService,
+    @Inject(PLATFORM_ID) private platformId: any
+  ) {}
 
   login(credentials: any) {
     return this.http.post<any>('http://localhost:8080/login', credentials)
       .pipe(
         map(response => {
           const token = response.accessToken; // Adjust field name if necessary
-          if (token) {
+          if (token && isPlatformBrowser(this.platformId)) {
             localStorage.setItem('access_token', token);
           }
           return response;
@@ -29,11 +33,16 @@ export class AuthService {
   }
 
   logout() {
-    localStorage.removeItem('access_token');
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.removeItem('access_token');
+    }
   }
 
   isAuthenticated(): boolean {
-    const token = localStorage.getItem('access_token');
-    return token !== null && !this.jwtHelper.isTokenExpired(token);
+    if (isPlatformBrowser(this.platformId)) {
+      const token = localStorage.getItem('access_token');
+      return token !== null && !this.jwtHelper.isTokenExpired(token);
+    }
+    return false;
   }
 }
