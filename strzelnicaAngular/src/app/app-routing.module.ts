@@ -13,6 +13,7 @@ import { ServicesComponent } from './components/services/services.component';
 import { ServiceFormComponent } from './components/services/serviceform.component';
 import { ReservationsComponent } from './components/services/reservations.component';
 import { AvailabilitiesComponent } from './components/services/availabilities.component';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'news', pathMatch: 'full' },
@@ -33,7 +34,7 @@ const routes: Routes = [
   { path: 'offer/add', component: ServiceFormComponent },
   { path: 'offer/edit/:id', component: ServiceFormComponent },
   { path: 'reservations', component: ReservationsComponent },
-  { path: 'availabilities', component: AvailabilitiesComponent },
+  { path: 'availabilities', component: AvailabilitiesComponent, canActivate: [AuthGuard]},
 
   { path: 'register', component: RegistrationComponent},
   { path: 'login', component: LoginComponent},
