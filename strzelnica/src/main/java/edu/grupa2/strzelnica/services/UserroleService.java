@@ -6,6 +6,7 @@ import edu.grupa2.strzelnica.models.Users;
 import edu.grupa2.strzelnica.repositories.UserroleRepository;
 import jakarta.transaction.Transactional;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class UserroleService {
 
@@ -23,5 +24,23 @@ public class UserroleService {
             userrole.setRole(role);
             userroleRepository.save(userrole);
         }
+    }
+
+    @Transactional
+    public void removeRoles(Users user, List<Role> roles) {
+        for (Role role : roles) {
+            Userrole userrole = userroleRepository.findByUserAndRole(user, role);
+            if (userrole != null) {
+                userroleRepository.delete(userrole);
+            }
+        }
+    }
+
+    @Transactional
+    public List<Role> getRoles(Users user) {
+        List<Userrole> userroles = userroleRepository.findByUser(user);
+        return userroles.stream()
+                .map(Userrole::getRole)
+                .collect(Collectors.toList());
     }
 }
