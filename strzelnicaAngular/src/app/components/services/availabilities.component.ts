@@ -106,18 +106,19 @@ export class AvailabilitiesComponent {
     private formBuilder: FormBuilder,
   ) {
     this.availabilityForm = this.formBuilder.group({
-      service_id: [-1, Validators.required],
-      start_date: [new Date(), Validators.required],
-      end_date: [new Date(), Validators.required],
-      service_day: [new Date(), Validators.required],
+      service_id: ['', Validators.required],
+      start_date: [undefined, Validators.required],
+      end_date: [undefined, Validators.required],
+      service_day: [undefined, Validators.required],
       service_time_start: ['', Validators.required],
       service_time_end: ['', Validators.required]
     });
+    
     this.unavailabilityForm = this.formBuilder.group({
-      service_id: [-1, Validators.required],
-      start_date: [new Date(), Validators.required],
+      service_id: ['', Validators.required],
+      start_date: [undefined, Validators.required],
       start_time: ['', Validators.required],
-      end_date: [new Date(), Validators.required],
+      end_date: [undefined, Validators.required],
       end_time: ['', Validators.required],
     });
   }
@@ -154,6 +155,10 @@ export class AvailabilitiesComponent {
     this.servicesService.getAllServices().subscribe(services => {
       this.serviceList = services;
     });
+  }
+
+  compareServices(a: Service, b: Service): boolean {
+    return a && b ? a.id === b.id : a === b;
   }
 
   getNewAvailabilities(): void {
@@ -308,16 +313,19 @@ export class AvailabilitiesComponent {
         const inputValue = this.un_startDateInput.nativeElement.value;
         this.unavailability.start_date = inputValue;
       }
+
       if (this.un_endDateInput != undefined) {
         const inputValue = this.un_endDateInput.nativeElement.value;
         this.unavailability.end_date = inputValue;
       }
 
+      console.log(this.unavailability);
+
       this.unavailabilityFormPopup.close();
 
       const observer = this.submitForm();
 
-      this.availabilitiesService.updateServiceAvailability(this.availability).subscribe(observer);
+      this.unavailabilitiesService.updateServiceUnavailability(this.unavailability).subscribe(observer);
     }
   }
 
@@ -339,11 +347,17 @@ export class AvailabilitiesComponent {
 
   openAvailabilityAddForm(): void {
     this.resetModels();
+    if (this.selectedService) {
+      this.availability.service_id = this.selectedService.id;
+    }
     this.availabilityFormPopup.open();
   }
 
   openUnavailabilityAddForm(): void {
     this.resetModels();
+    if (this.selectedService) {
+      this.unavailability.service_id = this.selectedService.id;
+    }
     this.unavailabilityFormPopup.open();
   }
 

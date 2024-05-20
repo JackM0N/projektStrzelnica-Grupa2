@@ -1,3 +1,4 @@
+import { Service } from "./service";
 
 // Service availability model
 export interface ServiceAvailability {
