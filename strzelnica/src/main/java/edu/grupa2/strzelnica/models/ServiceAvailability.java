@@ -18,12 +18,9 @@ public class ServiceAvailability {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    //@ManyToOne(fetch = FetchType.EAGER, optional = false)
-    //@JoinColumn(name = "serviceId", nullable = false)
-    //private Service service;
-
-    @Column(name = "service_id", nullable = false)
-    private Integer serviceId;
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "serviceId", nullable = false)
+    private Service service;
 
     @Column(name = "start_date", nullable = false)
     private Date start_date;

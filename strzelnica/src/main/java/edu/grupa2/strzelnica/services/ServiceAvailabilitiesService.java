@@ -42,7 +42,7 @@ public class ServiceAvailabilitiesService {
 
         if (optionalServiceAvailability.isPresent()) {
             ServiceAvailability existingServiceAvailability = optionalServiceAvailability.get();
-            existingServiceAvailability.setServiceId(updatedServiceAvailability.getServiceId());
+            existingServiceAvailability.setService(updatedServiceAvailability.getService());
             existingServiceAvailability.setStart_date(updatedServiceAvailability.getStart_date());
             existingServiceAvailability.setEnd_date(updatedServiceAvailability.getEnd_date());
             existingServiceAvailability.setService_time_start(updatedServiceAvailability.getService_time_start());

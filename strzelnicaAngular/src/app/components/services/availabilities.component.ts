@@ -51,7 +51,7 @@ export class AvailabilitiesComponent {
   avilabilityAdding: boolean = false;
 
   availability: ServiceAvailability = {
-    serviceId: -1,
+    service: undefined,
     start_date: new Date(),
     end_date: new Date(),
     service_day: new Date(),
@@ -61,7 +61,7 @@ export class AvailabilitiesComponent {
 
   resetModels(): void {
     this.availability = {
-      serviceId: -1,
+      service: undefined,
       start_date: new Date(),
       end_date: new Date(),
       service_day: new Date(),
@@ -77,7 +77,7 @@ export class AvailabilitiesComponent {
     private availabilityFormBuilder: FormBuilder,
   ) {
     this.availabilityForm = this.availabilityFormBuilder.group({
-      serviceId: [-1, Validators.required],
+      service: [undefined, Validators.required],
       start_date: [new Date(), Validators.required],
       end_date: [new Date(), Validators.required],
       service_day: [new Date(), Validators.required],
@@ -195,7 +195,7 @@ export class AvailabilitiesComponent {
 
   submitFormAvailability(): void {
     if (this.availabilityForm.valid) {
-      this.availability.serviceId = this.availabilityForm.value.serviceId;
+      this.availability.service = this.availabilityForm.value.service;
       this.availability.start_date = this.availabilityForm.value.start_date;
       this.availability.end_date = this.availabilityForm.value.end_date;
       this.availability.service_day = this.availabilityForm.value.service_day;
@@ -239,7 +239,7 @@ export class AvailabilitiesComponent {
 
     this.availability = availability;
     if (this.selectedService) {
-      this.availability.serviceId = this.selectedService.id;
+      this.availability.service = this.selectedService;
     }
 
     this.availabilityFormPopup.open();
@@ -250,7 +250,7 @@ export class AvailabilitiesComponent {
 
     this.resetModels();
     if (this.selectedService) {
-      this.availability.serviceId = this.selectedService.id;
+      this.availability.service = this.selectedService;
     }
     this.availabilityFormPopup.open();
   }

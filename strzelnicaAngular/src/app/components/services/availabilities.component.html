@@ -8,8 +8,10 @@
     <div class="form-container">
       <form [formGroup]="availabilityForm" (ngSubmit)="submitFormAvailability()">
         <div>
-          <label for="serviceId">Oferta</label>
-          <input type="text" id="serviceId" name="serviceId" formControlName="serviceId" required>
+          <label for="service">Oferta:</label>
+          <select id="service" name="service" formControlName="service" required [compareWith]="compareServices">
+            <option *ngFor="let service of serviceList" [ngValue]="service">{{ service.name }}</option>
+          </select>
         </div>
 
         <div>
