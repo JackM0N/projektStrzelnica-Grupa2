@@ -1,3 +1,4 @@
+import { Track } from "../interfaces/track";
 
 // Function for checking if the supplied url is a valid image
 export function isImageValid(url: string): boolean {
@@ -56,4 +57,14 @@ export function formatDateForInput(dateString: Date): string {
     let month = (date2.getMonth() + 1).toString().padStart(2, '0');
     let day = date2.getDate().toString().padStart(2, '0');
     return `${year}-${month}-${day}`;
+}
+
+export function formatTrack(track: Track | undefined): string {
+    if (!track) {
+        return 'Undefined track';
+    }
+    if (!track.type) {
+        return 'Undefined track type';
+    }
+    return track.type.name + " nr. " + track.id;
 }

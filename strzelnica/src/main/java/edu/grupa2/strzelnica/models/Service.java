@@ -1,12 +1,10 @@
 package edu.grupa2.strzelnica.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
+import org.postgresql.util.PGmoney;
 
 @Setter
 @Getter
@@ -26,4 +24,11 @@ public class Service {
 
     @Column(name = "image_url", nullable = false, length = 300)
     private String image_url;
+
+    @Column(name = "price", nullable = false)
+    private Float price;
+
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "tracktype_id", nullable = false)
+    private Tracktype tracktype;
 }

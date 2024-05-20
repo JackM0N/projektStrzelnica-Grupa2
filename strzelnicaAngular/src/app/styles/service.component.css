@@ -125,3 +125,25 @@ img {
   margin-top: 24px;
   width: 200px;
 }
+
+
+
+
+#track-table {
+  margin-bottom: 22px;
+}
+
+#track-table button {
+  display: block;
+  margin-bottom: 10px;
+}
+
+#track-table button {
+  display: block;
+  margin-bottom: 10px;
+}
+
+#track-table button.selected {
+  background-color: #20c311;
+  color: #ffffff;
+}

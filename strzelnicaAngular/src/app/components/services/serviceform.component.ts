@@ -6,6 +6,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PopupComponent } from '../popup.component';
 import { Observer } from 'rxjs';
 import { Location } from '@angular/common';
+import { TracktypesService } from '../../services/tracktypes.service';
+import { Tracktype } from '../../interfaces/tracktype';
 
 @Component({
   selector: 'app-add-service',
@@ -24,6 +26,7 @@ export class ServiceFormComponent implements OnInit {
   public responsePopupHeader = '';
   public responsePopupMessage = '';
   public responsePopupNgClass = '';
+  public tracktypeList: any[] = [];
   serviceForm: FormGroup;
 
   isAddServiceRoute: boolean;
@@ -34,7 +37,9 @@ export class ServiceFormComponent implements OnInit {
     id: 0,
     name: '',
     description: '',
-    image_url: ''
+    image_url: '',
+    price: 0,
+    tracktype: undefined
   };
 
   quillToolbarOptions = [
@@ -59,6 +64,7 @@ export class ServiceFormComponent implements OnInit {
     private location: Location,
     private route: ActivatedRoute,
     private servicesService: ServicesService,
+    private tracktypesService: TracktypesService,
     private formBuilder: FormBuilder,
   ) {
     this.isAddServiceRoute = this.route.snapshot.routeConfig?.path?.includes('/add') == true;
@@ -69,12 +75,16 @@ export class ServiceFormComponent implements OnInit {
     this.serviceForm = this.formBuilder.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
-      image_url: ['']
+      image_url: [''],
+      price: ['', Validators.required],
+      tracktype: [undefined, Validators.required]
     });
   }
 
   // On init, if there is an id in the page URL, fetch the service with that id and display it
   ngOnInit() {
+    this.fetchTracktypes();
+
     this.route.params.subscribe(params => {
       if (params['id']) {
         this.serviceId = + params['id'];
@@ -91,6 +101,8 @@ export class ServiceFormComponent implements OnInit {
       this.service.name = this.serviceForm.value.name;
       this.service.description = this.serviceForm.value.description;
       this.service.image_url = this.serviceForm.value.image_url;
+      this.service.price = this.serviceForm.value.price;
+      this.service.tracktype = this.serviceForm.value.tracktype;
 
       const observer: Observer<any> = {
         next: response => {
@@ -124,6 +136,28 @@ export class ServiceFormComponent implements OnInit {
     }
   }
   
+  // Fetch all available tracks
+  fetchTracktypes(): void {
+    const observer: Observer<any> = {
+      next: response => {
+        this.tracktypeList = [];
+        response.forEach((track: Tracktype) => {
+          this.tracktypeList.push(track);
+        });
+      },
+      error: error => {
+        this.tracktypeList = [];
+      },
+      complete: function (): void {}
+    };
+
+    this.tracktypesService.getAllTracktypes().subscribe(observer);
+  }
+
+  compareTracktypes(a: Tracktype, b: Tracktype): boolean {
+    return a && b ? a.id === b.id : a === b;
+  }
+
   // Open the main page after the user clicks on the response pop-up
   public responsePopupCancelAction(): void {
     this.location.back();

@@ -1,9 +1,6 @@
 package edu.grupa2.strzelnica.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
@@ -19,6 +16,10 @@ public class ServiceUnavailability {
     @ColumnDefault("nextval('service_unavailability_id_seq'")
     @Column(name = "id", nullable = false)
     private Integer id;
+
+    //@ManyToOne(fetch = FetchType.EAGER, optional = false)
+    //@JoinColumn(name = "service_id", nullable = false)
+    //private Service service;
 
     @Column(name = "service_id", nullable = false)
     private Integer serviceId;

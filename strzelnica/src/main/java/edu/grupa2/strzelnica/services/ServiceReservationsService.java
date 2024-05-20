@@ -49,10 +49,12 @@ public class ServiceReservationsService {
 
         if (optionalServiceReservation.isPresent()) {
             ServiceReservation existingServiceReservation = optionalServiceReservation.get();
-            existingServiceReservation.setServiceId(updatedServiceReservation.getServiceId());
+            existingServiceReservation.setService(updatedServiceReservation.getService());
             existingServiceReservation.setDate(updatedServiceReservation.getDate());
             existingServiceReservation.setStart_time(updatedServiceReservation.getStart_time());
             existingServiceReservation.setEnd_time(updatedServiceReservation.getEnd_time());
+            existingServiceReservation.setPrice(updatedServiceReservation.getPrice());
+            existingServiceReservation.setTrack(updatedServiceReservation.getTrack());
 
             ServiceReservation savedServiceReservation = this.saveServiceReservation(existingServiceReservation);
             return new ResponseEntity<>(savedServiceReservation, HttpStatus.OK);

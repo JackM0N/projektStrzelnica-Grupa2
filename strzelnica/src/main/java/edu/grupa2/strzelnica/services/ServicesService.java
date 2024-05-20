@@ -46,6 +46,8 @@ public class ServicesService {
             Service existingService = optionalService.get();
             existingService.setName(updatedService.getName());
             existingService.setDescription(updatedService.getDescription());
+            existingService.setPrice(updatedService.getPrice());
+            existingService.setTracktype(updatedService.getTracktype());
 
             Service savedService = this.saveService(existingService);
             return new ResponseEntity<>(savedService, HttpStatus.OK);

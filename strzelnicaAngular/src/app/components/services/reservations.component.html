@@ -18,8 +18,10 @@
     <div class="form-container">
       <form [formGroup]="reservationForm">
         <div>
-          <label for="serviceId">Oferta</label>
-          <input type="text" id="serviceId" name="serviceId" [(ngModel)]="reservation.serviceId" formControlName="serviceId" required>
+          <label for="service">Oferta:</label>
+          <select id="service" name="service" [(ngModel)]="reservation.service" formControlName="service" required [compareWith]="compareServices">
+            <option *ngFor="let service of serviceList" [ngValue]="service">{{ service.name }}</option>
+          </select>
         </div>
 
         <div>
@@ -35,6 +37,18 @@
         <div>
           <label for="end_time">Czas zaczęcia:</label>
           <input type="text" id="end_time" name="end_time" [(ngModel)]="reservation.end_time" formControlName="end_time" required>
+        </div>
+
+        <div>
+          <label for="price">Cena (zł):</label>
+          <input type="number" id="price" name="price" [(ngModel)]="reservation.price" formControlName="price" required>
+        </div>
+
+        <div>
+          <label for="track">Tor:</label>
+          <select id="track" name="track" [(ngModel)]="reservation.track" formControlName="track" required [compareWith]="compareTracks">
+            <option *ngFor="let track of trackList" [ngValue]="track">{{ formatTrack(track) }}</option>
+          </select>
         </div>
 
         <div class="button-container">
@@ -84,6 +98,8 @@
           <th>Data</th>
           <th>Czas zaczęcia</th>
           <th>Czas zakończenia</th>
+          <th>Cena</th>
+          <th>Tor</th>
           <th>Opcje</th>
         </tr>
       </thead>
@@ -92,7 +108,7 @@
         <!-- Check if the reservationList is empty -->
         <ng-container *ngIf="reservationList.length === 0; else notEmpty">
           <tr>
-            <td colspan="4" id="list-empty">Brak rezerwacji dla tej oferty</td>
+            <td colspan="7" id="list-empty">Brak rezerwacji dla tej oferty</td>
           </tr>
         </ng-container>
 
@@ -107,6 +123,9 @@
 
             <td>{{ getFormattedTime(reservation.start_time) }}</td>
             <td>{{ getFormattedTime(reservation.end_time) }}</td>
+
+            <td>{{ reservation.price }}</td>
+            <td>{{formatTrack(reservation.track)}}</td>
 
             <td>
               <button type="button" class="generic-button" ngClass="edit-button" (click)="openPopupForm(reservation)">Edytuj</button>

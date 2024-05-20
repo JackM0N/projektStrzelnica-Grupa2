@@ -1,12 +1,4 @@
 
-<!-- Success/failure response pop-up -->
-<app-popup #responsePopup
-    headerName="{{responsePopupHeader}}"
-    messageText="{{responsePopupMessage}}"
-    [ngClass]="responsePopupNgClass"
-    closeButtonLabel="Ok">
-</app-popup>
-
 <!-- Confirm reservation pop-up -->
 <app-popup #confirmReservationPopup
     headerName="Rezerawacja"
@@ -22,6 +14,7 @@
         <b>{{reservationText_Service}}</b><br>
         {{reservationText_Date}}<br>
         {{reservationText_Time}}<br>
+        {{reservationText_Track}}<br>
     </div>
 
 </app-popup>
@@ -44,13 +37,33 @@
         <mat-label>Data</mat-label>
         <input matInput #datePicker [matDatepicker]="picker" [matDatepickerFilter]="dateFilter" [min]="minDate" [max]="maxDate" placeholder="Wybierz datę" [(ngModel)]="selectedDate" (dateChange)="onDateChange()">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
+        <mat-datepicker #picker panelClass="custom-datepicker-popup"></mat-datepicker>
     </mat-form-field>
 
+    <div *ngIf="datesWithSameDate.length > 0">
+        <div>Wybierz termin:</div>
+    </div>
     <div id="times-table">
         <button *ngFor="let timeSlot of datesWithSameDate; let i = index" class="generic-button" type="button" (click)="selectReservationTime(i)" [class.selected]="selectedReservationTime === i">{{ timeFormat(timeSlot) }}</button>
     </div>
 
+    <div *ngIf="trackList.length > 0">
+        <div>Wybierz tor:</div>
+    </div>
+    <div id="track-table">
+        <button *ngFor="let track of trackList; let i = index" class="generic-button" type="button" (click)="selectTrack(i)" [class.selected]="selectedTrack === i">
+            {{formatTrack(track)}}
+        </button>
+    </div>
+
+</app-popup>
+
+<!-- Success/failure response pop-up -->
+<app-popup #responsePopup
+    headerName="{{responsePopupHeader}}"
+    messageText="{{responsePopupMessage}}"
+    [ngClass]="responsePopupNgClass"
+    closeButtonLabel="Ok">
 </app-popup>
 
 <div class="welcome">
@@ -70,6 +83,8 @@
                     <h2>{{service.name}}</h2>
 
                     <div class="service-description" [innerHTML]="service.description"></div>
+
+                    <div class="service-price">Cena: {{service.price}}zł</div>
 
                     <div id="button-container">
                         <button type="button" id="service-edit-button" class="generic-button" [routerLink]="['/offer/edit', service.id]">Edytuj</button>

@@ -3,7 +3,6 @@ package edu.grupa2.strzelnica.models;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import java.math.BigDecimal;
 
 @Setter
 @Getter
@@ -14,10 +13,7 @@ public class Track {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "type_id", nullable = false)
     private Tracktype type;
-
-    @Column(name = "price_per_hour", nullable = false)
-    private BigDecimal pricePerHour;
 }

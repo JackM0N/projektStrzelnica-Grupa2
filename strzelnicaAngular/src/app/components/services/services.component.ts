@@ -4,7 +4,7 @@ import { DateFilterFn } from '@angular/material/datepicker';
 import { Service } from '../../interfaces/service';
 import { ServicesService } from '../../services/services.service';
 import { PaginationComponent } from '../pagination.component';
-import { convertStringDatetime, isImageValid, isSameDay } from '../../utils/utils';
+import { convertStringDatetime, formatTrack, isImageValid, isSameDay } from '../../utils/utils';
 import { ServiceAvailabilitiesService } from '../../services/serviceavailabilities.service';
 import { ServiceAvailability } from '../../interfaces/serviceavailability';
 import { ServiceUnavailabilitiesService } from '../../services/serviceunavailabilities.service';
@@ -13,6 +13,8 @@ import { ServiceReservationsService } from '../../services/servicereservations.s
 import { DateAvailability } from '../../interfaces/dateavailability';
 import { Observable, Observer, forkJoin } from 'rxjs';
 import { ServiceReservation } from '../../interfaces/servicereservation';
+import { Track } from '../../interfaces/track';
+import { TracksService } from '../../services/tracks.service';
 
 @Component({
   selector: 'app-service-reservation',
@@ -44,25 +46,32 @@ export class ServicesComponent implements AfterViewInit {
   serviceList: Service[] = [];
   availableDatesList: DateAvailability[] = [];
   unavailableDatesList: DateAvailability[] = [];
+  trackList: Track[] = [];
   selectedDate: Date | null = null;
   selectedReservationTime?: number;
+  selectedTrack?: number;
   datesWithSameDate: DateAvailability[] = [];
   confirmButtonClass: string = "button-confirm-disabled";
   reservationText_Title: string = "";
   reservationText_Service: string = "";
   reservationText_Date: string = "";
   reservationText_Time: string = "";
+  reservationText_Track: string = "";
+  formatTrack = formatTrack;
   
   serviceReservation : ServiceReservation = {
-    serviceId: -1,
+    service: undefined,
     date: new Date(),
     start_time: "",
     end_time: "",
+    price: -1,
+    track: undefined,
   };
 
   constructor (
     private servicesService: ServicesService,
     private serviceAvailabilitiesService: ServiceAvailabilitiesService,
+    private tracksService: TracksService,
     private serviceUnavailabilitiesService: ServiceUnavailabilitiesService,
     private serviceReservationsService: ServiceReservationsService,
     private cd: ChangeDetectorRef
@@ -79,6 +88,65 @@ export class ServicesComponent implements AfterViewInit {
     this.fetchServices();
     // The DOM has been changed, we need to detect the changes to prevent ExpressionChangedAfterItHasBeenCheckedError
     this.cd.detectChanges();
+  }
+
+  public selectTrack(num: number): void {
+    if (this.selectedTrack == num) {
+      this.selectedTrack = undefined;
+      this.confirmButtonClass = "button-confirm-disabled";
+    } else {
+      this.selectedTrack = num;
+      this.confirmButtonClass = "button-confirm";
+    }
+  }
+  
+  // Fetch all available tracks
+  fetchTracks(): void {
+    const observer: Observer<any> = {
+      next: response => {
+        // Stop if there is already a response popup
+        if (this.responsePopup.showPopup == true) { return; };
+
+        this.trackList = [];
+        response.forEach((track: Track) => {
+          this.trackList.push(track);
+        });
+
+        if (this.trackList.length == 0) {
+          this.responsePopupHeader = 'Ta oferta nie ma teraz żadnych dostępnych torów.';
+          this.responsePopupMessage = '';
+          this.responsePopupNgClass = 'popupError';
+          this.responsePopup.open();
+          this.currentService = undefined;
+        }
+
+        if (this.currentService) {
+          this.reservationPopup.open();
+        }
+      },
+      error: error => {
+        // Stop if there is already a response popup
+        if (this.responsePopup.showPopup == true) { return };
+
+        // Show error message
+        if (error.message = "error_tracks_empty") {
+          this.responsePopupHeader = 'Ta oferta nie ma teraz żadnych dostępnych torów.';
+          this.responsePopupMessage = '';
+          this.responsePopupNgClass = 'popupError';
+
+        } else {
+          this.responsePopupHeader = 'Przy rezerwowaniu napotkano błąd.';
+          this.responsePopupMessage = error.error.message + ' (' + error.message + ')';
+          this.responsePopupNgClass = 'popupError';
+        }
+
+        this.responsePopup.open();
+        this.currentService = undefined;
+      },
+      complete: function (): void {}
+    };
+
+    this.tracksService.getAllTracks().subscribe(observer);
   }
 
   // Fetches all news from the database
@@ -108,6 +176,9 @@ export class ServicesComponent implements AfterViewInit {
         // Stop if there is already a response popup
         if (this.responsePopup.showPopup == true) { return };
 
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
         this.availableDatesList = [];
         response.forEach((availability: ServiceAvailability) => {
           const startDate = new Date(availability.start_date);
@@ -115,7 +186,7 @@ export class ServicesComponent implements AfterViewInit {
           const serviceDay = new Date(availability.service_day);
     
           if (!endDate || startDate.getTime() === endDate.getTime()) {
-            if (startDate.getDay() === serviceDay.getDay()) {
+            if (startDate.getDay() === serviceDay.getDay() && startDate >= today) {
               const reservedDate = {
                 date: new Date(startDate),
                 startTime: availability.service_time_start,
@@ -125,7 +196,7 @@ export class ServicesComponent implements AfterViewInit {
             }
           } else {
             for (let date = startDate; date <= endDate; date.setDate(date.getDate() + 1)) {
-              if (date.getDay() === serviceDay.getDay()) {
+              if (date.getDay() === serviceDay.getDay() && date >= today) {
                 const reservedDate = {
                   date: new Date(date),
                   startTime: availability.service_time_start,
@@ -136,6 +207,14 @@ export class ServicesComponent implements AfterViewInit {
             }
           }
         });
+
+        if (this.availableDatesList.length == 0) {
+          this.responsePopupHeader = 'Ta oferta nie ma teraz żadnych dostępnych terminów.';
+          this.responsePopupMessage = '';
+          this.responsePopupNgClass = 'popupError';
+          this.responsePopup.open();
+          this.currentService = undefined;
+        }
 
         if (this.currentService) {
           this.reservationPopup.open();
@@ -260,9 +339,12 @@ export class ServicesComponent implements AfterViewInit {
     if (this.selectedReservationTime == num) {
       this.selectedReservationTime = undefined;
       this.confirmButtonClass = "button-confirm-disabled";
+      this.trackList = [];
+      this.selectedTrack = undefined;
     } else {
       this.selectedReservationTime = num;
-      this.confirmButtonClass = "button-confirm";
+      //this.confirmButtonClass = "button-confirm";
+      this.fetchTracks();
     }
   }
 
@@ -353,7 +435,7 @@ export class ServicesComponent implements AfterViewInit {
     if (this.selectedReservationTime != undefined) {
       this.reservationPopup.close();
 
-      if (this.currentService && this.selectedDate) {
+      if (this.currentService && this.selectedDate && this.selectedTrack != undefined) {
         this.reservationText_Title = "Czy na pewno chcesz zarezerwować: ";
         this.reservationText_Service = this.currentService.name;
 
@@ -361,8 +443,11 @@ export class ServicesComponent implements AfterViewInit {
         const month = String(this.selectedDate.getMonth() + 1).padStart(2, '0');
         const year = String(this.selectedDate.getFullYear());
 
+        const track = this.trackList[this.selectedTrack].type.name + " nr. " +  this.trackList[this.selectedTrack].id;
+
         this.reservationText_Date = "dnia " + day + "." + month + "." + year;
-        this.reservationText_Time = "w godzinach: " + this.timeFormat(this.datesWithSameDate[this.selectedReservationTime]) + "?";
+        this.reservationText_Time = "w godzinach: " + this.timeFormat(this.datesWithSameDate[this.selectedReservationTime]);
+        this.reservationText_Track = "na torze: " + track + "?";
 
         this.confirmReservationPopup.open();
       }
@@ -372,7 +457,7 @@ export class ServicesComponent implements AfterViewInit {
   public confirmReservation(): void {
     this.confirmReservationPopup.close();
 
-    if (this.currentService && this.selectedDate) {
+    if (this.currentService && this.selectedDate && this.selectedTrack != undefined) {
       const observer: Observer<any> = {
         next: response => {
           this.responsePopupHeader = 'Pomyślnie zarezerwowano.';
@@ -388,8 +473,10 @@ export class ServicesComponent implements AfterViewInit {
         complete: () => {}
       };
 
-      this.serviceReservation.serviceId = this.currentService.id;
+      this.serviceReservation.service = this.currentService;
+      this.serviceReservation.price = this.currentService.price;
       this.serviceReservation.date = this.selectedDate;
+      this.serviceReservation.track = this.trackList[this.selectedTrack];
 
       if (this.selectedReservationTime != undefined) {
         const stime = this.datesWithSameDate[this.selectedReservationTime].startTime;

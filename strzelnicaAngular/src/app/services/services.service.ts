@@ -22,7 +22,7 @@ export class ServicesService {
     return this.http.get<any>(this.baseUrl, {params});
   }
 
-  // Fetch pall services from the database
+  // Fetch all services from the database
   getAllServices(): Observable<any> {
     const url = `${this.baseUrl}/all`;
     return this.http.get<any>(url);

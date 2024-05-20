@@ -1,3 +1,4 @@
+import { Tracktype } from "./tracktype";
 
 // Service model
 export interface Service {
@@ -5,4 +6,6 @@ export interface Service {
   name: string;
   description: string;
   image_url: string;
+  price: number;
+  tracktype?: Tracktype;
 }

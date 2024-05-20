@@ -5,9 +5,11 @@ import { ServicesService } from '../../services/services.service';
 import { ServiceReservationsService } from '../../services/servicereservations.service';
 import { ServiceReservation } from '../../interfaces/servicereservation';
 import { Observer } from 'rxjs';
-import { isPastDate, getFormattedTime, getFormattedDate, formatDateForInput } from '../../utils/utils';
+import { isPastDate, getFormattedTime, getFormattedDate, formatDateForInput, formatTrack } from '../../utils/utils';
 import { PopupComponent } from '../popup.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Track } from '../../interfaces/track';
+import { TracksService } from '../../services/tracks.service';
 
 @Component({
   selector: 'app-offers',
@@ -27,11 +29,13 @@ export class ReservationsComponent implements AfterViewInit {
   @ViewChild('paginationComponent', { static: false }) paginationComponent!: PaginationComponent;
   public serviceList: Service[] = [];
   public reservationList: ServiceReservation[] = [];
+  public trackList: Track[] = [];
   public selectedService?: Service;
   isPastDate = isPastDate;
   getFormattedTime = getFormattedTime;
   getFormattedDate = getFormattedDate;
   formatDateForInput = formatDateForInput;
+  formatTrack = formatTrack;
 
   @ViewChild('responsePopup') responsePopup!: PopupComponent;
   public responsePopupHeader: string = "";
@@ -50,23 +54,28 @@ export class ReservationsComponent implements AfterViewInit {
   reservationForm: FormGroup;
 
   reservation: ServiceReservation = {
-    serviceId: -1,
+    service: undefined,
     date: new Date(),
     start_time: '',
-    end_time: ''
+    end_time: '',
+    price: -1,
+    track: undefined,
   };
 
   constructor(
     private servicesService: ServicesService,
     private reservationsService: ServiceReservationsService,
+    private tracksService: TracksService,
     private cd: ChangeDetectorRef,
     private formBuilder: FormBuilder,
   ) {
     this.reservationForm = this.formBuilder.group({
-      serviceId: ['', Validators.required],
+      service: [undefined, Validators.required],
       date: [new Date(), Validators.required],
       start_time: ['', Validators.required],
-      end_time: ['', Validators.required]
+      end_time: ['', Validators.required],
+      price: ['', Validators.required],
+      track: [undefined, Validators.required],
     });
   }
 
@@ -98,6 +107,10 @@ export class ReservationsComponent implements AfterViewInit {
     });
   }
 
+  compareServices(a: Service, b: Service): boolean {
+    return a && b ? a.id === b.id : a === b;
+  }
+
   fetchReservations(id: number): void {
     const observer: Observer<any> = {
       next: response => {
@@ -114,16 +127,48 @@ export class ReservationsComponent implements AfterViewInit {
     this.reservationsService.getPaginatedServiceReservationsByServiceId(id, this.paginationComponent.currentPage, this.paginationComponent.maxItems).subscribe(observer);
   }
 
+  // Fetch all available tracks
+  fetchTracks(): void {
+    const observer: Observer<any> = {
+      next: response => {
+        this.trackList = [];
+        response.forEach((track: Track) => {
+          this.trackList.push(track);
+        });
+
+        console.log(this.trackList);
+      },
+      error: error => {
+        this.trackList = [];
+      },
+      complete: function (): void {}
+    };
+
+    this.tracksService.getAllTracks().subscribe(observer);
+  }
+
   openPopupForm(reservation: ServiceReservation): void {
+    this.fetchTracks();
+
     this.reservation = reservation;
+    this.reservation.track = reservation.track;
+
     this.formPopup.open();
+  }
+
+  compareTracks(a: Track, b: Track): boolean {
+    return a && b ? a.id === b.id : a === b;
   }
 
   submitForm(): void {
     if (this.reservationForm.valid) {
-      this.reservation.serviceId = this.reservationForm.value.serviceId;
+      this.reservation.service = this.reservationForm.value.service;
       this.reservation.start_time = this.reservationForm.value.start_time;
       this.reservation.end_time = this.reservationForm.value.end_time;
+      this.reservation.price = this.reservationForm.value.price;
+
+      const selectedTrack: Track = this.reservationForm.value.track;
+      this.reservation.track = selectedTrack;
 
       // Get the date value directly from the component to avoid problems
       if(this.dateInput != undefined) {
@@ -157,7 +202,7 @@ export class ReservationsComponent implements AfterViewInit {
   }
 
   confirmDelete(reservation: ServiceReservation): void {
-    this.confirmDeletionPopupHeader = 'Czy na pewno chcesz usunąć rezerwację o numerze' + reservation.id + '?';
+    this.confirmDeletionPopupHeader = 'Czy na pewno chcesz usunąć rezerwację o numerze ' + reservation.id + '?';
     this.confirmDeletionPopupConfirmText = "Usuń";
     this.confirmDeletionPopupConfirmNgClass = "button-delete";
     this.confirmDeletionPopup.open();

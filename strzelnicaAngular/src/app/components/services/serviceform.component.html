@@ -26,6 +26,18 @@
         <label for="description">Opis:</label>
         <quill-editor [(ngModel)]="service.description" [modules]="{ toolbar: quillToolbarOptions }" formControlName="description"></quill-editor>
       </div>
+
+      <div>
+        <label for="price">Cena (zł):</label>
+        <input type="number" id="price" name="price" [(ngModel)]="service.price" formControlName="price" required>
+      </div>
+
+      <div>
+        <label for="tracktype">Typ toru:</label>
+        <select id="tracktype" name="tracktype" [(ngModel)]="service.tracktype" formControlName="tracktype" required [compareWith]="compareTracktypes">
+          <option *ngFor="let tracktype of tracktypeList" [ngValue]="tracktype">{{ tracktype.name }}</option>
+        </select>
+      </div>
       
       <div class="button-container">
         <button type="button" class="form-button go-back-button" (click)="goBack()">Cofnij</button>
