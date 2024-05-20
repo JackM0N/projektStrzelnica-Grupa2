@@ -47,9 +47,7 @@ public class ServiceUnavailabilitiesService {
         if (optionalServiceUnavailability.isPresent()) {
             ServiceUnavailability existingServiceUnavailability = optionalServiceUnavailability.get();
 
-            System.out.println(updatedServiceUnavailability);
-
-            existingServiceUnavailability.setServiceId(updatedServiceUnavailability.getServiceId());
+            existingServiceUnavailability.setService(updatedServiceUnavailability.getService());
             existingServiceUnavailability.setStart_date(updatedServiceUnavailability.getStart_date());
             existingServiceUnavailability.setEnd_date(updatedServiceUnavailability.getEnd_date());
             existingServiceUnavailability.setStart_time(updatedServiceUnavailability.getStart_time());

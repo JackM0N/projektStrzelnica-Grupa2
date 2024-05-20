@@ -13,22 +13,20 @@ import java.util.Date;
 @Table(name = "service_unavailability")
 public class ServiceUnavailability {
     @Id
-    @ColumnDefault("nextval('service_unavailability_id_seq'")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@ColumnDefault("nextval('service_unavailability_id_seq'")
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    //@ManyToOne(fetch = FetchType.EAGER, optional = false)
-    //@JoinColumn(name = "serviceId", nullable = false)
-    //private Service service;
-
-    @Column(name = "serviceId", nullable = false)
-    private Integer serviceId;
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "serviceId", nullable = false)
+    private Service service;
 
     @Column(name = "start_date", nullable = false)
     private Date start_date;
 
     @Column(name = "start_time")
-    private String start_time;
+    private Time start_time;
 
     @Column(name = "end_date")
     private Date end_date;

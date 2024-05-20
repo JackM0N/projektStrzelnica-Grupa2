@@ -1,6 +1,5 @@
 package edu.grupa2.strzelnica.controllers;
 
-import edu.grupa2.strzelnica.models.ServiceAvailability;
 import edu.grupa2.strzelnica.models.ServiceUnavailability;
 import edu.grupa2.strzelnica.services.ServiceUnavailabilitiesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,9 +42,11 @@ public class ServiceUnavailabilityController {
     // POST - Add a new service unavailability to the database
     @PostMapping("/serviceunavailabilities/add")
     public ResponseEntity<?> addServiceUnavailability(@RequestBody ServiceUnavailability serviceUnavailability) {
+        System.out.println(serviceUnavailability);
+
         try {
             serviceUnavailabilitiesService.saveServiceUnavailability(serviceUnavailability);
-            return ResponseEntity.ok().body("{\"message\": \"success_service_availability_added_successfully\"}");
+            return ResponseEntity.ok().body("{\"message\": \"success_service_unavailability_added_successfully\"}");
 
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"message\": \"Error adding service unavailability: " + e.getMessage() + "\"}");

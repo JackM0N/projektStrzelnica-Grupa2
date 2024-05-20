@@ -1,3 +1,4 @@
+
 <!-- Availability form pop-up -->
 <app-popup #availabilityFormPopup
     headerName="Termin dostępny"
@@ -47,7 +48,52 @@
         </div>
       </form>
     </div>
+</app-popup>
 
+<!-- Unavailability form pop-up -->
+<app-popup #unavailabilityFormPopup
+    headerName="Termin niedostępny"
+    [showCloseButton]="false"
+    [showConfirmButton]="false"
+    style="width: 400px;">
+
+    <div class="form-container">
+      <form [formGroup]="unavailabilityForm" (ngSubmit)="submitFormUnavailability()">
+        <div>
+          <label for="service">Oferta:</label>
+          <select id="service" name="service" [(ngModel)]="unavailability.service" formControlName="service" required [compareWith]="compareServices">
+            <option *ngFor="let service of serviceList" [ngValue]="service">{{ service.name }}</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="start_date">Data zaczęcia:</label>
+          <input #un_startDateInput type="date" id="start_date" name="start_date" formControlName="start_date" required>
+        </div>
+
+        <div>
+          <label for="start_time">Czas zaczęcia:</label>
+          <input type="text" id="start_time" name="start_time" [(ngModel)]="unavailability.start_time" formControlName="start_time" required>
+        </div>
+
+        <div>
+          <label for="end_date">Data zakończenia:</label>
+          <input #un_endDateInput type="date" id="end_date" name="end_date" formControlName="end_date" required>
+        </div>
+
+        <div>
+          <label for="end_time">Czas zakończenia:</label>
+          <input type="text" id="end_time" name="end_time" [(ngModel)]="unavailability.end_time" formControlName="end_time" required>
+        </div>
+
+        <div class="button-container">
+          <button type="button" class="form-button" ngClass="go-back-button" (click)="closeUnavailabilityForm()">Cofnij</button>
+          <button type="submit" class="form-button" [disabled]="!unavailabilityForm.valid" [class.disabled-button]="!unavailabilityForm.valid">
+            Zapisz
+          </button>
+        </div>
+      </form>
+    </div>
 </app-popup>
 
 <!-- Success/failure response pop-up -->
@@ -140,3 +186,57 @@
     </app-pagination>
   </div>
 </div>
+
+
+<div class="data-container">
+  <div class="data-card">
+    <div class="divider">
+      <p>Terminy niedostępne</p>
+    </div>
+
+    <button type="button" class="generic-button" ngClass="add-button" (click)="openUnavailabilityAddForm()">Dodaj nowy niedostępny termin</button>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Numer</th>
+            <th>Data zaczęcia</th>
+            <th>Czas zaczęcia</th>
+            <th>Data zakończenia</th>
+            <th>Czas zakończenia</th>
+            <th colspan="2">Opcje</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngIf="unavailabilitiesList.length === 0; else notEmpty2">
+            <tr>
+              <td colspan="6" id="list-empty">Brak niedostępnych terminów dla tej oferty</td>
+            </tr>
+          </ng-container>
+          <ng-template #notEmpty2>
+            <tr *ngFor="let unavailability of unavailabilitiesList">
+              <td>{{ unavailability.id }}</td>
+
+              <td>{{ getFormattedDate(unavailability.start_date) | date: 'dd.MM.yyyy' }}</td>
+              <td>{{ getFormattedTime(unavailability.start_time) }}</td>
+
+              <td>{{ getFormattedDate(unavailability.end_date) | date: 'dd.MM.yyyy' }}</td>
+              <td>{{ getFormattedTime(unavailability.end_time) }}</td>
+
+              <td class="button-td">
+                <button type="button" class="generic-button" ngClass="edit-button" (click)="openUnavailabilityForm(unavailability)">Edytuj</button>
+                <button type="button" class="generic-button" (click)="this.confirmDeleteUnavailability(unavailability)">Usuń</button>
+              </td>
+            </tr>
+          </ng-template>
+        </tbody>
+      </table>
+    </div>
+
+    <app-pagination #paginationComponent2
+        (onPageChange)="getNewUnavailabilities()">
+    </app-pagination>
+  </div>
+</div>
+
