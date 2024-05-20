@@ -40,9 +40,9 @@ export class AvailabilitiesComponent {
   public confirmDeletionPopupMessage = '';
   public confirmDeletionPopupConfirmText = '';
   public confirmDeletionPopupConfirmNgClass = '';
+
   public isSelectedAvailability = false;
   public selectedAvailability?: ServiceAvailability;
-
   @ViewChild('availabilityFormPopup') availabilityFormPopup!: PopupComponent;
   availabilityForm: FormGroup;
   @ViewChild('av_startDateInput') av_startDateInput?: ElementRef;
@@ -68,6 +68,14 @@ export class AvailabilitiesComponent {
       service_time_start: '',
       service_time_end: ''
     };
+    this.availabilityForm.reset({
+      serviceId: -1,
+      start_date: formatDateForInput(new Date()),
+      end_date: formatDateForInput(new Date()),
+      service_day: formatDateForInput(new Date()),
+      service_time_start: '',
+      service_time_end: ''
+    });
   }
 
   constructor(
@@ -78,9 +86,9 @@ export class AvailabilitiesComponent {
   ) {
     this.availabilityForm = this.availabilityFormBuilder.group({
       service: [undefined, Validators.required],
-      start_date: [new Date(), Validators.required],
-      end_date: [new Date(), Validators.required],
-      service_day: [new Date(), Validators.required],
+      start_date: [formatDateForInput(new Date()), Validators.required],
+      end_date: [formatDateForInput(new Date()), Validators.required],
+      service_day: [formatDateForInput(new Date()), Validators.required],
       service_time_start: ['', Validators.required],
       service_time_end: ['', Validators.required]
     });
@@ -174,7 +182,26 @@ export class AvailabilitiesComponent {
     }
   }
 
-  submitForm(): Observer<any> {
+  observerAdd(): Observer<any> {
+    const observer: Observer<any> = {
+      next: response => {
+        this.responsePopupHeader = 'Pomyślnie dodano termin.';
+        this.responsePopupNgClass = 'popupSuccess';
+        this.responsePopup.open();
+      },
+      error: error => {
+        this.responsePopupHeader = 'Przy dodawaniu napotkano błąd.';
+        this.responsePopupMessage = error.error.message + ' (' + error.message + ')';
+        this.responsePopupNgClass = 'popupError';
+        this.responsePopup.open();
+      },
+      complete: () => {}
+    };
+
+    return observer;
+  }
+
+  observerUpdate(): Observer<any> {
     const observer: Observer<any> = {
       next: response => {
         this.responsePopupHeader = 'Pomyślnie zaktualizowano termin.';
@@ -224,12 +251,10 @@ export class AvailabilitiesComponent {
       console.log(this.availability);
 
       this.availabilityFormPopup.close();
-      const observer = this.submitForm();
-
       if (this.avilabilityAdding) {
-        this.availabilitiesService.addServiceAvailability(this.availability).subscribe(observer);
+        this.availabilitiesService.addServiceAvailability(this.availability).subscribe(this.observerAdd());
       } else {
-        this.availabilitiesService.updateServiceAvailability(this.availability).subscribe(observer);
+        this.availabilitiesService.updateServiceAvailability(this.availability).subscribe(this.observerUpdate());
       }
     }
   }
@@ -241,6 +266,15 @@ export class AvailabilitiesComponent {
     if (this.selectedService) {
       this.availability.service = this.selectedService;
     }
+
+   // Patch the form values
+   this.availabilityForm.patchValue({
+    start_date: formatDateForInput(this.availability.start_date),
+    end_date: formatDateForInput(this.availability.end_date),
+    service_day: formatDateForInput(this.availability.service_day),
+    service_time_start: this.availability.service_time_start,
+    service_time_end: this.availability.service_time_end
+  });
 
     this.availabilityFormPopup.open();
   }

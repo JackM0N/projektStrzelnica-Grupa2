@@ -9,7 +9,7 @@
       <form [formGroup]="availabilityForm" (ngSubmit)="submitFormAvailability()">
         <div>
           <label for="service">Oferta:</label>
-          <select id="service" name="service" formControlName="service" required [compareWith]="compareServices">
+          <select id="service" name="service" [(ngModel)]="availability.service" formControlName="service" required [compareWith]="compareServices">
             <option *ngFor="let service of serviceList" [ngValue]="service">{{ service.name }}</option>
           </select>
         </div>
@@ -31,12 +31,12 @@
 
         <div>
           <label for="service_time_start">Czas zaczęcia:</label>
-          <input type="text" id="service_time_start" name="service_time_start" formControlName="service_time_start" required>
+          <input type="text" id="service_time_start" name="service_time_start" [(ngModel)]="availability.service_time_start" formControlName="service_time_start" required>
         </div>
 
         <div>
           <label for="service_time_end">Czas zakończenia:</label>
-          <input type="text" id="service_time_end" name="service_time_end" formControlName="service_time_end" required>
+          <input type="text" id="service_time_end" name="service_time_end" [(ngModel)]="availability.service_time_end" formControlName="service_time_end" required>
         </div>
 
         <div class="button-container">
