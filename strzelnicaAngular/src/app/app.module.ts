@@ -30,7 +30,9 @@ import { LoginComponent } from './components/authentication/login.component';
 import { ReservationsComponent } from './components/services/reservations.component';
 import { AvailabilitiesComponent } from './components/services/availabilities.component';
 import { QuillModule } from 'ngx-quill';
-
+import { JwtModule } from '@auth0/angular-jwt'; // Import JwtModule
+import { AuthService } from './services/auth.service';
+import { AuthGuard } from './guards/auth.guard';
 @NgModule({
   declarations: [
     AppComponent,
@@ -66,12 +68,23 @@ import { QuillModule } from 'ngx-quill';
     MatNativeDateModule,
     MatInputModule,
     QuillModule.forRoot(), // nah nothing wrong here
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: () => {
+          return localStorage.getItem('access_token'); // Get token from localStorage
+        },
+        allowedDomains: [''], // Replace with your backend domain
+        disallowedRoutes: ['localhost:8080/login'] // Replace with your auth endpoint
+      }
+    }),
   ],
 
   providers: [
     provideClientHydration(),
     provideAnimationsAsync(),
-    { provide: MAT_DATE_LOCALE, useValue: 'en-US' }
+    { provide: MAT_DATE_LOCALE, useValue: 'en-US' },
+    AuthService,
+    AuthGuard,
   ],
   
   bootstrap: [AppComponent]
