@@ -19,7 +19,7 @@ public class ServiceReservation {
     private Integer id;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "service_id", nullable = false)
+    @JoinColumn(name = "serviceId", nullable = false)
     private Service service;
 
     @Column(name = "date", nullable = false)

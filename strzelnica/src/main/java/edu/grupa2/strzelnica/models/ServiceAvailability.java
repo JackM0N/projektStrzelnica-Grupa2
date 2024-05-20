@@ -13,12 +13,13 @@ import java.util.Date;
 @Table(name = "service_availability")
 public class ServiceAvailability {
     @Id
-    @ColumnDefault("nextval('service_availability_id_seq'")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@ColumnDefault("nextval('service_availability_id_seq'")
     @Column(name = "id", nullable = false)
     private Integer id;
 
     //@ManyToOne(fetch = FetchType.EAGER, optional = false)
-    //@JoinColumn(name = "service_id", nullable = false)
+    //@JoinColumn(name = "serviceId", nullable = false)
     //private Service service;
 
     @Column(name = "service_id", nullable = false)

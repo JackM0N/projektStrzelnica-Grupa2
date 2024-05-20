@@ -18,10 +18,10 @@ public class ServiceUnavailability {
     private Integer id;
 
     //@ManyToOne(fetch = FetchType.EAGER, optional = false)
-    //@JoinColumn(name = "service_id", nullable = false)
+    //@JoinColumn(name = "serviceId", nullable = false)
     //private Service service;
 
-    @Column(name = "service_id", nullable = false)
+    @Column(name = "serviceId", nullable = false)
     private Integer serviceId;
 
     @Column(name = "start_date", nullable = false)

@@ -42,7 +42,7 @@ public class ServiceAvailabilityController {
 
     // POST - Add a new service availability to the database
     @PostMapping("/serviceavailabilities/add")
-    public ResponseEntity<?> addWeapon(@RequestBody ServiceAvailability serviceAvailability) {
+    public ResponseEntity<?> addServiceAvailability(@RequestBody ServiceAvailability serviceAvailability) {
         try {
             serviceAvailabilitiesService.saveServiceAvailability(serviceAvailability);
             return ResponseEntity.ok().body("{\"message\": \"success_service_availability_added_successfully\"}");

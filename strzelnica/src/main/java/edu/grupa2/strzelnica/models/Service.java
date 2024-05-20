@@ -12,7 +12,7 @@ import org.postgresql.util.PGmoney;
 @Table(name = "service")
 public class Service {
     @Id
-    @ColumnDefault("nextval('service_id_seq'")
+    @ColumnDefault("nextval('serviceId_seq'")
     @Column(name = "id", nullable = false)
     private Integer id;
 

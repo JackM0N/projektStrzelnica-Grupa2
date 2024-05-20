@@ -3,7 +3,7 @@ import { Service } from "./service";
 // Service availability model
 export interface ServiceAvailability {
   id?: number;
-  service_id: number;
+  serviceId: number;
   start_date: Date;
   end_date: Date;
   service_day: Date;

@@ -5,8 +5,14 @@ spring:
     password: uUE9AX5MeiNh
     driver-class-name: org.postgresql.Driver
   jpa:
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
     properties:
       hibernate:
         show_sql: false
-        format_sql: false
+        format_sql: true
         use_sql_comments: false
+        ddl-auto: none
