@@ -135,8 +135,6 @@ export class ReservationsComponent implements AfterViewInit {
         response.forEach((track: Track) => {
           this.trackList.push(track);
         });
-
-        console.log(this.trackList);
       },
       error: error => {
         this.trackList = [];
