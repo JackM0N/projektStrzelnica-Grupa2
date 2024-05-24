@@ -43,6 +43,7 @@
 
 .nav-item {
   margin-left: 20px;
+  min-width: max-content;
 }
 
 .nav-item a {

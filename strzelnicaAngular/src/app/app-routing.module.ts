@@ -13,6 +13,7 @@ import { ServicesComponent } from './components/services/services.component';
 import { ServiceFormComponent } from './components/services/serviceform.component';
 import { ReservationsComponent } from './components/services/reservations.component';
 import { AvailabilitiesComponent } from './components/services/availabilities.component';
+import { RulesComponent } from './components/rules/rules.component';
 import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
@@ -26,6 +27,7 @@ const routes: Routes = [
   { path: 'weapons/edit/:id', component: WeaponFormComponent },
 
   { path: 'about', component: AboutComponent },
+  { path: 'rules', component: RulesComponent },
 
   { path: 'users', component: UsersComponent },
   { path: 'users/edit/:id', component: UsersFormComponent },

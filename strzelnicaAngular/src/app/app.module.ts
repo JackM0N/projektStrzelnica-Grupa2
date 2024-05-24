@@ -29,6 +29,7 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { LoginComponent } from './components/authentication/login.component';
 import { ReservationsComponent } from './components/services/reservations.component';
 import { AvailabilitiesComponent } from './components/services/availabilities.component';
+import { RulesComponent } from './components/rules/rules.component';
 import { QuillModule } from 'ngx-quill';
 import { JwtModule } from '@auth0/angular-jwt'; // Import JwtModule
 import { AuthService } from './services/auth.service';
@@ -54,6 +55,7 @@ import { AuthGuard } from './guards/auth.guard';
     ReservationsComponent,
     LoginComponent,
     AvailabilitiesComponent,
+    RulesComponent
   ],
 
   imports: [
