@@ -1,5 +1,6 @@
 package edu.grupa2.strzelnica.controllers;
 
+import edu.grupa2.strzelnica.dto.UserDTO;
 import edu.grupa2.strzelnica.models.Users;
 import edu.grupa2.strzelnica.services.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @Controller
+@RequestMapping("/users")
 public class UsersController {
     private final UsersService usersService;
 
@@ -24,72 +26,66 @@ public class UsersController {
     }
 
     // GET - Get all users from the service
-    @GetMapping("/users")
+    @GetMapping
     @ResponseBody
-    public Page<Users> getUsers(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+    public Page<UserDTO> getUsers(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         return usersService.getPaginatedUsers(page, size);
     }
 
-    // GET - Get a specific user
-    @GetMapping("/users/id/{id}")
+    // GET - Get a specific user by ID
+    @GetMapping("/id/{id}")
     public ResponseEntity<?> getUserById(@PathVariable Long id) {
-        // Get the user from news service
-        Optional<Users> optionalUsers = usersService.getUserById(id);
+        Optional<UserDTO> optionalUserDTO = usersService.getUserById(id);
 
-        // Send the user if they exists
-        if (optionalUsers.isPresent()) {
-            return ResponseEntity.ok(optionalUsers.get());
-
+        // Send the user if they exist
+        if (optionalUserDTO.isPresent()) {
+            return ResponseEntity.ok(optionalUserDTO.get());
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"message\": \"error_news_not_found\"}");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"message\": \"User not found\"}");
         }
     }
 
-    // GET - Get a specific user
-    @GetMapping("/users/email/{name}")
+    // GET - Get a specific user by email
+    @GetMapping("/email/{name}")
     public ResponseEntity<?> getUserByEmail(@PathVariable String email) {
-        Optional<Users> optionalUsers = usersService.getUserByEmail(email);
+        Optional<UserDTO> optionalUserDTO = usersService.getUserByEmail(email);
 
-        // Send the user if they exists
-        if (optionalUsers.isPresent()) {
-            return ResponseEntity.ok(optionalUsers.get());
-
+        // Send the user if they exist
+        if (optionalUserDTO.isPresent()) {
+            return ResponseEntity.ok(optionalUserDTO.get());
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"message\": \"error_news_not_found\"}");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"message\": \"User not found\"}");
         }
     }
 
     // POST - Add a new user
-    @PostMapping("/users/add")
-    public ResponseEntity<?> addUser(@RequestBody Users user) {
+    @PostMapping("/add")
+    public ResponseEntity<?> addUser(@RequestBody UserDTO userDTO) {
         try {
-            Users savedUser = usersService.saveUser(user);
-            return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
-
+            UserDTO savedUserDTO = usersService.saveUser(userDTO);
+            return ResponseEntity.status(HttpStatus.CREATED).body(savedUserDTO);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"message\": \"Error adding user: " + e.getMessage() + "\"}");
         }
     }
 
     // PUT - Update an existing user
-    @PutMapping("/users/edit/{id}")
-    public ResponseEntity<Users> updateUser(@PathVariable Long id, @RequestBody Users updatedUser) {
+    @PutMapping("/edit/{id}")
+    public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody UserDTO updatedUserDTO) {
         try {
-            Users user = usersService.updateUser(id, updatedUser);
-            return ResponseEntity.ok(user);
-
+            UserDTO userDTO = usersService.updateUser(id, updatedUserDTO);
+            return ResponseEntity.ok(userDTO);
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"message\": \"User not found\"}");
         }
     }
 
     // DELETE - Delete a user
-    @DeleteMapping("/users/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
         try {
             usersService.deleteUserById(id);
             return ResponseEntity.ok().build();
-
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"message\": \"Error deleting user: " + e.getMessage() + "\"}");
         }

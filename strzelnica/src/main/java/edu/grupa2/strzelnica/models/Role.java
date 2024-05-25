@@ -13,6 +13,7 @@ import lombok.Setter;
 @Table(name = "role")
 public class Role {
     @Id
+    @Getter
     @Column(name = "id", nullable = false)
     private Integer id;
 
