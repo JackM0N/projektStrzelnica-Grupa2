@@ -4,33 +4,24 @@ import { DateFilterFn } from '@angular/material/datepicker';
 import { Service } from '../../interfaces/service';
 import { ServicesService } from '../../services/services.service';
 import { PaginationComponent } from '../pagination.component';
-import { convertStringDatetime, formatTrack, isImageValid, isSameDay } from '../../utils/utils';
-import { ServiceAvailabilitiesService } from '../../services/serviceavailabilities.service';
-import { ServiceAvailability } from '../../interfaces/serviceavailability';
-import { ServiceUnavailabilitiesService } from '../../services/serviceunavailabilities.service';
-import { ServiceUnavailability } from '../../interfaces/serviceunavailability';
-import { ServiceReservationsService } from '../../services/servicereservations.service';
-import { DateAvailability } from '../../interfaces/dateavailability';
-import { Observable, Observer, forkJoin } from 'rxjs';
+import { isImageValid, formatTrack } from '../../utils/utils';
+import { Observer } from 'rxjs';
 import { ServiceReservation } from '../../interfaces/servicereservation';
+import { AvailabilityService } from '../../services/availability.service';
+import { DateAvailability } from '../../interfaces/dateavailability';
+import { ServiceReservationsService } from '../../services/servicereservations.service';
 import { Track } from '../../interfaces/track';
-import { TracksService } from '../../services/tracks.service';
 
 @Component({
   selector: 'app-service-reservation',
   templateUrl: './services.component.html',
   styleUrls: [
-    // Style exclusive for this component
     '/src/app/styles/service.component.css',
-    // Styles shared between all the list components
     '/src/app/styles/shared-list-styles.css',
-    // Shared button styles
     '/src/app/styles/shared-button-styles.css',
-    // Shared styles for Material Design
     '/src/app/styles/material-styles.scss',
   ]
 })
-
 export class ServicesComponent implements AfterViewInit {
   @ViewChild('paginationComponent', { static: false }) paginationComponent!: PaginationComponent;
   @ViewChild('confirmReservationPopup') confirmReservationPopup!: PopupComponent;
@@ -42,37 +33,38 @@ export class ServicesComponent implements AfterViewInit {
   public confirmReservationPopupMessage = '';
   public minDate: Date;
   public maxDate: Date;
+  public confirmButtonClass: string = "button-confirm-disabled";
+  public reservationText_Title: string = "";
+  public reservationText_Service: string = "";
+  public reservationText_Date: string = "";
+  public reservationText_Time: string = "";
+  public reservationText_Track: string = "";
+  formatTrack = formatTrack;
+
   currentService?: Service;
   serviceList: Service[] = [];
+
   availableDatesList: DateAvailability[] = [];
-  unavailableDatesList: DateAvailability[] = [];
-  trackList: Track[] = [];
+  datesWithSameDate: DateAvailability[] = [];
   selectedDate: Date | null = null;
+
+  trackList: Track[] = [];
+
   selectedReservationTime?: number;
   selectedTrack?: number;
-  datesWithSameDate: DateAvailability[] = [];
-  confirmButtonClass: string = "button-confirm-disabled";
-  reservationText_Title: string = "";
-  reservationText_Service: string = "";
-  reservationText_Date: string = "";
-  reservationText_Time: string = "";
-  reservationText_Track: string = "";
-  formatTrack = formatTrack;
   
-  serviceReservation : ServiceReservation = {
+  serviceReservation: ServiceReservation = {
     service: undefined,
     date: new Date(),
-    start_time: "",
+    startTime: "",
     end_time: "",
     price: -1,
     track: undefined,
   };
 
-  constructor (
+  constructor(
     private servicesService: ServicesService,
-    private serviceAvailabilitiesService: ServiceAvailabilitiesService,
-    private tracksService: TracksService,
-    private serviceUnavailabilitiesService: ServiceUnavailabilitiesService,
+    private availabilityService: AvailabilityService,
     private serviceReservationsService: ServiceReservationsService,
     private cd: ChangeDetectorRef
   ) {
@@ -82,11 +74,8 @@ export class ServicesComponent implements AfterViewInit {
     this.maxDate = maxDate;
   }
 
-  // After init - because we need the pagination to load first
-  // Fetch the news from the database and display them
   ngAfterViewInit(): void {
     this.fetchServices();
-    // The DOM has been changed, we need to detect the changes to prevent ExpressionChangedAfterItHasBeenCheckedError
     this.cd.detectChanges();
   }
 
@@ -94,69 +83,19 @@ export class ServicesComponent implements AfterViewInit {
     if (this.selectedTrack == num) {
       this.selectedTrack = undefined;
       this.confirmButtonClass = "button-confirm-disabled";
+
     } else {
       this.selectedTrack = num;
       this.confirmButtonClass = "button-confirm";
     }
   }
-  
-  // Fetch all available tracks
-  fetchTracks(): void {
-    const observer: Observer<any> = {
-      next: response => {
-        // Stop if there is already a response popup
-        if (this.responsePopup.showPopup == true) { return; };
 
-        this.trackList = [];
-        response.forEach((track: Track) => {
-          this.trackList.push(track);
-        });
-
-        if (this.trackList.length == 0) {
-          this.responsePopupHeader = 'Ta oferta nie ma teraz żadnych dostępnych torów.';
-          this.responsePopupMessage = '';
-          this.responsePopupNgClass = 'popupError';
-          this.responsePopup.open();
-          this.currentService = undefined;
-        }
-
-        if (this.currentService) {
-          this.reservationPopup.open();
-        }
-      },
-      error: error => {
-        // Stop if there is already a response popup
-        if (this.responsePopup.showPopup == true) { return };
-
-        // Show error message
-        if (error.message = "error_tracks_empty") {
-          this.responsePopupHeader = 'Ta oferta nie ma teraz żadnych dostępnych torów.';
-          this.responsePopupMessage = '';
-          this.responsePopupNgClass = 'popupError';
-
-        } else {
-          this.responsePopupHeader = 'Przy rezerwowaniu napotkano błąd.';
-          this.responsePopupMessage = error.error.message + ' (' + error.message + ')';
-          this.responsePopupNgClass = 'popupError';
-        }
-
-        this.responsePopup.open();
-        this.currentService = undefined;
-      },
-      complete: function (): void {}
-    };
-
-    this.tracksService.getAllTracks().subscribe(observer);
-  }
-
-  // Fetches all news from the database
   fetchServices(): void {
     this.servicesService.getPaginatedServices(this.paginationComponent.currentPage, this.paginationComponent.maxItems).subscribe(services => {
       this.paginationComponent.totalPages = services.totalPages;
       this.paginationComponent.calculatePages();
 
       services.content.forEach((item: { content: string | null | undefined; picture: string; }) => {
-          // Check if the image of the news is valid, if not, hide it
           if (!isImageValid(item.picture)) {
             item.picture = '';
           }
@@ -165,187 +104,67 @@ export class ServicesComponent implements AfterViewInit {
     });
   }
 
-  // Add a method to fetch reservations for a service
-  fetchReservations(service: Service): Observable<ServiceReservation[]> {
-    return this.serviceReservationsService.getServiceReservationsByServiceId(service.id);
-  }
-
-  fetchAvailability(service: Service): void {
-    const observer: Observer<any> = {
-      next: response => {
-        // Stop if there is already a response popup
-        if (this.responsePopup.showPopup == true) { return };
-
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-
-        this.availableDatesList = [];
-        response.forEach((availability: ServiceAvailability) => {
-          const startDate = new Date(availability.start_date);
-          const endDate = availability.end_date ? new Date(availability.end_date) : null;
-          const serviceDay = new Date(availability.service_day);
-    
-          if (!endDate || startDate.getTime() === endDate.getTime()) {
-            if (startDate.getDay() === serviceDay.getDay() && startDate >= today) {
-              const reservedDate = {
-                date: new Date(startDate),
-                startTime: availability.service_time_start,
-                endTime: availability.service_time_end
-              };
-              this.availableDatesList.push(reservedDate);
-            }
-          } else {
-            for (let date = startDate; date <= endDate; date.setDate(date.getDate() + 1)) {
-              if (date.getDay() === serviceDay.getDay() && date >= today) {
-                const reservedDate = {
-                  date: new Date(date),
-                  startTime: availability.service_time_start,
-                  endTime: availability.service_time_end
-                };
-                this.availableDatesList.push(reservedDate);
-              }
-            }
-          }
-        });
-
-        if (this.availableDatesList.length == 0) {
-          this.responsePopupHeader = 'Ta oferta nie ma teraz żadnych dostępnych terminów.';
-          this.responsePopupMessage = '';
-          this.responsePopupNgClass = 'popupError';
-          this.responsePopup.open();
-          this.currentService = undefined;
-        }
-
-        if (this.currentService) {
-          this.reservationPopup.open();
-        }
-      },
-      error: error => {
-        // Stop if there is already a response popup
-        if (this.responsePopup.showPopup == true) { return };
-
-        // Show error message
-        if (error.message = "error_service_availabilities_empty") {
-          this.responsePopupHeader = 'Ta oferta nie ma teraz żadnych dostępnych terminów.';
-          this.responsePopupMessage = '';
-          this.responsePopupNgClass = 'popupError';
-
-        } else {
-          this.responsePopupHeader = 'Przy rezerwowaniu napotkano błąd.';
-          this.responsePopupMessage = error.error.message + ' (' + error.message + ')';
-          this.responsePopupNgClass = 'popupError';
-        }
-
-        this.responsePopup.open();
-        this.currentService = undefined;
-      },
-      complete: () => {}
-    };
-
-    this.serviceAvailabilitiesService.getServiceAvailabilitiesByServiceId(service.id).subscribe(observer);
-  }
-
-  fetchUnavailability(service: Service): void {
-    // Fetch and process unavailable dates
-    const observer: Observer<any> = {
-      next: response => {
-        const unavailabilities = response[0];
-        const reservations = response[1];
-
-        // Stop if there is already a response popup
-        if (this.responsePopup.showPopup == true) { return };
-
-        // Process unavailabilities
-        this.unavailableDatesList = [];
-        unavailabilities.forEach((unavailability: ServiceUnavailability) => {
-          if (unavailability.start_date && !unavailability.end_date) {
-            const unavailableDate = {
-              date: new Date(unavailability.start_date),
-              startTime: unavailability.start_time,
-              endTime: unavailability.end_time
-            };
-            this.unavailableDatesList.push(unavailableDate);
-
-          } else if (unavailability.start_date && unavailability.end_date) {
-            const startDate = new Date(unavailability.start_date);
-            const endDate = new Date(unavailability.end_date);
-            
-            const startDateTime = new Date(startDate);
-            const endDateTime = new Date(endDate);
-            
-            if (unavailability.start_time) {
-              const startTimeComponents = unavailability.start_time.split(':').map(component => parseInt(component, 10));
-              startDateTime.setHours(startTimeComponents[0], startTimeComponents[1]);
-            } else {
-              startDateTime.setHours(0, 0, 0, 0);
-            }
-    
-            if (unavailability.end_time) {
-              const endTimeComponents = unavailability.end_time.split(':').map(component => parseInt(component, 10));
-              endDateTime.setHours(endTimeComponents[0], endTimeComponents[1]);
-            } else {
-              endDateTime.setHours(23, 59, 59, 999);
-            }
-
-            for (let date = startDateTime; date <= endDateTime; date.setDate(date.getDate() + 1)) {
-              const unavailableDate = {
-                date: new Date(date),
-                startTime: unavailability.start_time,
-                endTime: unavailability.end_time
-              };
-              this.unavailableDatesList.push(unavailableDate);
-            }
-          }
-        });
-
-        // Process reservations
-        reservations.forEach((reservation: ServiceReservation) => {
-          const reservedDate = {
-            date: new Date(reservation.date),
-            startTime: reservation.start_time,
-            endTime: reservation.end_time
-          };
-          this.unavailableDatesList.push(reservedDate);
-        });
-
-        this.currentService = service;
-      },
-      error: error => {
-        // Stop if there is already a response popup
-        if (this.responsePopup.showPopup == true) { return };
-
-        // Show error message
-        if (error.message = "error_service_unavailabilities_empty") {
-          this.unavailableDatesList = [];
-          
-        } else {
-          this.responsePopupHeader = 'Przy rezerwowaniu napotkano błąd.';
-          this.responsePopupMessage = error.error.message + ' (' + error.message + ')';
-          this.responsePopupNgClass = 'popupError';
-          this.responsePopup.open();
-          this.currentService = undefined;
-        }
-      },
-      complete: () => {}
-    };
-
-    forkJoin([
-      this.serviceUnavailabilitiesService.getServiceUnavailabilitiesByServiceId(service.id),
-      this.fetchReservations(service)
-    ]).subscribe(observer);
+  fetchAvailabilities(id: number): void {
+    this.availabilityService.getAvailabilitiesByServiceId(id).subscribe(availabilities => {
+      availabilities.forEach((avaialbility: DateAvailability) => {
+        this.availableDatesList.push(avaialbility);
+      });
+    });
   }
 
   public selectReservationTime(num: number): void {
     if (this.selectedReservationTime == num) {
       this.selectedReservationTime = undefined;
       this.confirmButtonClass = "button-confirm-disabled";
-      this.trackList = [];
       this.selectedTrack = undefined;
+
     } else {
       this.selectedReservationTime = num;
-      //this.confirmButtonClass = "button-confirm";
-      this.fetchTracks();
+
+      this.trackList = [];
+      this.availableDatesList.forEach(dateAvail => {
+        if (dateAvail.track != undefined && this.selectedDate && new Date(dateAvail.date).getDate() === this.selectedDate.getDate()) {
+          this.trackList.push(dateAvail.track);
+        }
+      });
     }
+  }
+
+  // Inside the ServicesComponent class
+  public onDateChange(): void {
+    this.trackList = [];
+    this.selectedTrack = undefined;
+    this.confirmButtonClass = "button-confirm-disabled";
+    this.selectedReservationTime = undefined;
+    this.datesWithSameDate = [];
+
+    this.availableDatesList.forEach(dateAvail => {
+      if (dateAvail.date != null && this.selectedDate != null) {
+        if (new Date(dateAvail.date).getDate() === this.selectedDate.getDate()) {
+          // filter if there already is one with the same time
+          if (!this.datesWithSameDate.some(date => date.startTime === dateAvail.startTime && date.endTime === dateAvail.endTime)) {
+            this.datesWithSameDate.push(dateAvail);
+          }
+        }
+      }
+    });
+  }
+
+  public dateFilter: DateFilterFn<Date | null> = (date: Date | null): boolean => {
+    if (date === null) { return false; }
+    return this.availabilityService.isDateAvailable(date, this.availableDatesList);
+  }
+
+  public reservationPopupCancelAction(): void {
+    this.reservationPopup.close();
+    this.currentService = undefined;
+    this.selectedDate = null;
+    this.datesWithSameDate = [];
+    this.selectedReservationTime = undefined;
+    this.confirmButtonClass = "button-confirm-disabled";
+    this.reservationText_Title = "";
+    this.reservationText_Service = "";
+    this.reservationText_Date = "";
   }
 
   public timeFormat(time: DateAvailability): string {
@@ -375,60 +194,17 @@ export class ServicesComponent implements AfterViewInit {
     return str;
   }
 
-
-  public onDateChange(): void {
-    this.datesWithSameDate = [];
-
-    if (this.selectedDate != null) {
-      const selectedDateWithoutTime = new Date(this.selectedDate);
-      selectedDateWithoutTime.setHours(0, 0, 0, 0);
-
-      // Filtering availableDatesList to get dates with the same date as selectedDate
-      this.datesWithSameDate = this.availableDatesList.filter(dateAvailability => {
-          const currentDate = new Date(dateAvailability.date);
-          currentDate.setHours(0, 0, 0, 0);
-
-          let unavailable: boolean = false;
-
-          if (isSameDay(dateAvailability.date, selectedDateWithoutTime)) {
-            this.unavailableDatesList.forEach((unavailableDate: DateAvailability) => {
-              if (isSameDay(unavailableDate.date, dateAvailability.date)
-                  && unavailableDate.startTime && unavailableDate.endTime
-                  && dateAvailability.startTime && dateAvailability.endTime
-                ) {
-                const unavailStartTime = convertStringDatetime(unavailableDate.date, unavailableDate.startTime);
-                const unavailEndTime = convertStringDatetime(unavailableDate.date, unavailableDate.endTime);
-                
-                const availStartTime = convertStringDatetime(dateAvailability.date, dateAvailability.startTime);
-                const availEndTime = convertStringDatetime(dateAvailability.date, dateAvailability.endTime);
-
-                unavailable = (unavailStartTime.getTime() <= availStartTime.getTime()
-                  && unavailEndTime.getTime() >= availEndTime.getTime());
-              }
-            });
-          }
-
-          return currentDate.getTime() === selectedDateWithoutTime.getTime() && !unavailable;
-      });
-    }
-  }
-  
   public openReservingPopup(service: Service): void {
-    this.currentService = service;
-    this.fetchUnavailability(service);
-    this.fetchAvailability(service);
-  }
+    this.trackList = [];
+    this.selectedTrack = undefined;
 
-  public reservationPopupCancelAction(): void {
-    this.reservationPopup.close();
-    this.currentService = undefined;
-    this.selectedDate = null;
+    this.availableDatesList = [];
     this.datesWithSameDate = [];
-    this.selectedReservationTime = undefined;
-    this.confirmButtonClass = "button-confirm-disabled";
-    this.reservationText_Title = "";
-    this.reservationText_Service = "";
-    this.reservationText_Date = "";
+    this.selectedDate = null;
+
+    this.currentService = service;
+    this.fetchAvailabilities(service.id);
+    this.reservationPopup.open();
   }
 
   public reservationPopupConfirmAction(): void {
@@ -481,7 +257,7 @@ export class ServicesComponent implements AfterViewInit {
       if (this.selectedReservationTime != undefined) {
         const stime = this.datesWithSameDate[this.selectedReservationTime].startTime;
         if (stime != undefined && stime != null) {
-          this.serviceReservation.start_time = stime;
+          this.serviceReservation.startTime = stime;
         }
         const etime = this.datesWithSameDate[this.selectedReservationTime].endTime;
         if (etime) {
@@ -494,53 +270,4 @@ export class ServicesComponent implements AfterViewInit {
       this.datesWithSameDate = [];
     }
   }
-
-  dateFilter: DateFilterFn<Date | null> = (date: Date | null) => {
-    if (!date) {
-      return false;
-    }
-  
-    const selectedDate = new Date(date);
-
-    let availableDates = [];
-    let newAvailableDates = [];
-  
-    // Check if there is any availability for the selected date
-    for (const availableDate of this.availableDatesList) {
-      if (isSameDay(selectedDate, availableDate.date)) {
-        availableDates.push(availableDate);
-      }
-    }
-
-    if (availableDates.length == 0) {
-      return false;
-    }
-
-    // Check if the selected date is in the unavailableDatesList
-    for (const availableDate of availableDates) {
-      let available = true;
-      for (const unavailableDate of this.unavailableDatesList) {
-        if (isSameDay(availableDate.date, unavailableDate.date)
-          && unavailableDate.startTime && unavailableDate.endTime
-          && availableDate.startTime && availableDate.endTime
-        ) {
-          const unavailStartTime = convertStringDatetime(unavailableDate.date, unavailableDate.startTime);
-          const unavailEndTime = convertStringDatetime(unavailableDate.date, unavailableDate.endTime);
-          
-          const availStartTime = convertStringDatetime(availableDate.date, availableDate.startTime);
-          const availEndTime = convertStringDatetime(availableDate.date, availableDate.endTime);
-
-          if(unavailStartTime.getTime() <= availStartTime.getTime() && unavailEndTime.getTime() >= availEndTime.getTime()) {
-            available = false;
-            break;
-          }
-        }
-      }
-      if(available) {
-        newAvailableDates.push(availableDate);
-      }
-    }
-  
-    return newAvailableDates.length > 0 ? true : false;
-  };
 }

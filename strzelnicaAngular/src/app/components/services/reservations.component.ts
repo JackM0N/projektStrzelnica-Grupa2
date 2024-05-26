@@ -56,7 +56,7 @@ export class ReservationsComponent implements AfterViewInit {
   reservation: ServiceReservation = {
     service: undefined,
     date: new Date(),
-    start_time: '',
+    startTime: '',
     end_time: '',
     price: -1,
     track: undefined,
@@ -72,7 +72,7 @@ export class ReservationsComponent implements AfterViewInit {
     this.reservationForm = this.formBuilder.group({
       service: [undefined, Validators.required],
       date: [new Date(), Validators.required],
-      start_time: ['', Validators.required],
+      startTime: ['', Validators.required],
       end_time: ['', Validators.required],
       price: ['', Validators.required],
       track: [undefined, Validators.required],
@@ -161,7 +161,7 @@ export class ReservationsComponent implements AfterViewInit {
   submitForm(): void {
     if (this.reservationForm.valid) {
       this.reservation.service = this.reservationForm.value.service;
-      this.reservation.start_time = this.reservationForm.value.start_time;
+      this.reservation.startTime = this.reservationForm.value.startTime;
       this.reservation.end_time = this.reservationForm.value.end_time;
       this.reservation.price = this.reservationForm.value.price;
 
@@ -226,6 +226,12 @@ export class ReservationsComponent implements AfterViewInit {
       };
   
       this.reservationsService.deleteServiceReservation(this.selectedReservation.id).subscribe(observer);
+    }
+  }
+
+  public changePage(): void {
+    if (this.selectedService != undefined) {
+      this.fetchReservations(this.selectedService.id);
     }
   }
 

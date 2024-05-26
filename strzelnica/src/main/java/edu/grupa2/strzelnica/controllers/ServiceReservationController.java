@@ -60,7 +60,7 @@ public class ServiceReservationController {
 
     // PUT - Update an existing service reservation
     @PutMapping("/servicereservations/edit/{id}")
-    public ResponseEntity<ServiceReservation> updateServiceReservation(@PathVariable Integer id, @RequestBody ServiceReservation updatedServiceReservation) {
+    public ResponseEntity<ServiceReservation> updateServiceReservation(@PathVariable Integer id, @RequestBody ServiceReservation updatedServiceReservation) throws Exception {
         return serviceReservationsService.updateServiceReservation(id, updatedServiceReservation);
     }
 

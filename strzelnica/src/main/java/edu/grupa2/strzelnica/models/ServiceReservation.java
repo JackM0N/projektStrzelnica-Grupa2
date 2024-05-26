@@ -3,10 +3,8 @@ package edu.grupa2.strzelnica.models;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.postgresql.util.PGmoney;
-
 import java.sql.Time;
-import java.util.Date;
+import java.sql.Date;
 
 @Setter
 @Getter
@@ -26,7 +24,7 @@ public class ServiceReservation {
     private Date date;
 
     @Column(name = "start_time", nullable = false)
-    private Time start_time;
+    private Time startTime;
 
     @Column(name = "end_time", nullable = false)
     private Time end_time;

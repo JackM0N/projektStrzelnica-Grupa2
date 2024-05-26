@@ -30,8 +30,8 @@
         </div>
 
         <div>
-          <label for="start_time">Czas zaczęcia:</label>
-          <input type="text" id="start_time" name="start_time" [(ngModel)]="reservation.start_time" formControlName="start_time" required>
+          <label for="startTime">Czas zaczęcia:</label>
+          <input type="text" id="startTime" name="startTime" [(ngModel)]="reservation.startTime" formControlName="startTime" required>
         </div>
 
         <div>
@@ -117,11 +117,11 @@
           <tr *ngFor="let reservation of reservationList">
             <td>{{ reservation.id }}</td>
             
-            <td [ngClass]="{ 'past-date': isPastDate(reservation.date) }">
+            <td [ngClass]="{ 'past-date': isPastDate(reservation.date, reservation.end_time) }">
               {{ getFormattedDate(reservation.date) | date: 'dd.MM.yyyy' }}
             </td>
 
-            <td>{{ getFormattedTime(reservation.start_time) }}</td>
+            <td>{{ getFormattedTime(reservation.startTime) }}</td>
             <td>{{ getFormattedTime(reservation.end_time) }}</td>
 
             <td>{{ reservation.price }}</td>
@@ -139,6 +139,6 @@
   </div>
 
   <app-pagination #paginationComponent
-      (onPageChange)="fetchServices()">
+      (onPageChange)="changePage()">
   </app-pagination>
 </div>

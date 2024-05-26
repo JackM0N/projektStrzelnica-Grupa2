@@ -45,9 +45,13 @@ export function getPolishDayOfWeek(date: Date): string {
     return daysOfWeek[dayIndex];
 }
 
-export function isPastDate(date: Date): boolean {
+export function isPastDate(date: Date, time?: string): boolean {
     const currentDate = new Date();
     const comparisonDate = new Date(date);
+    if (time) {
+        comparisonDate.setHours(Number(time.split(":")[0]));
+        comparisonDate.setMinutes(Number(time.split(":")[1]));
+    }
     return comparisonDate < currentDate;
 }
 
