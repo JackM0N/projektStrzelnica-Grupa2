@@ -42,8 +42,6 @@ public class ServiceUnavailabilityController {
     // POST - Add a new service unavailability to the database
     @PostMapping("/serviceunavailabilities/add")
     public ResponseEntity<?> addServiceUnavailability(@RequestBody ServiceUnavailability serviceUnavailability) {
-        System.out.println(serviceUnavailability);
-
         try {
             serviceUnavailabilitiesService.saveServiceUnavailability(serviceUnavailability);
             return ResponseEntity.ok().body("{\"message\": \"success_service_unavailability_added_successfully\"}");

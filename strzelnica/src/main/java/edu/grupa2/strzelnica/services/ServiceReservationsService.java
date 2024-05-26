@@ -82,9 +82,6 @@ public class ServiceReservationsService {
         Track reservationTrack = serviceReservation.getTrack();
 
         for (DateAvailability availableSlot : availableSlots) {
-            System.out.println(availableSlot.getDate() + " " + availableSlot.getStartTime() + " " + availableSlot.getTrack().getId());
-            System.out.println(reservationDate + " " + reservationStartTime + " " + reservationTrack.getId());
-
             if ( availableSlot.getDate().compareTo(reservationDate) == 0 &&
                     availableSlot.getStartTime().compareTo(String.valueOf(reservationStartTime)) == 0 &&
                     availableSlot.getTrack().getId().equals(reservationTrack.getId())
