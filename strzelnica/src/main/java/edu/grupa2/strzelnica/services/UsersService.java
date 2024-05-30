@@ -3,6 +3,7 @@ package edu.grupa2.strzelnica.services;
 import edu.grupa2.strzelnica.dto.UserDTO;
 import edu.grupa2.strzelnica.models.Users;
 import edu.grupa2.strzelnica.repositories.UsersRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
