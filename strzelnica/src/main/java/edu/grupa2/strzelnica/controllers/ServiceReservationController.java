@@ -1,5 +1,6 @@
 package edu.grupa2.strzelnica.controllers;
 
+import edu.grupa2.strzelnica.dto.ServiceReservationDTO;
 import edu.grupa2.strzelnica.models.ServiceReservation;
 import edu.grupa2.strzelnica.services.ServiceReservationsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
+@RequestMapping("/servicereservations")
 public class ServiceReservationController {
     private final ServiceReservationsService serviceReservationsService;
 
@@ -20,23 +22,23 @@ public class ServiceReservationController {
     }
 
     // GET - Get all service reservations from the database
-    @GetMapping("/servicereservations")
+    @GetMapping
     @ResponseBody
-    public Page<ServiceReservation> getServiceReservations(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+    public Page<ServiceReservationDTO> getServiceReservations(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         return serviceReservationsService.getPaginatedServiceReservations(page, size);
     }
 
     // GET - Get paginated service reservation list for a specific service from the database
-    @GetMapping("/servicereservations/paginated/{id}")
+    @GetMapping("/paginated/{id}")
     @ResponseBody
-    public Page<ServiceReservation> getPaginatedServiceReservationByServiceId(@PathVariable Integer id, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+    public Page<ServiceReservationDTO> getPaginatedServiceReservationByServiceId(@PathVariable Integer id, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         return serviceReservationsService.getPaginatedServiceReservationsByServiceId(id, page, size);
     }
 
     // GET - Get service reservation list for a specific service from the database
-    @GetMapping("/servicereservations/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> getServiceReservationByServiceId(@PathVariable Integer id) {
-        List<ServiceReservation> got = serviceReservationsService.getServiceReservationsByServiceId(id);
+        List<ServiceReservationDTO> got = serviceReservationsService.getServiceReservationsByServiceId(id);
 
         if (got.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"message\": \"error_service_reservations_empty\"}");
@@ -47,8 +49,8 @@ public class ServiceReservationController {
     }
 
     // POST - Add a new service reservation to the database
-    @PostMapping("/servicereservations/add")
-    public ResponseEntity<?> addServiceReservation(@RequestBody ServiceReservation serviceReservation) {
+    @PostMapping("/add")
+    public ResponseEntity<?> addServiceReservation(@RequestBody ServiceReservationDTO serviceReservation) {
         try {
             serviceReservationsService.saveServiceReservation(serviceReservation);
             return ResponseEntity.ok().body("{\"message\": \"success_service_reservation_added_successfully\"}");
@@ -59,13 +61,13 @@ public class ServiceReservationController {
     }
 
     // PUT - Update an existing service reservation
-    @PutMapping("/servicereservations/edit/{id}")
-    public ResponseEntity<ServiceReservation> updateServiceReservation(@PathVariable Integer id, @RequestBody ServiceReservation updatedServiceReservation) throws Exception {
+    @PutMapping("/edit/{id}")
+    public ResponseEntity<ServiceReservationDTO> updateServiceReservation(@PathVariable Integer id, @RequestBody ServiceReservationDTO updatedServiceReservation) throws Exception {
         return serviceReservationsService.updateServiceReservation(id, updatedServiceReservation);
     }
 
     // DELETE - Delete or restore a service reservation
-    @DeleteMapping("/servicereservations/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteServiceReservation(@PathVariable Integer id) {
         try {
             serviceReservationsService.deleteServiceReservationById(id);

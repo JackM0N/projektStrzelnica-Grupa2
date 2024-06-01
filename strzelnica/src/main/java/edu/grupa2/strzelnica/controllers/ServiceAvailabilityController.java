@@ -1,7 +1,7 @@
 package edu.grupa2.strzelnica.controllers;
 
+import edu.grupa2.strzelnica.dto.ServiceAvailabilityDTO;
 import edu.grupa2.strzelnica.models.ServiceAvailability;
-import edu.grupa2.strzelnica.models.ServiceReservation;
 import edu.grupa2.strzelnica.services.ServiceAvailabilitiesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
+@RequestMapping("/serviceavailabilities")
 public class ServiceAvailabilityController {
     private final ServiceAvailabilitiesService serviceAvailabilitiesService;
 
@@ -21,9 +22,9 @@ public class ServiceAvailabilityController {
     }
 
     // GET - Get service availability list for a specific service from the database
-    @GetMapping("/serviceavailabilities/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> getServiceAvailabilityById(@PathVariable Integer id) {
-        List<ServiceAvailability> got = serviceAvailabilitiesService.getServiceAvailabilitiesByServiceId(id);
+        List<ServiceAvailabilityDTO> got = serviceAvailabilitiesService.getServiceAvailabilitiesByServiceId(id);
 
         if (got.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"message\": \"error_service_availabilities_empty\"}");
@@ -34,15 +35,15 @@ public class ServiceAvailabilityController {
     }
 
     // GET - Get paginated service availability list for a specific service from the database
-    @GetMapping("/serviceavailabilities/paginated/{id}")
+    @GetMapping("/paginated/{id}")
     @ResponseBody
-    public Page<ServiceAvailability> getPaginatedServiceReservationByServiceId(@PathVariable Integer id, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+    public Page<ServiceAvailabilityDTO> getPaginatedServiceReservationByServiceId(@PathVariable Integer id, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         return serviceAvailabilitiesService.getPaginatedServiceAvailabilitiesByServiceId(id, page, size);
     }
 
     // POST - Add a new service availability to the database
-    @PostMapping("/serviceavailabilities/add")
-    public ResponseEntity<?> addServiceAvailability(@RequestBody ServiceAvailability serviceAvailability) {
+    @PostMapping("/add")
+    public ResponseEntity<?> addServiceAvailability(@RequestBody ServiceAvailabilityDTO serviceAvailability) {
         try {
             serviceAvailabilitiesService.saveServiceAvailability(serviceAvailability);
             return ResponseEntity.ok().body("{\"message\": \"success_service_availability_added_successfully\"}");
@@ -53,13 +54,13 @@ public class ServiceAvailabilityController {
     }
 
     // PUT - Update an existing service availability
-    @PutMapping("/serviceavailabilities/edit/{id}")
-    public ResponseEntity<ServiceAvailability> updateServiceAvailability(@PathVariable Integer id, @RequestBody ServiceAvailability updatedServiceAvailability) {
+    @PutMapping("/edit/{id}")
+    public ResponseEntity<ServiceAvailabilityDTO> updateServiceAvailability(@PathVariable Integer id, @RequestBody ServiceAvailabilityDTO updatedServiceAvailability) {
         return serviceAvailabilitiesService.updateServiceAvailability(id, updatedServiceAvailability);
     }
 
     // DELETE - Delete a service availability
-    @DeleteMapping("/serviceavailabilities/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteServiceAvailability(@PathVariable Integer id) {
         try {
             serviceAvailabilitiesService.deleteServiceAvailabilityById(id);

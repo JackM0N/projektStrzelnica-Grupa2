@@ -1,5 +1,6 @@
 package edu.grupa2.strzelnica.controllers;
 
+import edu.grupa2.strzelnica.dto.ServiceDTO;
 import edu.grupa2.strzelnica.models.Service;
 import edu.grupa2.strzelnica.services.ServicesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
+@RequestMapping("/services")
 public class ServiceController {
     private final ServicesService servicesService;
 
@@ -22,23 +24,23 @@ public class ServiceController {
     }
 
     // GET - Get paginated services from the database
-    @GetMapping("/services")
+    @GetMapping
     @ResponseBody
-    public Page<Service> getPaginatedServices(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+    public Page<ServiceDTO> getPaginatedServices(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         return servicesService.getPaginatedServices(page, size);
     }
 
     // GET - Get all services from the database
-    @GetMapping("/services/all")
+    @GetMapping("/all")
     @ResponseBody
-    public List<Service> getAllServices() {
+    public List<ServiceDTO> getAllServices() {
         return servicesService.getAllServices();
     }
 
     // GET - Get specific service from the database
-    @GetMapping("/services/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> getServiceById(@PathVariable Integer id) {
-        Optional<Service> optionalService = servicesService.getServiceById(id);
+        Optional<ServiceDTO> optionalService = servicesService.getServiceById(id);
 
         // Send the service if it exists
         if (optionalService.isPresent()) {
@@ -50,10 +52,10 @@ public class ServiceController {
     }
 
     // POST - Add a new service to the database
-    @PostMapping("/services/add")
-    public ResponseEntity<?> addService(@RequestBody Service service) {
+    @PostMapping("/add")
+    public ResponseEntity<?> addService(@RequestBody ServiceDTO serviceDTO) {
         try {
-            servicesService.saveService(service);
+            servicesService.saveService(serviceDTO);
             return ResponseEntity.ok().body("{\"message\": \"success_service_added_successfully\"}");
 
         } catch (Exception e) {
@@ -62,13 +64,13 @@ public class ServiceController {
     }
 
     // PUT - Update an existing service
-    @PutMapping("/services/edit/{id}")
-    public ResponseEntity<Service> updateService(@PathVariable Integer id, @RequestBody Service updatedService) {
-        return servicesService.updateService(id, updatedService);
+    @PutMapping("/edit/{id}")
+    public ResponseEntity<ServiceDTO> updateService(@PathVariable Integer id, @RequestBody ServiceDTO updatedServiceDTO) {
+        return servicesService.updateService(id, updatedServiceDTO);
     }
 
     // DELETE - Delete or restore a service
-    @DeleteMapping("/services/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteService(@PathVariable Integer id) {
         try {
             servicesService.deleteServiceById(id);
