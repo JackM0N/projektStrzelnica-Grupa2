@@ -15,6 +15,8 @@ import { WeaponFormComponent } from './components/weapons/weaponform.component';
 import { AboutComponent } from './components/about/about.component';
 import { UsersComponent } from './components/users/users.component';
 import { UsersFormComponent } from './components/users/usersform.component';
+import { UsersProfileComponent } from './components/users/usersprofile.component';
+import { UsersProfileEditComponent } from './components/users/usersprofileedit.component';
 import { WeaponDeleteComponent } from './components/weapons/weapondelete.component';
 import { RegistrationComponent } from './components/authentication/registration.component';
 import { ServicesComponent } from './components/services/services.component';
@@ -34,6 +36,7 @@ import { QuillModule } from 'ngx-quill';
 import { JwtModule } from '@auth0/angular-jwt'; // Import JwtModule
 import { AuthService } from './services/auth.service';
 import { AuthGuard } from './guards/auth.guard';
+import { RouterModule } from '@angular/router';
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,6 +51,8 @@ import { AuthGuard } from './guards/auth.guard';
     AboutComponent,
     UsersComponent,
     UsersFormComponent,
+    UsersProfileComponent,
+    UsersProfileEditComponent,
     RegistrationComponent,
     ServicesComponent,
     ServiceFormComponent,
@@ -69,6 +74,7 @@ import { AuthGuard } from './guards/auth.guard';
     MatDatepickerModule,
     MatNativeDateModule,
     MatInputModule,
+    RouterModule,
     QuillModule.forRoot(), // nah nothing wrong here
     JwtModule.forRoot({
       config: {

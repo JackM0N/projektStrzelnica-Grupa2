@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
-@Controller
+@RestController
 @RequestMapping("/users")
 public class UsersController {
     private final UsersService usersService;
@@ -37,13 +37,24 @@ public class UsersController {
 
     @GetMapping("/account")
     public ResponseEntity<?> getCurrentUser(Authentication authentication) {
+        if (authentication == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Brak uwierzytelnienia");
+        }
+
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
         Optional<UserDTO> user =  usersService.getUserById(userDetails.getId());
-        return ResponseEntity.ok(user.get());
+        if (user.isPresent()) {
+            return ResponseEntity.ok(user.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Użytkownik nie znaleziony");
+        }
     }
 
     @PutMapping("/account")
     public ResponseEntity<?> updateCurrentUser(@RequestBody UserDTO userDto, Authentication authentication) {
+        if (authentication == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Brak uwierzytelnienia");
+        }
         try {
             CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
             UserDTO updatedUser = usersService.updateUser(userDetails.getId(), userDto);

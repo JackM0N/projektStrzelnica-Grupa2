@@ -18,6 +18,7 @@
         <li class="nav-item" *ngIf="!authService.isAuthenticated()"><a routerLink="/register" routerLinkActive="active">Zarejestruj</a></li>
         <li class="nav-item" *ngIf="!authService.isAuthenticated()"><a routerLink="/login" routerLinkActive="active">Zaloguj</a></li>
         <li class="nav-item" *ngIf="authService.isAuthenticated()"><a (click)="logout()">Logout</a></li>
+        <li class="nav-item" *ngIf="authService.isAuthenticated()"><a routerLink="/users/account" routerLinkActive="active">Konto</a></li>
       </ul>
     </nav>
   </div>

@@ -1,0 +1,40 @@
+<!-- Success/failure response pop-up -->
+<app-popup #responsePopup
+    headerName="{{responsePopupHeader}}"
+    messageText="{{responsePopupMessage}}"
+    [ngClass]="responsePopupNgClass"
+    closeButtonLabel="Ok"
+    (closeEvent)="responsePopupCancelAction()">
+</app-popup>
+
+<div class="form-container">
+    <div>
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+        <div>
+            <label for="name">Imię:</label>
+            <input type="text" id="name" name="name" [(ngModel)]="user.name" formControlName="name" required>
+        </div>
+
+        <div>
+            <label for="surname">Nazwisko:</label>
+            <input type="text" id="surname" name="surname" [(ngModel)]="user.surname" formControlName="surname" required>
+        </div>
+
+        <div>
+            <label for="dateOfBirth">Data urodzenia:</label>
+            <input type="date" id="dateOfBirth" name="dateOfBirth" [(ngModel)]="user.dateOfBirth" formControlName="dateOfBirth" required>
+        </div>
+
+        <div>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" [(ngModel)]="user.email" formControlName="email" required>
+        </div>
+
+        <div class="button-container">
+          <button type="button" class="form-button" ngClass="go-back-button" (click)="goBack()">Cofnij</button>
+          <button type="submit" class="form-button" [disabled]="!userForm.valid" [class.disabled-button]="!userForm.valid">
+            Zapisz
+        </button>
+        </div>
+    </form>
+</div>
