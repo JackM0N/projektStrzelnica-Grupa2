@@ -43,7 +43,8 @@ hr {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* source: https://www.codehim.com/html5-css3/image-and-text-side-by-side-html-css/ */
+/* codeblock for images alternating on left and right side
+   source: https://www.codehim.com/html5-css3/image-and-text-side-by-side-html-css/ */
 img {
   max-width: 50%;
   height: auto;
@@ -79,6 +80,8 @@ img {
 		clear: both;
 	}
 }
+
+/* end of images codeblock */
 
 #reserve-button {
   float: center;

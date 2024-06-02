@@ -32,6 +32,8 @@ import { LoginComponent } from './components/authentication/login.component';
 import { ReservationsComponent } from './components/services/reservations.component';
 import { AvailabilitiesComponent } from './components/services/availabilities.component';
 import { RulesComponent } from './components/rules/rules.component';
+import { CompetitionsComponent } from './components/competitions/competitions.component'
+import { CompetitionsFormComponent } from './components/competitions/competitionsform.component'
 import { QuillModule } from 'ngx-quill';
 import { JwtModule } from '@auth0/angular-jwt'; // Import JwtModule
 import { AuthService } from './services/auth.service';
@@ -60,7 +62,9 @@ import { RouterModule } from '@angular/router';
     ReservationsComponent,
     LoginComponent,
     AvailabilitiesComponent,
-    RulesComponent
+    RulesComponent,
+    CompetitionsComponent,
+    CompetitionsFormComponent,
   ],
 
   imports: [

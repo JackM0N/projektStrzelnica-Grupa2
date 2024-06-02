@@ -17,6 +17,8 @@ import { ReservationsComponent } from './components/services/reservations.compon
 import { AvailabilitiesComponent } from './components/services/availabilities.component';
 import { RulesComponent } from './components/rules/rules.component';
 import { AuthGuard } from './guards/auth.guard';
+import { CompetitionsComponent } from './components/competitions/competitions.component';
+import { CompetitionsFormComponent } from './components/competitions/competitionsform.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'news', pathMatch: 'full' },
@@ -41,6 +43,10 @@ const routes: Routes = [
   { path: 'offer/edit/:id', component: ServiceFormComponent },
   { path: 'reservations', component: ReservationsComponent },
   { path: 'availabilities', component: AvailabilitiesComponent, canActivate: [AuthGuard]},
+
+  { path: 'competitions', component: CompetitionsComponent },
+  { path: 'competitions/add', component: CompetitionsFormComponent },
+  { path: 'competitions/edit/:id', component: CompetitionsFormComponent },
 
   { path: 'register', component: RegistrationComponent},
   { path: 'login', component: LoginComponent},
