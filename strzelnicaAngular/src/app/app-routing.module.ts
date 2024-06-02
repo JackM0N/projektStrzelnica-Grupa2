@@ -7,6 +7,8 @@ import { AboutComponent } from './components/about/about.component';
 import { WeaponFormComponent } from './components/weapons/weaponform.component';
 import { UsersComponent } from './components/users/users.component';
 import { UsersFormComponent } from './components/users/usersform.component';
+import { UsersProfileComponent } from './components/users/usersprofile.component';
+import { UsersProfileEditComponent } from './components/users/usersprofileedit.component';
 import { RegistrationComponent } from './components/authentication/registration.component';
 import { LoginComponent } from './components/authentication/login.component';
 import { ServicesComponent } from './components/services/services.component';
@@ -31,6 +33,8 @@ const routes: Routes = [
 
   { path: 'users', component: UsersComponent },
   { path: 'users/edit/:id', component: UsersFormComponent },
+  { path: 'users/account', component:UsersProfileComponent},
+  { path: 'users/account/edit', component:UsersProfileEditComponent},
 
   { path: 'offer', component: ServicesComponent },
   { path: 'offer/add', component: ServiceFormComponent },

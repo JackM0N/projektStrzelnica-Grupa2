@@ -1,5 +1,6 @@
 package edu.grupa2.strzelnica.security;
 
+import edu.grupa2.strzelnica.models.CustomUserDetails;
 import edu.grupa2.strzelnica.models.Role;
 import edu.grupa2.strzelnica.models.Users;
 import edu.grupa2.strzelnica.repositories.UsersRepository;
@@ -29,7 +30,8 @@ public class CustomUserDetailsService implements UserDetailsService {
         Users user = usersRepository.findByEmail(email).orElseThrow(()
                 -> new UsernameNotFoundException("Użytkownik o podanym e-mailu nie został znaleziony"));
 
-        return new User(user.getEmail(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));
+        return new CustomUserDetails(user);
+        //return new User(user.getEmail(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));
     }
 
     private Collection<GrantedAuthority> mapRolesToAuthorities(List<Role> roles) {

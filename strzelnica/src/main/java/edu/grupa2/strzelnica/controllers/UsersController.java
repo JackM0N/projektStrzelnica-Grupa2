@@ -1,12 +1,15 @@
 package edu.grupa2.strzelnica.controllers;
 
 import edu.grupa2.strzelnica.dto.UserDTO;
+import edu.grupa2.strzelnica.models.CustomUserDetails;
 import edu.grupa2.strzelnica.models.Users;
 import edu.grupa2.strzelnica.services.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
-@Controller
+@RestController
 @RequestMapping("/users")
 public class UsersController {
     private final UsersService usersService;
@@ -30,6 +33,35 @@ public class UsersController {
     @ResponseBody
     public Page<UserDTO> getUsers(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         return usersService.getPaginatedUsers(page, size);
+    }
+
+    @GetMapping("/account")
+    public ResponseEntity<?> getCurrentUser(Authentication authentication) {
+        if (authentication == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Brak uwierzytelnienia");
+        }
+
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        Optional<UserDTO> user =  usersService.getUserById(userDetails.getId());
+        if (user.isPresent()) {
+            return ResponseEntity.ok(user.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Użytkownik nie znaleziony");
+        }
+    }
+
+    @PutMapping("/account")
+    public ResponseEntity<?> updateCurrentUser(@RequestBody UserDTO userDto, Authentication authentication) {
+        if (authentication == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Brak uwierzytelnienia");
+        }
+        try {
+            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+            UserDTO updatedUser = usersService.updateUser(userDetails.getId(), userDto);
+            return ResponseEntity.ok(updatedUser);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to update user");
+        }
     }
 
     // GET - Get a specific user by ID

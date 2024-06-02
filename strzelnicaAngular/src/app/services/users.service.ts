@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Users } from '../interfaces/users';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +14,13 @@ export class UserService {
   private editUrl = 'http://localhost:8080/users/edit';
   private registerUrl = 'http://localhost:8080/register';
   private loginUrl = 'http://localhost:8080/login';
+  private accountUrl = 'http://localhost:8080/users/account';
 
-  constructor(private http: HttpClient) { }
+
+  constructor(
+    private http: HttpClient,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) { }
 
   // Fetch paginated list of users from the database
   getPaginatedUsers(page: number, size: number): Observable<any> {
@@ -42,5 +48,27 @@ export class UserService {
 
   login(credentials: { email: string, password: string }): Observable<any> {
     return this.http.post<any>(this.loginUrl, credentials);
+  }
+
+  getCurrentUser(): Observable<Users> {
+    let headers = new HttpHeaders();
+    if (isPlatformBrowser(this.platformId)) {
+      const token = localStorage.getItem('access_token');
+      if (token) {
+        headers = headers.set('Authorization', `Bearer ${token}`);
+      }
+    }
+    return this.http.get<Users>(this.accountUrl, { headers });
+  }
+
+  updateCurrentUser(user: Users): Observable<Users> {
+    let headers = new HttpHeaders();
+    if (isPlatformBrowser(this.platformId)) {
+      const token = localStorage.getItem('access_token');
+      if (token) {
+        headers = headers.set('Authorization', `Bearer ${token}`);
+      }
+    }
+    return this.http.put<Users>(this.accountUrl, user, { headers });
   }
 }
