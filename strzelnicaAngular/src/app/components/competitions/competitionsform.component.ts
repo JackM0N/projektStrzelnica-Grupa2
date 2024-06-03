@@ -54,7 +54,7 @@ export class CompetitionsFormComponent implements OnInit {
   ) {
     // Determine if the route is for adding a new competition or editing an existing one
     this.isAddCompetitionRoute = this.route.snapshot.routeConfig?.path?.includes('/add') == true;
-    if(!this.isAddCompetitionRoute) {
+    if (!this.isAddCompetitionRoute) {
       this.actionText = 'Edytuj zawody';
     }
 
@@ -63,8 +63,8 @@ export class CompetitionsFormComponent implements OnInit {
       name: ['', Validators.required],
       description: ['', Validators.required],
       date: ['', Validators.required],
-      hourStart: ['', Validators.required],
-      hourEnd: ['', Validators.required],
+      hourStart: [this.competition.hourStart, [Validators.required, Validators.min(0), Validators.max(23)]],
+      hourEnd: [this.competition.hourEnd, [Validators.required, Validators.min(0), Validators.max(23)]],
       done: [false]
     });
   }
@@ -76,20 +76,33 @@ export class CompetitionsFormComponent implements OnInit {
         this.competitionId = +params['id'];
         this.competitionsService.getCompetitionById(this.competitionId).subscribe((competition: Competitions) => {
           this.competition = competition;
+          this.updateForm();
         });
+      } else {
+        this.updateForm();
       }
+    });
+  }
+
+  updateForm() {
+    this.competitionForm.patchValue({
+      name: this.competition.name,
+      description: this.competition.description,
+      date: this.competition.date ? new Date(this.competition.date) : '',
+      hourStart: this.competition.hourStart,
+      hourEnd: this.competition.hourEnd,
+      done: this.competition.done
     });
   }
 
   // On submit, user clicks to confirm adding/editing the competition, complete it with the database
   onSubmit() {
     if (this.competitionForm.valid) {
-      this.competition.name = this.competitionForm.value.name;
-      this.competition.description = this.competitionForm.value.description;
-      this.competition.date = this.competitionForm.value.date;
-      this.competition.hourStart = this.competitionForm.value.hourStart;
-      this.competition.hourEnd = this.competitionForm.value.hourEnd;
-      this.competition.done = this.competitionForm.value.done;
+      const updatedCompetition = this.competitionForm.value as Competitions;
+      this.competition = {
+        ...this.competition,
+        ...updatedCompetition
+      };
 
       const observer: Observer<any> = {
         next: response => {

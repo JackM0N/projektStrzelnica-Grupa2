@@ -1,6 +1,7 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { PaginationComponent } from '../pagination.component';
+import { ChangeDetectorRef, Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { Competitions } from '../../interfaces/competitions';
+import { CompetitionsService } from '../../services/competitions.service';
+import { PaginationComponent } from '../pagination.component';
 
 @Component({
   selector: 'app-competitions',
@@ -12,34 +13,33 @@ import { Competitions } from '../../interfaces/competitions';
     '/src/app/styles/shared-button-styles.css'
   ]
 })
+export class CompetitionsComponent implements OnInit, AfterViewInit {
+  @ViewChild('paginationComponent', { static: false }) paginationComponent!: PaginationComponent;
 
-export class CompetitionsComponent implements OnInit {
-  competitionsList: Competitions[] = [
-    {
-      id: 1,
-      name: 'Competition 1',
-      description: 'Koleżanki i Koledzy, zbliżają się kolejne zawody klubowe WKSS Poznań. Zawody odbędą się w dniu 22 kwietnia o godzinie 10.00 w Nowolipsku. Na zawodach odbędzie się 11 konkurencji (5 pistoletowych, 4 karabinowe, 2 strzelbowe).',
-      date: new Date('2024-06-01'),
-      hourStart: 12,
-      hourEnd: 17,
-      done: true
-    },
-    {
-      id: 2,
-      name: 'Competition 2',
-      description: 'Description of Competition 2',
-      date: new Date(),
-      hourStart: 14,
-      hourEnd: 17,
-      done: false
-    }
-  ];
+  competitionsList: Competitions[] = [];
+
+  constructor(
+    private competitionsService: CompetitionsService,
+    private cd: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
-    this.sortCompetitions();
   }
 
-  sortCompetitions(): void {
-    this.competitionsList.sort((a, b) => b.date.getTime() - a.date.getTime());
+  ngAfterViewInit(): void {
+    this.fetchCompetitions();
+  }
+
+  fetchCompetitions(): void {
+    if (this.paginationComponent) {
+      this.competitionsService.getPaginatedCompetitions(this.paginationComponent.currentPage, this.paginationComponent.maxItems).subscribe(competitions => {
+        this.paginationComponent.totalPages = competitions.totalPages;
+        this.paginationComponent.calculatePages();
+        this.competitionsList = competitions.content;
+        this.cd.detectChanges();
+      });
+    } else {
+      console.error('PaginationComponent is not initialized.');
+    }
   }
 }

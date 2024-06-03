@@ -34,6 +34,7 @@ import { AvailabilitiesComponent } from './components/services/availabilities.co
 import { RulesComponent } from './components/rules/rules.component';
 import { CompetitionsComponent } from './components/competitions/competitions.component'
 import { CompetitionsFormComponent } from './components/competitions/competitionsform.component'
+import { CompetitionsDeleteComponent } from './components/competitions/competitionsdelete.component'
 import { QuillModule } from 'ngx-quill';
 import { JwtModule } from '@auth0/angular-jwt'; // Import JwtModule
 import { AuthService } from './services/auth.service';
@@ -65,6 +66,7 @@ import { RouterModule } from '@angular/router';
     RulesComponent,
     CompetitionsComponent,
     CompetitionsFormComponent,
+    CompetitionsDeleteComponent,
   ],
 
   imports: [
