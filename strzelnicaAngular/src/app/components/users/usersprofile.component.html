@@ -18,3 +18,12 @@
 <div *ngIf="!currentUser">
     <p>Ugh danych użytkownika</p>
 </div>
+
+<div *ngIf="showMembershipForm" id="membershipForm">
+    <h3>Chcesz dołączyć do naszego klubu?</h3><h3>Napisz wiadomość dlaczego chcesz zostać członkiem naszego zespołu!</h3>
+    <textarea [(ngModel)]="membershipMessage" placeholder="Wpisz swoją wiadomość tutaj..."></textarea>
+    <div id="buttons">
+        <button (click)="closeMembershipForm()" class="form-button">Anuluj</button>
+        <button type="submit" (click)="submitMembershipRequest()" class="form-button">Wyślij prośbę</button>
+    </div>
+</div>

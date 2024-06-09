@@ -1,5 +1,5 @@
 
-#profileContener {
+#profileContener, #membershipForm{
     display: flex; 
     justify-content: center; 
     align-items: center; 
@@ -25,4 +25,17 @@
 
 #profileContener button {
     margin-top: 12px;
+}
+
+textarea{
+    width: 40vh;
+    height: 20vh;
+}
+
+.form-button{
+    margin: 2vh;
+}
+
+#buttons{
+    display: flex;
 }
