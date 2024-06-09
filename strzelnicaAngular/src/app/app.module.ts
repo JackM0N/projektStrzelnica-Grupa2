@@ -40,6 +40,7 @@ import { JwtModule } from '@auth0/angular-jwt'; // Import JwtModule
 import { AuthService } from './services/auth.service';
 import { AuthGuard } from './guards/auth.guard';
 import { RouterModule } from '@angular/router';
+import { CompetitionsAddAlbumComponent } from './components/competitions/competitionsaddalbum.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -67,6 +68,7 @@ import { RouterModule } from '@angular/router';
     CompetitionsComponent,
     CompetitionsFormComponent,
     CompetitionsDeleteComponent,
+    CompetitionsAddAlbumComponent
   ],
 
   imports: [

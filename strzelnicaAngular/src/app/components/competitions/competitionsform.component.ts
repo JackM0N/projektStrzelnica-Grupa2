@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Competitions } from '../../interfaces/competitions';
+import { Competition } from '../../interfaces/competition';
 import { CompetitionsService } from '../../services/competitions.service';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -30,7 +30,7 @@ export class CompetitionsFormComponent implements OnInit {
   competitionId: number = 0;
   actionText = 'Dodaj nowe zawody';
 
-  competition: Competitions = {
+  competition: Competition = {
     id: 0,
     name: '',
     description: '',
@@ -74,7 +74,7 @@ export class CompetitionsFormComponent implements OnInit {
     this.route.params.subscribe(params => {
       if (params['id']) {
         this.competitionId = +params['id'];
-        this.competitionsService.getCompetitionById(this.competitionId).subscribe((competition: Competitions) => {
+        this.competitionsService.getCompetitionById(this.competitionId).subscribe((competition: Competition) => {
           this.competition = competition;
           this.updateForm();
         });
@@ -98,7 +98,7 @@ export class CompetitionsFormComponent implements OnInit {
   // On submit, user clicks to confirm adding/editing the competition, complete it with the database
   onSubmit() {
     if (this.competitionForm.valid) {
-      const updatedCompetition = this.competitionForm.value as Competitions;
+      const updatedCompetition = this.competitionForm.value as Competition;
       this.competition = {
         ...this.competition,
         ...updatedCompetition

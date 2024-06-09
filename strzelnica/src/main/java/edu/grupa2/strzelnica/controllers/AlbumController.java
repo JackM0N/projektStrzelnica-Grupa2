@@ -1,81 +1,86 @@
 package edu.grupa2.strzelnica.controllers;
 
-import edu.grupa2.strzelnica.dto.CompetitionDTO;
+import edu.grupa2.strzelnica.dto.AlbumDTO;
+import edu.grupa2.strzelnica.services.AlbumsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Optional;
 
-
-import edu.grupa2.strzelnica.services.CompetitionsService;
-
-
 @RestController
-@RequestMapping("/competitions")
-public class CompetitionController {
-    private final CompetitionsService competitionsService;
+@RequestMapping("/albums")
+public class AlbumController {
+    private final AlbumsService albumsService;
 
     @Autowired
-    public CompetitionController(CompetitionsService competitionsService) {
-        this.competitionsService = competitionsService;
+    public AlbumController(AlbumsService albumsService) {
+        this.albumsService = albumsService;
     }
 
-    // GET - Get paginated competitions from the database
+    // GET - Get all albums from the database
     @GetMapping
     @ResponseBody
-    public Page<CompetitionDTO> getPaginatedCompetitions(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
-        return competitionsService.getPaginatedCompetitions(page, size);
+    public List<AlbumDTO> getAlbums() {
+        return albumsService.getAllAlbums();
     }
 
-    // GET - Get all competitions from the database
-    @GetMapping("/all")
-    @ResponseBody
-    public List<CompetitionDTO> getAllCompetitions() {
-        return competitionsService.getAllCompetitions();
-    }
-
-    // GET - Get specific competition from the database
+    // GET - Get specific album from the database
     @GetMapping("/{id}")
-    public ResponseEntity<?> getCompetitionById(@PathVariable Integer id) {
-        Optional<CompetitionDTO> optionalCompetition = competitionsService.getCompetitionById(id);
+    public ResponseEntity<?> getAlbumById(@PathVariable Integer id) {
+        Optional<AlbumDTO> optionalAlbum = albumsService.getAlbum(id);
 
-        // Send the competition if it exists
-        if (optionalCompetition.isPresent()) {
-            return ResponseEntity.ok(optionalCompetition.get());
+        // Send the album if it exists
+        if (optionalAlbum.isPresent()) {
+            return ResponseEntity.ok(optionalAlbum.get());
+
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"message\": \"error_competition_not_found\"}");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"message\": \"error_album_not_found\"}");
         }
     }
 
-    // POST - Add a new competition to the database
+    // GET - Get specific album from the database by competition id
+    @GetMapping("/comp/{id}")
+    public ResponseEntity<?> getAlbumByCompetitionId(@PathVariable Integer id) {
+        Optional<AlbumDTO> optionalAlbum = albumsService.getAlbumByCompetitionId(id);
+
+        // Send the album if it exists
+        if (optionalAlbum.isPresent()) {
+            return ResponseEntity.ok(optionalAlbum.get());
+
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"message\": \"error_album_not_found\"}");
+        }
+    }
+
+    // POST - Add a new album to the database
     @PostMapping("/add")
-    public ResponseEntity<?> addCompetition(@RequestBody CompetitionDTO competitionDTO) {
+    public ResponseEntity<?> addAlbum(@RequestBody AlbumDTO albumDTO) {
         try {
-            competitionsService.saveCompetition(competitionDTO);
-            return ResponseEntity.ok().body("{\"message\": \"success_competition_added_successfully\"}");
+            albumsService.saveAlbum(albumDTO);
+            return ResponseEntity.ok().body("{\"message\": \"success_album_added_successfully\"}");
+
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"message\": \"Error adding competition: " + e.getMessage() + "\"}");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"message\": \"Error adding album: " + e.getMessage() + "\"}");
         }
     }
 
-    // PUT - Update an existing competition
+    // PUT - Update an existing album
     @PutMapping("/edit/{id}")
-    public ResponseEntity<CompetitionDTO> updateCompetition(@PathVariable Integer id, @RequestBody CompetitionDTO updatedCompetitionDTO) {
-        return competitionsService.updateCompetition(id, updatedCompetitionDTO);
+    public ResponseEntity<AlbumDTO> updateAlbum(@PathVariable Integer id, @RequestBody AlbumDTO updatedAlbumDTO) {
+        return albumsService.updateAlbum(id, updatedAlbumDTO);
     }
 
-    // DELETE - Delete or restore a competition
+    // DELETE - Delete or restore a album
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteCompetition(@PathVariable Integer id) {
+    public ResponseEntity<?> deleteAlbum(@PathVariable Integer id) {
         try {
-            competitionsService.deleteCompetitionById(id);
+            albumsService.deleteAlbum(id);
             return ResponseEntity.ok().build();
+
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"message\": \"Error deleting competition: " + e.getMessage() + "\"}");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"message\": \"Error deleting album: " + e.getMessage() + "\"}");
         }
     }
 }

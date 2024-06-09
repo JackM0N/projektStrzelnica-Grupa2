@@ -74,27 +74,33 @@
 }
 table {
     border-collapse: collapse;
+    width: 100%;
 }
-/* table headers */
+
+/* headers and rows */
+.table-container th, .table-container td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+/* headers */
 table th {
     background-color: #f2f2f2;
     padding: 8px;
     text-align: left;
     border-bottom: 1px solid #ddd;
 }
-/* table rows */
+
+/* rows */
 table tr {
     border-bottom: 1px solid #ddd;
 }
 /* alternate row background */
 table tr:nth-child(even) {
-    background-color: #f2f2f2;
+    background-color: #f9f9f9;
 }
-/* table data cells */
+
+/* data cells */
 table td {
     padding: 8px 16px;
-}
-/* table rows */
-table tr:hover {
-    background-color: #e2e2e2;
 }

@@ -1,6 +1,6 @@
 
-// Competitions model
-export interface Competitions {
+// Competition model
+export interface Competition {
     id: number;
     name: string;
     description: string;

@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
-import { Competitions } from '../../interfaces/competitions';
+import { Competition } from '../../interfaces/competition';
 import { CompetitionsService } from '../../services/competitions.service';
 import { PaginationComponent } from '../pagination.component';
 
@@ -16,7 +16,7 @@ import { PaginationComponent } from '../pagination.component';
 export class CompetitionsComponent implements OnInit, AfterViewInit {
   @ViewChild('paginationComponent', { static: false }) paginationComponent!: PaginationComponent;
 
-  competitionsList: Competitions[] = [];
+  competitionsList: Competition[] = [];
 
   constructor(
     private competitionsService: CompetitionsService,

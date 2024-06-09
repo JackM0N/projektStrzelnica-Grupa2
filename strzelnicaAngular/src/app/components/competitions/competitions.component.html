@@ -1,3 +1,4 @@
+
 <div class="welcome">
   <p>Lista zawodów</p>
   <hr>
@@ -5,6 +6,7 @@
 
 <div class="data-container">
   <button type="button" id="competitions-add-button" class="generic-button" [routerLink]="['/competitions/add']">Dodaj nowe zawody</button>
+  
   <div class="table-container">
     <table>
       <thead>
@@ -15,11 +17,13 @@
           <th>Godzina rozpoczęcia</th>
           <th>Godzina zakończenia</th>
           <th>Status</th>
+          <th>Dodaj album</th>
           <th>Zapisz</th>
           <th>Edytuj</th> <!-- dodać widoczność edytowania tylko dla pracowników-->
           <th>Usuń</th>
         </tr>
       </thead>
+
       <tbody>
         <tr *ngFor="let competition of competitionsList">
           <td>{{ competition.name }}</td>
@@ -28,21 +32,29 @@
           <td>{{ competition.hourStart }}</td>
           <td>{{ competition.hourEnd }}</td>
           <td>{{ competition.done ? 'Zakończone' : 'W toku' }}</td>
+
+          <td>
+            <button *ngIf="competition.done" type="button" class="generic-button" [routerLink]="['/competitions/addalbum', competition.id]">Dodaj album</button>
+          </td>
+
           <td>
             <button *ngIf="!competition.done" type="button" class="generic-button" [routerLink]="['/competitions/NOT_IMPLEMENTED', competition.id]">Zapisz się</button>
           </td>
+
           <td>
             <button type="button" class="generic-button" [routerLink]="['/competitions/edit', competition.id]">Edytuj</button>
           </td>
+
           <td>
             <app-competitions-delete [competition]="competition"></app-competitions-delete>
           </td>
         </tr>
       </tbody>
+
     </table>
   </div>
+
   <app-pagination #paginationComponent
     (onPageChange)="fetchCompetitions()">
   </app-pagination>
 </div>
-

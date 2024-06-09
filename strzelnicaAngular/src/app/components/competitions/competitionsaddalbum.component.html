@@ -1,0 +1,33 @@
+
+<!-- Success/failure response pop-up -->
+<app-popup #responsePopup
+    headerName="{{responsePopupHeader}}"
+    messageText="{{responsePopupMessage}}"
+    [ngClass]="responsePopupNgClass"
+    closeButtonLabel="Ok"
+    (closeEvent)="responsePopupCancelAction()">
+</app-popup>
+
+<div class="form-container">
+    <h1>{{actionText}}</h1>
+
+    <form [formGroup]="albumForm" (ngSubmit)="onSubmit()">
+
+      <div>
+        <label for="name">Nazwa:</label>
+        <input type="text" id="name" name="name" formControlName="name" required>
+      </div>
+      
+      <div>
+        <label for="description">Opis:</label>
+        <quill-editor class="quill-editor-custom" formControlName="description" [modules]="{ toolbar: quillToolbarOptions }"></quill-editor>
+      </div>
+
+      <div class="button-container">
+        <button type="button" class="form-button go-back-button" (click)="goBack()">Cofnij</button>
+        <button type="submit" class="form-button" [disabled]="!albumForm.valid || disableAlbumForm" [class.disabled-button]="!albumForm.valid">
+          Zapisz
+        </button>
+      </div>
+    </form>
+</div>
