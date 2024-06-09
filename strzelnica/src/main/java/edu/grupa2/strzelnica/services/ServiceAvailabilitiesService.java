@@ -59,6 +59,7 @@ public class ServiceAvailabilitiesService {
                 existingServiceAvailability.setService(service);
                 existingServiceAvailability.setStart_date(updatedServiceAvailabilityDTO.getStart_date());
                 existingServiceAvailability.setEnd_date(updatedServiceAvailabilityDTO.getEnd_date());
+                existingServiceAvailability.setService_day(updatedServiceAvailabilityDTO.getService_day());
                 existingServiceAvailability.setService_time_start(updatedServiceAvailabilityDTO.getService_time_start());
                 existingServiceAvailability.setService_time_end(updatedServiceAvailabilityDTO.getService_time_end());
 
@@ -84,6 +85,7 @@ public class ServiceAvailabilitiesService {
         dto.setEnd_date(serviceAvailability.getEnd_date());
         dto.setService_time_start(serviceAvailability.getService_time_start());
         dto.setService_time_end(serviceAvailability.getService_time_end());
+        dto.setService_day(serviceAvailability.getService_day());
         return dto;
     }
 
@@ -95,6 +97,7 @@ public class ServiceAvailabilitiesService {
         entity.setEnd_date(dto.getEnd_date());
         entity.setService_time_start(dto.getService_time_start());
         entity.setService_time_end(dto.getService_time_end());
+        entity.setService_day(dto.getService_day());
         return entity;
     }
 

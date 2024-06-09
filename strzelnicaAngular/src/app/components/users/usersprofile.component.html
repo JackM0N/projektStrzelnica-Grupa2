@@ -1,14 +1,20 @@
-<div *ngIf="currentUser">
+
+<div id="profileContener" *ngIf="currentUser">
     <h2>Profil</h2>
-    <p>Imię i nazwisko: {{ currentUser.name }} {{ currentUser.surname }}</p>
-    <p>Email: {{ currentUser.email }}</p>
-    <p>Data urodzenia: {{currentUser.dateOfBirth}}</p>
+    <p>
+        <b>Imię i nazwisko:</b> {{ currentUser.name }} {{ currentUser.surname }}<br>
+        <b>Email:</b> {{ currentUser.email }}<br>
+        <b>Data urodzenia:</b> {{currentUser.dateOfBirth}}<br>
+    </p>
+
     <p [ngStyle]="{'color': currentUser.clubMember ? 'green' : 'red'}">
         {{ currentUser.clubMember ? 'Jesteś członkiem klubu' : 'Nie jesteś członkiem klubu' }}
     </p>
+
     <button *ngIf="!currentUser.clubMember" (click)="requestClubMembership()" class="generic-button">Dołącz do klubu</button>
     <button [routerLink]="['edit']" class="generic-button" id="edit">Edytuj swoje dane</button>
 </div>
+
 <div *ngIf="!currentUser">
     <p>Ugh danych użytkownika</p>
 </div>

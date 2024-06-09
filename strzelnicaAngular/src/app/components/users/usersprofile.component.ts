@@ -1,7 +1,6 @@
-import { Component, OnInit,ChangeDetectorRef, ViewChild } from '@angular/core';
+import { Component, OnInit,ChangeDetectorRef } from '@angular/core';
 import { Users } from '../../interfaces/users';
 import { UserService } from '../../services/users.service';
-import { error } from 'node:console';
 
 @Component({
   selector: 'app-users-profile',
@@ -18,7 +17,7 @@ export class UsersProfileComponent implements OnInit {
   constructor(
     private userService: UserService, 
     private cd: ChangeDetectorRef,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.userService.getCurrentUser().subscribe(
