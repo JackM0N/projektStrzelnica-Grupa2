@@ -9,10 +9,10 @@
       <ul class="nav-list">
         <li class="nav-item"><a routerLink="/news" routerLinkActive="active">Strona główna</a></li>
         <li class="nav-item"><a routerLink="/offer" routerLinkActive="active">Oferta</a></li>
-        <li class="nav-item"><a routerLink="/reservations" routerLinkActive="active">Rezerwacje</a></li>
-        <li class="nav-item"><a routerLink="/availabilities" routerLinkActive="active">Terminy</a></li>
-        <li class="nav-item"><a routerLink="/weapons" routerLinkActive="active">Lista broni</a></li>
-        <li class="nav-item"><a routerLink="/users" routerLinkActive="active">Lista użytkowników</a></li>
+        <li class="nav-item" *ngIf="authService.hasAnyRole(['ADMIN', 'WORKER'])"><a routerLink="/reservations" routerLinkActive="active">Rezerwacje</a></li>
+        <li class="nav-item" *ngIf="authService.hasAnyRole(['ADMIN', 'WORKER'])"><a routerLink="/availabilities" routerLinkActive="active">Terminy</a></li>
+        <li class="nav-item" *ngIf="authService.hasAnyRole(['ADMIN', 'WORKER'])"><a routerLink="/weapons" routerLinkActive="active">Lista broni</a></li>
+        <li class="nav-item" *ngIf="authService.hasAnyRole(['ADMIN', 'WORKER'])"><a routerLink="/users" routerLinkActive="active">Lista użytkowników</a></li>
         <li class="nav-item"><a routerLink="/about" routerLinkActive="active">O nas</a></li>
         <li class="nav-item"><a routerLink="/rules" routerLinkActive="active">Zasady</a></li>
         <li class="nav-item"><a routerLink="/competitions" routerLinkActive="active">Zawody</a></li>

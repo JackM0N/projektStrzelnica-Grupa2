@@ -73,7 +73,7 @@
 
 <div class="container">
     <div class="centered">
-        <button type="button" id="services-add-button" class="generic-button" [routerLink]="['/offer/add']">Dodaj nową ofertę</button>
+        <button *ngIf="authService.hasAnyRole(['ADMIN', 'WORKER'])" type="button" id="services-add-button" class="generic-button" [routerLink]="['/offer/add']">Dodaj nową ofertę</button>
         
         <div *ngFor="let service of serviceList; let i = index" [class.image-left]="i % 2 === 0" [class.image-right]="i % 2 !== 0">
             <div class = "image-left">
@@ -86,9 +86,9 @@
 
                     <div class="service-price">Cena: {{service.price}}zł</div>
 
-                    <div id="button-container">
-                        <button type="button" id="service-edit-button" class="generic-button" [routerLink]="['/offer/edit', service.id]">Edytuj</button>
-                        <app-service-delete [service]="service"></app-service-delete>
+                    <div id="button-container" >
+                        <button *ngIf="authService.hasAnyRole(['ADMIN', 'WORKER'])" type="button" id="service-edit-button" class="generic-button" [routerLink]="['/offer/edit', service.id]">Edytuj</button>
+                        <app-service-delete *ngIf="authService.hasAnyRole(['ADMIN', 'WORKER'])" [service]="service"></app-service-delete>
                         <button id="reserve-button" class="generic-button" type="button" (click)="openReservingPopup(service)">Zarezerwuj</button>
                     </div>
                 </div>

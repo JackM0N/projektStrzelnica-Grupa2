@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, OnInit, AfterViewInit, ViewChild } from '
 import { Competitions } from '../../interfaces/competitions';
 import { CompetitionsService } from '../../services/competitions.service';
 import { PaginationComponent } from '../pagination.component';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-competitions',
@@ -20,7 +21,8 @@ export class CompetitionsComponent implements OnInit, AfterViewInit {
 
   constructor(
     private competitionsService: CompetitionsService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    public authService: AuthService,
   ) {}
 
   ngOnInit(): void {

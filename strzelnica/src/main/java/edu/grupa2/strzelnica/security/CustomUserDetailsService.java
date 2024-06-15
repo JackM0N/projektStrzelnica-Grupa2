@@ -24,17 +24,19 @@ public class CustomUserDetailsService implements UserDetailsService {
     public CustomUserDetailsService(UsersRepository usersRepository) {
         this.usersRepository = usersRepository;
     }
-
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Users user = usersRepository.findByEmail(email).orElseThrow(()
-                -> new UsernameNotFoundException("Użytkownik o podanym e-mailu nie został znaleziony"));
+        Users user = usersRepository.findByEmail(email).orElseThrow(() ->
+                new UsernameNotFoundException("User with email not found"));
 
-        return new CustomUserDetails(user);
-        //return new User(user.getEmail(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));
+        Collection<GrantedAuthority> authorities = mapRolesToAuthorities(user.getRoles());
+        return new CustomUserDetails(user, authorities);
     }
 
     private Collection<GrantedAuthority> mapRolesToAuthorities(List<Role> roles) {
-        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
+        return roles.stream()
+                .map(role -> new SimpleGrantedAuthority(role.getName()))
+                .collect(Collectors.toList());
     }
+
 }

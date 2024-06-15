@@ -10,6 +10,7 @@ import { PopupComponent } from '../popup.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Track } from '../../interfaces/track';
 import { TracksService } from '../../services/tracks.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-offers',
@@ -67,6 +68,7 @@ export class ReservationsComponent implements AfterViewInit {
     private reservationsService: ServiceReservationsService,
     private tracksService: TracksService,
     private cd: ChangeDetectorRef,
+    private authService: AuthService,
     private formBuilder: FormBuilder,
   ) {
     this.reservationForm = this.formBuilder.group({

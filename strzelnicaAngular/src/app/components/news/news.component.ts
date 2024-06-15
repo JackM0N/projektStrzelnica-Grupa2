@@ -3,6 +3,7 @@ import { NewsService } from '../../services/news.service';
 import { News } from '../../interfaces/news';
 import { isImageValid } from '../../utils/utils';
 import { PaginationComponent } from '../pagination.component';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-news',
@@ -21,7 +22,7 @@ export class NewsComponent implements AfterViewInit {
   @ViewChild('paginationComponent', { static: false }) paginationComponent!: PaginationComponent;
   newsList: News[] = [];
 
-  constructor(private newsService: NewsService, private cd: ChangeDetectorRef) {}
+  constructor(private newsService: NewsService, public authService: AuthService, private cd: ChangeDetectorRef) {}
 
   // After init - because we need the pagination to load first
   // Fetch the news from the database and display them

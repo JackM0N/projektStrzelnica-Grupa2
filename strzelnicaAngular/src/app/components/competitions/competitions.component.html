@@ -4,7 +4,7 @@
 </div>
 
 <div class="data-container">
-  <button type="button" id="competitions-add-button" class="generic-button" [routerLink]="['/competitions/add']">Dodaj nowe zawody</button>
+  <button *ngIf="authService.hasAnyRole(['ADMIN', 'WORKER'])" type="button" id="competitions-add-button" class="generic-button" [routerLink]="['/competitions/add']">Dodaj nowe zawody</button>
   <div class="table-container">
     <table>
       <thead>
@@ -16,8 +16,8 @@
           <th>Godzina zakończenia</th>
           <th>Status</th>
           <th>Zapisz</th>
-          <th>Edytuj</th> <!-- dodać widoczność edytowania tylko dla pracowników-->
-          <th>Usuń</th>
+          <th *ngIf="authService.hasAnyRole(['ADMIN', 'WORKER'])">Edytuj</th> <!-- dodać widoczność edytowania tylko dla pracowników-->
+          <th *ngIf="authService.hasAnyRole(['ADMIN', 'WORKER'])">Usuń</th>
         </tr>
       </thead>
       <tbody>
@@ -31,10 +31,10 @@
           <td>
             <button *ngIf="!competition.done" type="button" class="generic-button" [routerLink]="['/competitions/NOT_IMPLEMENTED', competition.id]">Zapisz się</button>
           </td>
-          <td>
-            <button type="button" class="generic-button" [routerLink]="['/competitions/edit', competition.id]">Edytuj</button>
+          <td *ngIf="authService.hasAnyRole(['ADMIN', 'WORKER'])">
+            <button  type="button" class="generic-button" [routerLink]="['/competitions/edit', competition.id]">Edytuj</button>
           </td>
-          <td>
+          <td *ngIf="authService.hasAnyRole(['ADMIN', 'WORKER'])">
             <app-competitions-delete [competition]="competition"></app-competitions-delete>
           </td>
         </tr>

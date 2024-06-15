@@ -11,6 +11,7 @@ import { AvailabilityService } from '../../services/availability.service';
 import { DateAvailability } from '../../interfaces/dateavailability';
 import { ServiceReservationsService } from '../../services/servicereservations.service';
 import { Track } from '../../interfaces/track';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-service-reservation',
@@ -66,6 +67,7 @@ export class ServicesComponent implements AfterViewInit {
     private servicesService: ServicesService,
     private availabilityService: AvailabilityService,
     private serviceReservationsService: ServiceReservationsService,
+    public authService: AuthService,
     private cd: ChangeDetectorRef
   ) {
     this.minDate = new Date();
