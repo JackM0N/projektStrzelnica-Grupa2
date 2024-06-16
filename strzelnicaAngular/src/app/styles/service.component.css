@@ -1,8 +1,28 @@
-
 .container {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.service-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  text-align: center;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  padding: 5px;
+  line-height: 120%;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* codeblock for images alternating on left and right side
+     source: https://www.codehim.com/html5-css3/image-and-text-side-by-side-html-css/ */
+  img {
+    max-width: 50%;
+  
 }
 
 hr {
@@ -23,65 +43,30 @@ hr {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.left {
-  position: absolute;
-  left: 1%;
-  display: flex;
-  justify-content: left;
-  justify-items: center;
-  text-align: center;
-  flex-direction: column;
-  max-width: 12%;
-  margin-bottom: 20px;
-  margin-top: 20px;
-  padding: 20px;
-  padding-top: 0;
-  line-height: 120%;
-  border: 1px solid #ccc;
-  width: 80%;
-  background-color: #f9f9f9;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* codeblock for images alternating on left and right side
-   source: https://www.codehim.com/html5-css3/image-and-text-side-by-side-html-css/ */
-img {
-  max-width: 50%;
+.service-container img {
+  width: 50%;
   height: auto;
 }
 
-.image-left, .image-right {
-	margin: 1em 0;
+.service-container .text-content {
+  width: 50%;
+  padding: 0 1em;
 }
 
-@media (min-width: 20em)
-{
-	.image-left, .image-right {
-		display: flex;
-		align-items: center;
-	}
-
-	.image-left img {
-		margin-right: 1em;
-		float: left; /* fallback */
-	}
-
-	.image-right img {
-		order: 1;
-		margin-left: 1em;
-		float: right; /* fallback */
-	}
-	
-	/* clearfix for fallback */
-	.image-left::after,
-	.image-right::after {
-		content: "";
-  	display: block;
-		clear: both;
-	}
+.image-left {
+  flex-direction: row;
 }
 
-/* end of images codeblock */
+.image-right {
+  flex-direction: row-reverse;
+}
+
+#button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
 
 #reserve-button {
   float: center;
@@ -128,9 +113,6 @@ img {
   margin-top: 24px;
   width: 200px;
 }
-
-
-
 
 #track-table {
   margin-bottom: 22px;
