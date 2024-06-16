@@ -31,7 +31,7 @@ public class CompetitionsService {
     }
 
     public Page<CompetitionDTO> getPaginatedCompetitions(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "date"));
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "date"));
         Page<Competition> competitions = competitionRepository.findAll(pageable);
         return competitions.map(this::convertToDTO);
     }
