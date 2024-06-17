@@ -21,8 +21,7 @@ export class CompetitionsComponent implements OnInit, AfterViewInit {
   @ViewChild('paginationComponent', { static: false }) paginationComponent!: PaginationComponent;
 
   competitionsList: Competitions[] = [];
-  presentCompetitions: Competitions[] = [];
-  pastCompetitions: Competitions[] = [];
+  pastCompetitionsList: Competitions[] = [];
   currentUser: Users | null = null;
   registeredCompetitions: { [competitionId: number]: boolean } = {};
 
@@ -38,7 +37,7 @@ export class CompetitionsComponent implements OnInit, AfterViewInit {
     this.userService.getCurrentUser().subscribe(
       (user: Users) => {
         this.currentUser = user;
-        //this.fetchCompetitions();
+        this.fetchCompetitions();
       },
       (error: any) => {
         console.error("Błąd podczas pobierania użytkownika", error);
@@ -47,7 +46,9 @@ export class CompetitionsComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.fetchCompetitions();
+    if(this.competitionsList.length == 0 && this.pastCompetitionsList.length == 0){ // fast fix for only users getting list
+      this.fetchCompetitions();
+    }
   }
 
   fetchCompetitions(): void {
@@ -55,21 +56,9 @@ export class CompetitionsComponent implements OnInit, AfterViewInit {
       this.competitionsService.getPaginatedCompetitions(this.paginationComponent.currentPage, this.paginationComponent.maxItems).subscribe(competitions => {
         this.paginationComponent.totalPages = competitions.totalPages;
         this.paginationComponent.calculatePages();
-        
-        // Clear the lists before populating
-        this.presentCompetitions = [];
-        this.pastCompetitions = [];
-  
-        // Separate the competitions into present and past
-        competitions.content.forEach((competition: Competitions) => {
-          if (competition.done) {
-            this.pastCompetitions.push(competition);
-          } else {
-            this.presentCompetitions.push(competition);
-          }
-        });
-  
+        this.competitionsList = competitions.content;
         this.checkRegistrations();
+        this.moveCompletedCompetitions();
         this.cd.detectChanges();
       });
     } else {
@@ -87,6 +76,11 @@ export class CompetitionsComponent implements OnInit, AfterViewInit {
         });
       });
     }
+  }
+
+  moveCompletedCompetitions(): void {
+    this.pastCompetitionsList = this.competitionsList.filter(competition => competition.done);
+    this.competitionsList = this.competitionsList.filter(competition => !competition.done);
   }
 
   isRegistered(competitionId: number): boolean {
