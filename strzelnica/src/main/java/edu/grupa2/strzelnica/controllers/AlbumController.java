@@ -58,9 +58,19 @@ public class AlbumController {
     // POST - Add a new album to the database
     @PostMapping(value = "/add", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> addAlbum(@RequestBody AlbumDTO albumDTO) {
+        //System.out.println("Trying to add album:");
+        //System.out.println(albumDTO);
+
         try {
-            System.out.println("TRYING TO ADD ALBUM: " + albumDTO);
-            System.out.println(albumDTO);
+            System.out.println("adding albumDTO:");
+            System.out.println(albumDTO.getImages().get(0).getAlbum());
+
+
+            albumDTO.getImages().forEach(image -> {
+                image.setAlbum(albumDTO);
+            });
+
+
             albumsService.saveAlbum(albumDTO);
             return ResponseEntity.ok().body("{\"message\": \"success_album_added_successfully\"}");
 

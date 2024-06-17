@@ -2,7 +2,7 @@ spring:
   jackson:
     time-zone: Europe/Warsaw
   datasource:
-    url: jdbc:postgresql://ep-tight-butterfly-a2dw3k9k.eu-central-1.aws.neon.tech/strzelnica_db?sslmode=require
+    url: jdbc:postgresql://ep-tight-butterfly-a2dw3k9k.eu-central-1.aws.neon.tech/strzelnica_db?sslmode=require&defaultAutoCommit=false
     username: strzelnica_db_owner
     password: uUE9AX5MeiNh
     driver-class-name: org.postgresql.Driver
@@ -14,7 +14,15 @@ spring:
         implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
     properties:
       hibernate:
+        jdbc:
+          batch_size: 50
         show_sql: false
         format_sql: true
         use_sql_comments: false
         ddl-auto: none
+        default_auto_commit: false
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 2MB
+      max-request-size: 2MB

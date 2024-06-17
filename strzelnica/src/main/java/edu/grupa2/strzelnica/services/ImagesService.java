@@ -1,8 +1,6 @@
 package edu.grupa2.strzelnica.services;
 
-import edu.grupa2.strzelnica.dto.AlbumDTO;
 import edu.grupa2.strzelnica.dto.ImageDTO;
-import edu.grupa2.strzelnica.models.Album;
 import edu.grupa2.strzelnica.models.Image;
 import edu.grupa2.strzelnica.repositories.ImageRepository;
 import org.springframework.beans.factory.annotation.Autowired;

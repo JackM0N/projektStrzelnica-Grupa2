@@ -42,8 +42,8 @@ public class ImageController {
     }
 
     // POST - Add a few images to the database
-    @PostMapping(value = "/add", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> addImage(@RequestBody List<ImageDTO> imagesDTO) {
+    @PostMapping(value = "/add/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> addImage(@PathVariable Integer id, @RequestBody List<ImageDTO> imagesDTO) {
         try {
             System.out.println("TRYING TO ADD IMAGE, ALBUM:");
             System.out.println(imagesDTO.get(0).getAlbum());

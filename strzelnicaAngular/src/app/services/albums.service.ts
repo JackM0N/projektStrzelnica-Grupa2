@@ -8,7 +8,7 @@ import { Album } from '../interfaces/album';
 })
 export class AlbumsService {
   private baseUrl = 'http://localhost:8080/albums';
-  private postUrl = 'http://localhost:8080/albums/add';
+  private addUrl = 'http://localhost:8080/albums/add';
   private editUrl = 'http://localhost:8080/albums/edit';
 
   constructor(private http: HttpClient) {}
@@ -25,32 +25,31 @@ export class AlbumsService {
     return this.http.get<Album>(url);
   }
 
-  // Adding an album to the database
+  // Add an album including images
   addAlbum(album: Album): Observable<Album> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    const transformedAlbum = this.transformAlbum(album);
-    return this.http.post<Album>(this.postUrl, transformedAlbum, { headers });
+    return this.http.post<Album>(`${this.baseUrl}/add`, album, { headers });
   }
 
-  // Editing an album in the database
+  // Update an album including images
   updateAlbum(album: Album): Observable<Album> {
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    const formData = new FormData();
+    formData.append('album', JSON.stringify(album)); // Convert album to JSON string and append to form data
+
+    // Append images to FormData
+    album.images.forEach((image, index) => {
+      formData.append('image' + index, image);
+    });
+
     const url = `${this.editUrl}/${album.id}`;
-    const transformedAlbum = this.transformAlbum(album);
-    return this.http.put<Album>(url, transformedAlbum, { headers });
+    const headers = new HttpHeaders().set('enctype', 'multipart/form-data');
+
+    return this.http.put<Album>(url, formData, { headers });
   }
 
   // Delete an album from the database
   deleteAlbum(albumId: number): Observable<Album> {
     const url = `${this.baseUrl}/${albumId}`;
     return this.http.delete<Album>(url);
-  }
-
-  // Helper method to transform album for API
-  private transformAlbum(album: Album): any {
-    return {
-      ...album,
-      // Optionally transform images or other properties here
-    };
   }
 }

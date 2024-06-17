@@ -25,6 +25,8 @@ export class CompetitionsAlbumComponent implements OnInit {
   public responsePopupHeader = '';
   public responsePopupMessage = '';
   public responsePopupNgClass = '';
+
+  images: any = [];
   
   album: Album = {
     id: 0,
@@ -51,8 +53,14 @@ export class CompetitionsAlbumComponent implements OnInit {
 
         const observer: Observer<any> = {
           next: response => {
-            console.log(response.images);
+            const images = response.images;
+
             this.album = response;
+            this.album.images = [];
+
+            for (let i = 0; i < images.length; i++) {
+              this.images.push(images[i].base64Image);
+            }
           },
           error: error => {
             this.responsePopupHeader = 'Podany album nie istnieje.';

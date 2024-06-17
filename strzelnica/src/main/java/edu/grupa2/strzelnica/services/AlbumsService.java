@@ -7,6 +7,7 @@ import edu.grupa2.strzelnica.models.Album;
 import edu.grupa2.strzelnica.models.Competition;
 import edu.grupa2.strzelnica.models.Image;
 import edu.grupa2.strzelnica.repositories.AlbumRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,6 +23,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class AlbumsService {
     private final AlbumRepository albumRepository;
 
@@ -45,13 +47,20 @@ public class AlbumsService {
         return album.map(this::convertToDTO);
     }
 
+    @Transactional
     public AlbumDTO saveAlbum(AlbumDTO albumDTO) {
         Album album = convertToEntity(albumDTO);
+
+        List<Image> images = album.getImages();
+        for (Image image : images) {
+            image.setAlbum(album);
+        }
 
         Album savedAlbum = albumRepository.save(album);
         return convertToDTO(savedAlbum);
     }
 
+    @Transactional
     public ResponseEntity<AlbumDTO> updateAlbum(Integer id, AlbumDTO updatedAlbumDTO) {
         Optional<Album> optionalAlbum = albumRepository.findById(id);
 
@@ -59,11 +68,15 @@ public class AlbumsService {
             Album existingAlbum = optionalAlbum.get();
             existingAlbum.setName(updatedAlbumDTO.getName());
             existingAlbum.setDescription(updatedAlbumDTO.getDescription());
-            //existingAlbum.setImages(convertToEntity(updatedAlbumDTO.getImages()));
+            // Ensure that images are updated properly
+            List<Image> images = convertToEntity(updatedAlbumDTO.getImages());
+            for (Image image : images) {
+                image.setAlbum(existingAlbum);
+            }
+            existingAlbum.setImages(images);
 
             Album savedAlbum = albumRepository.save(existingAlbum);
             return new ResponseEntity<>(convertToDTO(savedAlbum), HttpStatus.OK);
-
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -76,22 +89,18 @@ public class AlbumsService {
     private List<ImageDTO> convertToDTO(List<Image> images) {
         List<ImageDTO> imagesDTO = new ArrayList<>();
         for (Image image : images) {
-            //ImageDTO imageDTO = new ImageDTO(image.getData());
             ImageDTO imageDTO = new ImageDTO(image.getId(), image.getData(), null);
-            imageDTO.setId(image.getId());
-            imageDTO.setData(image.getData());
-
             imagesDTO.add(imageDTO);
         }
         return imagesDTO;
     }
 
-    private List<Image> convertToEntity(List<ImageDTO> imageDTO) {
+    private List<Image> convertToEntity(List<ImageDTO> imageDTOs) {
         List<Image> images = new ArrayList<>();
-        for (ImageDTO image : imageDTO) {
+        for (ImageDTO imageDTO : imageDTOs) {
             Image newImage = new Image();
-            newImage.setId(image.getId());
-            newImage.setData(image.getData());
+            newImage.setId(imageDTO.getId());
+            newImage.setData(imageDTO.getData());
             images.add(newImage);
         }
         return images;
@@ -105,7 +114,7 @@ public class AlbumsService {
         if (album.getCompetition() != null) {
             albumDTO.setCompetition(convertToDTO(album.getCompetition()));
         }
-        //albumDTO.setImages(convertToDTO(album.getImages()));
+        albumDTO.setImages(convertToDTO(album.getImages()));
         return albumDTO;
     }
 
@@ -117,10 +126,11 @@ public class AlbumsService {
         if (albumDTO.getCompetition() != null) {
             album.setCompetition(convertToEntity(albumDTO.getCompetition()));
         }
+        album.setImages(convertToEntity(albumDTO.getImages()));
         return album;
     }
 
-    public CompetitionDTO convertToDTO(Competition competition) {
+    private CompetitionDTO convertToDTO(Competition competition) {
         CompetitionDTO competitionDTO = new CompetitionDTO();
         competitionDTO.setId(competition.getId());
         competitionDTO.setName(competition.getName());
@@ -132,7 +142,7 @@ public class AlbumsService {
         return competitionDTO;
     }
 
-    public Competition convertToEntity(CompetitionDTO competitionDTO) {
+    private Competition convertToEntity(CompetitionDTO competitionDTO) {
         Competition competition = new Competition();
         competition.setId(competitionDTO.getId());
         competition.setName(competitionDTO.getName());

@@ -184,7 +184,6 @@ export class CompetitionsAddAlbumComponent implements AfterViewInit {
         complete: () => {}
       };
 
-      console.log("adding album");
       // Subscribe using the observer object
       if (this.isAddAlbumRoute) {
         this.albumService.addAlbum(this.album).subscribe(observer);
@@ -193,7 +192,7 @@ export class CompetitionsAddAlbumComponent implements AfterViewInit {
       }
 
       console.log("adding images");
-      this.imagesService.uploadImages(this.album.images).subscribe(observerImages);
+      //this.imagesService.uploadImages(this.album.images).subscribe(observerImages);
     }
   }
 
