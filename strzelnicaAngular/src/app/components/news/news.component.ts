@@ -47,7 +47,7 @@ export class NewsComponent implements AfterViewInit {
       });
 
       // Filter news based on user role
-      if (!this.authService.hasAnyRole(['admin', 'worker'])) {
+      if (!this.authService.hasAnyRole(['ADMIN', 'WORKER'])) {
         this.newsList = news.content.filter((item: { deleted: any; }) => !item.deleted);
       } else {
         this.newsList = news.content;
