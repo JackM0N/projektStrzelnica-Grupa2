@@ -23,7 +23,7 @@ export class CompetitionsComponent implements OnInit, AfterViewInit {
   @ViewChild('paginationComponent', { static: false }) paginationComponent!: PaginationComponent;
 
   competitionsList: Competition[] = [];
-  pastCompetitionsList: Competitions[] = [];
+  pastCompetitionsList: Competition[] = [];
   currentUser: Users | null = null;
   registeredCompetitions: { [competitionId: number]: boolean } = {};
 
