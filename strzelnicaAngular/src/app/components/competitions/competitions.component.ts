@@ -21,6 +21,8 @@ export class CompetitionsComponent implements OnInit, AfterViewInit {
   @ViewChild('paginationComponent', { static: false }) paginationComponent!: PaginationComponent;
 
   competitionsList: Competitions[] = [];
+  presentCompetitions: Competitions[] = [];
+  pastCompetitions: Competitions[] = [];
   currentUser: Users | null = null;
   registeredCompetitions: { [competitionId: number]: boolean } = {};
 
@@ -53,7 +55,20 @@ export class CompetitionsComponent implements OnInit, AfterViewInit {
       this.competitionsService.getPaginatedCompetitions(this.paginationComponent.currentPage, this.paginationComponent.maxItems).subscribe(competitions => {
         this.paginationComponent.totalPages = competitions.totalPages;
         this.paginationComponent.calculatePages();
-        this.competitionsList = competitions.content;
+        
+        // Clear the lists before populating
+        this.presentCompetitions = [];
+        this.pastCompetitions = [];
+  
+        // Separate the competitions into present and past
+        competitions.content.forEach((competition: Competitions) => {
+          if (competition.done) {
+            this.pastCompetitions.push(competition);
+          } else {
+            this.presentCompetitions.push(competition);
+          }
+        });
+  
         this.checkRegistrations();
         this.cd.detectChanges();
       });
@@ -61,6 +76,7 @@ export class CompetitionsComponent implements OnInit, AfterViewInit {
       console.error('PaginationComponent is not initialized.');
     }
   }
+  
 
   checkRegistrations(): void {
     if (this.currentUser != null) {
