@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @Getter
@@ -13,4 +14,5 @@ public class AlbumDTO implements Serializable {
     private String name;
     private String description;
     private CompetitionDTO competition;
+    private List<ImageDTO> images;
 }

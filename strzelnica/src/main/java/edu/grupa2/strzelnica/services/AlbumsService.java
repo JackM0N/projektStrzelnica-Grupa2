@@ -1,7 +1,11 @@
 package edu.grupa2.strzelnica.services;
 
 import edu.grupa2.strzelnica.dto.AlbumDTO;
+import edu.grupa2.strzelnica.dto.CompetitionDTO;
+import edu.grupa2.strzelnica.dto.ImageDTO;
 import edu.grupa2.strzelnica.models.Album;
+import edu.grupa2.strzelnica.models.Competition;
+import edu.grupa2.strzelnica.models.Image;
 import edu.grupa2.strzelnica.repositories.AlbumRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,6 +15,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -41,6 +47,7 @@ public class AlbumsService {
 
     public AlbumDTO saveAlbum(AlbumDTO albumDTO) {
         Album album = convertToEntity(albumDTO);
+
         Album savedAlbum = albumRepository.save(album);
         return convertToDTO(savedAlbum);
     }
@@ -52,6 +59,7 @@ public class AlbumsService {
             Album existingAlbum = optionalAlbum.get();
             existingAlbum.setName(updatedAlbumDTO.getName());
             existingAlbum.setDescription(updatedAlbumDTO.getDescription());
+            existingAlbum.setImages(convertToEntity(updatedAlbumDTO.getImages()));
 
             Album savedAlbum = albumRepository.save(existingAlbum);
             return new ResponseEntity<>(convertToDTO(savedAlbum), HttpStatus.OK);
@@ -65,11 +73,38 @@ public class AlbumsService {
         albumRepository.deleteById(id);
     }
 
+    private List<ImageDTO> convertToDTO(List<Image> images) {
+        List<ImageDTO> imagesDTO = new ArrayList<>();
+        for (Image image : images) {
+            ImageDTO imageDTO = new ImageDTO(image.getData());
+            imageDTO.setId(image.getId());
+            imageDTO.setData(image.getData());
+
+            imagesDTO.add(imageDTO);
+        }
+        return imagesDTO;
+    }
+
+    private List<Image> convertToEntity(List<ImageDTO> imageDTO) {
+        List<Image> images = new ArrayList<>();
+        for (ImageDTO image : imageDTO) {
+            Image newImage = new Image();
+            newImage.setId(image.getId());
+            newImage.setData(image.getData());
+            images.add(newImage);
+        }
+        return images;
+    }
+
     private AlbumDTO convertToDTO(Album album) {
         AlbumDTO albumDTO = new AlbumDTO();
         albumDTO.setId(album.getId());
         albumDTO.setName(album.getName());
         albumDTO.setDescription(album.getDescription());
+        if (album.getCompetition() != null) {
+            albumDTO.setCompetition(convertToDTO(album.getCompetition()));
+        }
+        albumDTO.setImages(convertToDTO(album.getImages()));
         return albumDTO;
     }
 
@@ -78,6 +113,33 @@ public class AlbumsService {
         album.setId(albumDTO.getId());
         album.setName(albumDTO.getName());
         album.setDescription(albumDTO.getDescription());
+        if (albumDTO.getCompetition() != null) {
+            album.setCompetition(convertToEntity(albumDTO.getCompetition()));
+        }
         return album;
+    }
+
+    public CompetitionDTO convertToDTO(Competition competition) {
+        CompetitionDTO competitionDTO = new CompetitionDTO();
+        competitionDTO.setId(competition.getId());
+        competitionDTO.setName(competition.getName());
+        competitionDTO.setDescription(competition.getDescription());
+        competitionDTO.setDate(competition.getDate());
+        competitionDTO.setHourStart(competition.getHourStart());
+        competitionDTO.setHourEnd(competition.getHourEnd());
+        competitionDTO.setDone(competition.getDone());
+        return competitionDTO;
+    }
+
+    public Competition convertToEntity(CompetitionDTO competitionDTO) {
+        Competition competition = new Competition();
+        competition.setId(competitionDTO.getId());
+        competition.setName(competitionDTO.getName());
+        competition.setDescription(competitionDTO.getDescription());
+        competition.setDate(competitionDTO.getDate());
+        competition.setHourStart(competitionDTO.getHourStart());
+        competition.setHourEnd(competitionDTO.getHourEnd());
+        competition.setDone(competitionDTO.getDone());
+        return competition;
     }
 }

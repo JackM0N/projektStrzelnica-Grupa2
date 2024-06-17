@@ -2,6 +2,8 @@ import { ChangeDetectorRef, Component, OnInit, AfterViewInit, ViewChild } from '
 import { Competition } from '../../interfaces/competition';
 import { CompetitionsService } from '../../services/competitions.service';
 import { PaginationComponent } from '../pagination.component';
+import { AlbumsService } from '../../services/albums.service';
+import { Album } from '../../interfaces/album';
 
 @Component({
   selector: 'app-competitions',
@@ -20,6 +22,7 @@ export class CompetitionsComponent implements OnInit, AfterViewInit {
 
   constructor(
     private competitionsService: CompetitionsService,
+    private albumService: AlbumsService,
     private cd: ChangeDetectorRef
   ) {}
 
@@ -37,6 +40,15 @@ export class CompetitionsComponent implements OnInit, AfterViewInit {
         this.paginationComponent.calculatePages();
         this.competitionsList = competitions.content;
         this.cd.detectChanges();
+
+        this.competitionsList.forEach(competition => {
+          this.albumService.getAlbumByCompetition(competition.id).subscribe((album: Album) => {
+            if (album) {
+              competition.album = album;
+            }
+          });
+        });
+
       });
     } else {
       console.error('PaginationComponent is not initialized.');

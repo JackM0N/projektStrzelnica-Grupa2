@@ -3,6 +3,7 @@ package edu.grupa2.strzelnica.models;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import java.util.List;
 
 @Setter
 @Getter
@@ -24,4 +25,7 @@ public class Album {
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "competition_id", nullable = false)
     private Competition competition;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "album")
+    private List<Image> images;
 }

@@ -6,11 +6,15 @@ import { Observer } from 'rxjs';
 import { Location } from '@angular/common';
 import { Album } from '../../interfaces/album';
 import { AlbumsService } from '../../services/albums.service';
+import { CompetitionsService } from '../../services/competitions.service';
+import { Competition } from '../../interfaces/competition';
 
 @Component({
   selector: 'app-competitions-addalbum',
   templateUrl: './competitionsaddalbum.component.html',
   styleUrls: [
+    // Style for this component
+    '/src/app/styles/competitionsaddalbum.css',
     // Shared button styles
     '/src/app/styles/shared-button-styles.css',
     // Shared form styles
@@ -25,6 +29,8 @@ export class CompetitionsAddAlbumComponent implements OnInit {
   public albumForm: FormGroup;
   public disableAlbumForm = false;
 
+  public images: string[] = []; // Array to store image URLs
+
   isAddAlbumRoute: boolean;
   actionText = 'Dodaj nowy album';
 
@@ -32,7 +38,8 @@ export class CompetitionsAddAlbumComponent implements OnInit {
     id: 0,
     name: '',
     description: '',
-    competition: undefined
+    competition: undefined,
+    images: []
   };
 
   quillToolbarOptions = [
@@ -45,6 +52,7 @@ export class CompetitionsAddAlbumComponent implements OnInit {
     private location: Location,
     private route: ActivatedRoute,
     private albumService: AlbumsService,
+    private competitionsService: CompetitionsService,
     private formBuilder: FormBuilder,
   ) {
     // Determine if the route is for adding a new competition or editing an existing one
@@ -57,6 +65,7 @@ export class CompetitionsAddAlbumComponent implements OnInit {
     this.albumForm = this.formBuilder.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
+      makePost: [false]
     });
   }
 
@@ -70,9 +79,21 @@ export class CompetitionsAddAlbumComponent implements OnInit {
         if (params['id']) {
           const competitionId = +params['id'];
   
+          // Retrieve the competition
+          this.competitionsService.getCompetitionById(competitionId).subscribe((competition: Competition) => {
+            if (competition) {
+              this.album.competition = competition;
+
+            } else {
+              this.disableAlbumForm = true;
+              this.responsePopupHeader = 'Podane zawody nie istnieją.';
+              this.responsePopupNgClass = 'popupError';
+              this.responsePopup.open();
+            }
+          });
+
           this.albumService.getAlbumByCompetition(competitionId).subscribe((album: Album) => {
             if (album) {
-
               this.disableAlbumForm = true;
               this.responsePopupHeader = 'Album do tych zawodów już istnieje.';
               this.responsePopupNgClass = 'popupError';
@@ -153,6 +174,20 @@ export class CompetitionsAddAlbumComponent implements OnInit {
         this.albumService.addAlbum(this.album).subscribe(observer);
       } else {
         this.albumService.updateAlbum(this.album).subscribe(observer);
+      }
+    }
+  }
+
+  onImageUpload(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files) {
+      for (let i = 0; i < input.files.length; i++) {
+        const file = input.files[i];
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+          this.album.images.push(e.target.result);
+        };
+        reader.readAsDataURL(file);
       }
     }
   }

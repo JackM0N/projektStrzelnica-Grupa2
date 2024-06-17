@@ -1,0 +1,20 @@
+
+<!-- Success/failure response pop-up -->
+<app-popup #responsePopup
+    [headerName]="responsePopupHeader"
+    [messageText]="responsePopupMessage"
+    [ngClass]="responsePopupNgClass"
+    closeButtonLabel="Ok"
+    (closeEvent)="responsePopupCancelAction()">
+</app-popup>
+
+<div class="form-container">
+  <h1>Album: <b>{{album.name}}</b></h1>
+  <p class="album-description">{{album.description}}</p>
+  
+  <div class="image-grid">
+    <div class="image-item" *ngFor="let image of album.images">
+      <img [src]="image" alt="Album Image">
+    </div>
+  </div>
+</div>

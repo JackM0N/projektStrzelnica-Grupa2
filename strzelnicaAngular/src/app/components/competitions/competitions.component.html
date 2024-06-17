@@ -17,7 +17,7 @@
           <th>Godzina rozpoczęcia</th>
           <th>Godzina zakończenia</th>
           <th>Status</th>
-          <th>Dodaj album</th>
+          <th>Album</th>
           <th>Zapisz</th>
           <th>Edytuj</th> <!-- dodać widoczność edytowania tylko dla pracowników-->
           <th>Usuń</th>
@@ -34,7 +34,8 @@
           <td>{{ competition.done ? 'Zakończone' : 'W toku' }}</td>
 
           <td>
-            <button *ngIf="competition.done" type="button" class="generic-button" [routerLink]="['/competitions/addalbum', competition.id]">Dodaj album</button>
+            <button *ngIf="competition.done && competition.album == null" type="button" class="generic-button" [routerLink]="['/competitions/addalbum', competition.id]">Dodaj album</button>
+            <button *ngIf="competition.album" type="button" class="generic-button" [routerLink]="['/competitions/album', competition.album.id]">Wyświetl album</button>
           </td>
 
           <td>

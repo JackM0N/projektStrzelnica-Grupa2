@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Album } from '../interfaces/album';
 
@@ -26,15 +26,27 @@ export class AlbumsService {
     return this.http.get<Album>(url);
   }
 
+  // Transform images to the required format
+  private transformAlbum(album: Album): any {
+    return {
+      ...album,
+      images: album.images.map(image => ({ base64Image: image }))
+    };
+  }
+
   // Adding an album to the database
-  addAlbum(album?: Album): Observable<Album> {
-    return this.http.post<Album>(this.postUrl, album);
+  addAlbum(album: Album): Observable<Album> {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    const transformedAlbum = this.transformAlbum(album);
+    return this.http.post<Album>(this.postUrl, transformedAlbum, { headers });
   }
 
   // Editing an album in the database
   updateAlbum(album: Album): Observable<Album> {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
     const url = `${this.editUrl}/${album.id}`;
-    return this.http.put<Album>(url, album);
+    const transformedAlbum = this.transformAlbum(album);
+    return this.http.put<Album>(url, transformedAlbum, { headers });
   }
 
   // Delete an album from the database

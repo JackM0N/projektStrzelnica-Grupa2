@@ -1,3 +1,4 @@
+import { Album } from "./album";
 
 // Competition model
 export interface Competition {
@@ -8,5 +9,8 @@ export interface Competition {
     hourStart: number;
     hourEnd: number;
     done: boolean;
+
+    // Optional properties
+    album?: Album;
   }
   

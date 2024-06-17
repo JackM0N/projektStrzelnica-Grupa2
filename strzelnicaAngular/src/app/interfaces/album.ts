@@ -6,5 +6,6 @@ export interface Album {
     name: string;
     description: string;
     competition?: Competition;
+    images: string[];
   }
   

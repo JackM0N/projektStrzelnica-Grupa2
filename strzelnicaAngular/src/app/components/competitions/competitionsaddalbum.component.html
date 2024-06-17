@@ -14,13 +14,30 @@
     <form [formGroup]="albumForm" (ngSubmit)="onSubmit()">
 
       <div>
-        <label for="name">Nazwa:</label>
+        <label for="name">Nazwa albumu:</label>
         <input type="text" id="name" name="name" formControlName="name" required>
       </div>
       
       <div>
+        <label for="image-upload">Dodaj zdjęcia:</label>
+        <input type="file" id="image-upload" (change)="onImageUpload($event)" multiple>
+      </div>
+
+      <div class="image-grid-container">
+        <div class="image-grid" *ngFor="let image of album.images">
+            <img [src]="image" alt="Dodane zdjęcie">
+        </div>
+      </div>
+
+      <div id="description-container">
         <label for="description">Opis:</label>
         <quill-editor class="quill-editor-custom" formControlName="description" [modules]="{ toolbar: quillToolbarOptions }"></quill-editor>
+      </div>
+
+      <div id="publish-post-container">
+        <label>
+          <input type="checkbox" formControlName="makePost"> Opublikuj post o albumie
+        </label>
       </div>
 
       <div class="button-container">
@@ -29,5 +46,6 @@
           Zapisz
         </button>
       </div>
+
     </form>
 </div>
