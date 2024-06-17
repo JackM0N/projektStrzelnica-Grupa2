@@ -41,6 +41,8 @@ import { AuthService } from './services/auth.service';
 import { AuthGuard } from './guards/auth.guard';
 import { RoleGuard } from './guards/role.guard';
 import { RouterModule } from '@angular/router';
+import { CompetitionsAddAlbumComponent } from './components/competitions/competitionsaddalbum.component';
+import { CompetitionsAlbumComponent } from './components/competitions/competitionsalbum.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -68,6 +70,8 @@ import { RouterModule } from '@angular/router';
     CompetitionsComponent,
     CompetitionsFormComponent,
     CompetitionsDeleteComponent,
+    CompetitionsAddAlbumComponent,
+    CompetitionsAlbumComponent
   ],
 
   imports: [

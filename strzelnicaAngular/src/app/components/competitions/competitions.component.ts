@@ -1,11 +1,13 @@
 import { ChangeDetectorRef, Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
-import { Competitions } from '../../interfaces/competitions';
+import { Competition } from '../../interfaces/competition';
 import { CompetitionsService } from '../../services/competitions.service';
 import { PaginationComponent } from '../pagination.component';
 import { AuthService } from '../../services/auth.service';
 import { CompetitionParticipantService } from '../../services/competitionparticipant.service';
 import { UserService } from '../../services/users.service';
 import { Users } from '../../interfaces/users';
+import { AlbumsService } from '../../services/albums.service';
+import { Album } from '../../interfaces/album';
 
 @Component({
   selector: 'app-competitions',
@@ -20,13 +22,14 @@ import { Users } from '../../interfaces/users';
 export class CompetitionsComponent implements OnInit, AfterViewInit {
   @ViewChild('paginationComponent', { static: false }) paginationComponent!: PaginationComponent;
 
-  competitionsList: Competitions[] = [];
+  competitionsList: Competition[] = [];
   pastCompetitionsList: Competitions[] = [];
   currentUser: Users | null = null;
   registeredCompetitions: { [competitionId: number]: boolean } = {};
 
   constructor(
     private competitionsService: CompetitionsService,
+    private albumService: AlbumsService,
     private cd: ChangeDetectorRef,
     public authService: AuthService,
     private competitionParticipantService: CompetitionParticipantService,
@@ -60,6 +63,15 @@ export class CompetitionsComponent implements OnInit, AfterViewInit {
         this.checkRegistrations();
         this.moveCompletedCompetitions();
         this.cd.detectChanges();
+
+        this.competitionsList.forEach(competition => {
+          this.albumService.getAlbumByCompetition(competition.id).subscribe((album: Album) => {
+            if (album) {
+              competition.album = album;
+            }
+          });
+        });
+
       });
     } else {
       console.error('PaginationComponent is not initialized.');

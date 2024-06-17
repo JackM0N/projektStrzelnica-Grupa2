@@ -1,6 +1,7 @@
+import { Album } from "./album";
 
-// Competitions model
-export interface Competitions {
+// Competition model
+export interface Competition {
     id: number;
     name: string;
     description: string;
@@ -8,5 +9,8 @@ export interface Competitions {
     hourStart: number;
     hourEnd: number;
     done: boolean;
+
+    // Optional properties
+    album?: Album;
   }
   

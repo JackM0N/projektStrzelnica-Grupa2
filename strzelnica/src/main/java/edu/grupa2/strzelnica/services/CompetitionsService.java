@@ -70,7 +70,7 @@ public class CompetitionsService {
         competitionRepository.deleteById(id);
     }
 
-    private CompetitionDTO convertToDTO(Competition competition) {
+    public CompetitionDTO convertToDTO(Competition competition) {
         CompetitionDTO competitionDTO = new CompetitionDTO();
         competitionDTO.setId(competition.getId());
         competitionDTO.setName(competition.getName());
@@ -82,7 +82,7 @@ public class CompetitionsService {
         return competitionDTO;
     }
 
-    private Competition convertToEntity(CompetitionDTO competitionDTO) {
+    public Competition convertToEntity(CompetitionDTO competitionDTO) {
         Competition competition = new Competition();
         competition.setId(competitionDTO.getId());
         competition.setName(competitionDTO.getName());

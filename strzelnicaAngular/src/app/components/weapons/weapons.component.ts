@@ -22,7 +22,10 @@ export class WeaponsComponent implements  AfterViewInit {
   weaponList: Weapon[] = [];
   showAdminProperties: boolean = false;
 
-  constructor(private weaponService: WeaponService, private cd: ChangeDetectorRef) {}
+  constructor(
+    private weaponService: WeaponService,
+    private cd: ChangeDetectorRef
+  ) {}
 
   // After init - because we need the pagination to load first
   // Fetch weapons from the database and display them

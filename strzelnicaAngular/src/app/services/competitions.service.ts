@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Competitions } from '../interfaces/competitions';
+import { Competition } from '../interfaces/competition';
 
 @Injectable({
   providedIn: 'root'
@@ -29,25 +29,25 @@ export class CompetitionsService {
   }
 
   // Adding a competition to the database
-  addCompetition(competition?: Competitions): Observable<Competitions> {
-    return this.http.post<Competitions>(this.postUrl, competition);
+  addCompetition(competition?: Competition): Observable<Competition> {
+    return this.http.post<Competition>(this.postUrl, competition);
   }
 
   // Editing a competition in the database
-  updateCompetition(competition: Competitions): Observable<Competitions> {
+  updateCompetition(competition: Competition): Observable<Competition> {
     const url = `${this.editUrl}/${competition.id}`;
-    return this.http.put<Competitions>(url, competition);
+    return this.http.put<Competition>(url, competition);
   }
 
   // Delete a competition from the database
-  deleteCompetition(competitionId: number): Observable<Competitions> {
+  deleteCompetition(competitionId: number): Observable<Competition> {
     const url = `${this.baseUrl}/${competitionId}`;
-    return this.http.delete<Competitions>(url);
+    return this.http.delete<Competition>(url);
   }
 
   // Fetch a specific competition from the database
-  getCompetitionById(competitionId: number): Observable<Competitions> {
+  getCompetitionById(competitionId: number): Observable<Competition> {
     const url = `${this.baseUrl}/${competitionId}`;
-    return this.http.get<Competitions>(url);
+    return this.http.get<Competition>(url);
   }
 }

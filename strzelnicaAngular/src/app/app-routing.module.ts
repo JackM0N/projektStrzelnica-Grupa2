@@ -19,6 +19,8 @@ import { RulesComponent } from './components/rules/rules.component';
 import { AuthGuard } from './guards/auth.guard';
 import { CompetitionsComponent } from './components/competitions/competitions.component';
 import { CompetitionsFormComponent } from './components/competitions/competitionsform.component';
+import { CompetitionsAddAlbumComponent } from './components/competitions/competitionsaddalbum.component';
+import { CompetitionsAlbumComponent } from './components/competitions/competitionsalbum.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'news', pathMatch: 'full' },
@@ -46,6 +48,8 @@ const routes: Routes = [
 
   { path: 'competitions', component: CompetitionsComponent },
   { path: 'competitions/add', component: CompetitionsFormComponent },
+  { path: 'competitions/addalbum/:id', component: CompetitionsAddAlbumComponent },
+  { path: 'competitions/album/:id', component: CompetitionsAlbumComponent },
   { path: 'competitions/edit/:id', component: CompetitionsFormComponent },
 
   { path: 'register', component: RegistrationComponent},
