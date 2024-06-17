@@ -39,7 +39,7 @@ public class AvailabilityService {
         Date today = new Date(System.currentTimeMillis());
 
         // Fetch tracks for the given service's track type
-        Service service = serviceAvailabilityRepository.findById(service_id).orElse(null).getService();
+        Service service = serviceAvailabilityRepository.findByServiceId(service_id).get(0).getService();
         if (service == null) {
             return availableSlots;
         }
