@@ -55,7 +55,7 @@ export class CompetitionsAlbumComponent implements OnInit {
             this.album = response;
           },
           error: error => {
-            this.responsePopupHeader = 'Podane zawody nie istnieją.';
+            this.responsePopupHeader = 'Podany album nie istnieje.';
             this.responsePopupNgClass = 'popupError';
             this.responsePopup.open();
       
@@ -67,7 +67,7 @@ export class CompetitionsAlbumComponent implements OnInit {
         this.albumService.getAlbum(id).subscribe(observer);
         
       } else {
-        this.responsePopupHeader = 'Podane zawody nie istnieją.';
+        this.responsePopupHeader = 'Podane album nie istnieje.';
         this.responsePopupNgClass = 'popupError';
         this.responsePopup.open();  
       }

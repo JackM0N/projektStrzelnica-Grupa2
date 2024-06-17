@@ -41,11 +41,13 @@ public class ImageController {
         }
     }
 
-    // POST - Add a new image to the database
+    // POST - Add a few images to the database
     @PostMapping(value = "/add", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> addImage(@RequestBody ImageDTO imageDTO) {
+    public ResponseEntity<?> addImage(@RequestBody List<ImageDTO> imagesDTO) {
         try {
-            imagesService.saveImage(imageDTO);
+            System.out.println("TRYING TO ADD IMAGE, ALBUM:");
+            System.out.println(imagesDTO.get(0).getAlbum());
+            imagesService.saveImages(imagesDTO);
             return ResponseEntity.ok().body("{\"message\": \"success_image_added_successfully\"}");
 
         } catch (Exception e) {

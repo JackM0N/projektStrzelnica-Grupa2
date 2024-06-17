@@ -16,6 +16,7 @@ public class Image {
     private Long id;
 
     @Lob
+    @Column(name = "data")
     private String data;
 
     @ManyToOne

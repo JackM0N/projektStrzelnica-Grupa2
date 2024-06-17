@@ -1,43 +1,54 @@
 package edu.grupa2.strzelnica.dto;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Lob;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import java.io.Serializable;
 
 @Data
-@Getter
-@Setter
-public class ImageDTO implements Serializable {
+public class ImageDTO {
     private Long id;
-
-    @JsonProperty("base64Image")
-    @Lob
-    private String data;
-
+    private String data; // Assuming this holds the Base64-encoded image data
     private AlbumDTO album;
 
-    /*
-    @JsonCreator
-    public ImageDTO(@JsonProperty("id") Long id, @JsonProperty("base64Image") String data, @JsonProperty("album") AlbumDTO album) {
+    public ImageDTO() {
+    }
+
+    public ImageDTO(Long id, String data, AlbumDTO album) {
         this.id = id;
         this.data = data;
         this.album = album;
     }
 
-    @JsonCreator
-    public ImageDTO(@JsonProperty("id") Long id, @JsonProperty("base64Image") String data) {
-        this.id = id;
+    public ImageDTO(String data) {
         this.data = data;
     }
 
-     */
+    @JsonProperty("id")
+    public Long getId() {
+        return id;
+    }
 
-    @JsonCreator
-    public ImageDTO(@JsonProperty("base64Image") String data) {
+    @JsonProperty("id")
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @JsonProperty("base64Image")
+    public String getData() {
+        return data;
+    }
+
+    @JsonProperty("base64Image")
+    public void setData(String data) {
         this.data = data;
+    }
+
+    @JsonProperty("album")
+    public AlbumDTO getAlbum() {
+        return album;
+    }
+
+    @JsonProperty("album")
+    public void setAlbum(AlbumDTO album) {
+        this.album = album;
     }
 }

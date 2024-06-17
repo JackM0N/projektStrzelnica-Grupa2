@@ -14,5 +14,5 @@ public class AlbumDTO implements Serializable {
     private String name;
     private String description;
     private CompetitionDTO competition;
-    private List<ImageDTO> images;
+    //private List<ImageDTO> images;
 }

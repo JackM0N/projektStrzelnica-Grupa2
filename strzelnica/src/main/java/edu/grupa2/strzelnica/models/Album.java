@@ -1,5 +1,6 @@
 package edu.grupa2.strzelnica.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,5 +28,6 @@ public class Album {
     private Competition competition;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "album")
+    @JsonManagedReference
     private List<Image> images;
 }

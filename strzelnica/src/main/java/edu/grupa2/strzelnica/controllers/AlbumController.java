@@ -59,6 +59,8 @@ public class AlbumController {
     @PostMapping(value = "/add", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> addAlbum(@RequestBody AlbumDTO albumDTO) {
         try {
+            System.out.println("TRYING TO ADD ALBUM: " + albumDTO);
+            System.out.println(albumDTO);
             albumsService.saveAlbum(albumDTO);
             return ResponseEntity.ok().body("{\"message\": \"success_album_added_successfully\"}");
 

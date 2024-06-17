@@ -32,10 +32,10 @@ public class ImagesService {
         return image.map(this::convertToDTO);
     }
 
-    public ImageDTO saveImage(ImageDTO imageDTO) {
-        Image image = convertToEntity(imageDTO);
-        Image savedImage = imageRepository.save(image);
-        return convertToDTO(savedImage);
+    public List<ImageDTO> saveImages(List<ImageDTO> imagesDTO) {
+        List<Image> images = imagesDTO.stream().map(this::convertToEntity).toList();
+        List<Image> savedImages = imageRepository.saveAll(images);
+        return savedImages.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
     public ResponseEntity<ImageDTO> updateImage(Integer id, ImageDTO updatedImageDTO) {
@@ -58,7 +58,7 @@ public class ImagesService {
     }
 
     private ImageDTO convertToDTO(Image image) {
-        ImageDTO imageDto = new ImageDTO(image.getData());
+        ImageDTO imageDto = new ImageDTO(image.getId(), image.getData(), null);
         imageDto.setId(image.getId());
         imageDto.setData(image.getData());
         return imageDto;

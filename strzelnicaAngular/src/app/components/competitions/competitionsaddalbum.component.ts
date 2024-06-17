@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PopupComponent } from '../popup.component';
@@ -8,6 +8,7 @@ import { Album } from '../../interfaces/album';
 import { AlbumsService } from '../../services/albums.service';
 import { CompetitionsService } from '../../services/competitions.service';
 import { Competition } from '../../interfaces/competition';
+import { ImagesService } from '../../services/images.service';
 
 @Component({
   selector: 'app-competitions-addalbum',
@@ -21,7 +22,7 @@ import { Competition } from '../../interfaces/competition';
     '/src/app/styles/shared-form-styles.css'
   ]
 })
-export class CompetitionsAddAlbumComponent implements OnInit {
+export class CompetitionsAddAlbumComponent implements AfterViewInit {
   @ViewChild('responsePopup') responsePopup!: PopupComponent;
   public responsePopupHeader = '';
   public responsePopupMessage = '';
@@ -52,8 +53,10 @@ export class CompetitionsAddAlbumComponent implements OnInit {
     private location: Location,
     private route: ActivatedRoute,
     private albumService: AlbumsService,
+    private imagesService: ImagesService,
     private competitionsService: CompetitionsService,
     private formBuilder: FormBuilder,
+    private cd: ChangeDetectorRef
   ) {
     // Determine if the route is for adding a new competition or editing an existing one
     this.isAddAlbumRoute = this.route.snapshot.routeConfig?.path?.includes('/add') == true;
@@ -70,7 +73,7 @@ export class CompetitionsAddAlbumComponent implements OnInit {
   }
 
   // On init, if there is an id in the page URL, fetch the competition with that id and display it
-  ngOnInit() {
+  ngAfterViewInit() {
 
     // Adding, check if an album already exists
     if (this.isAddAlbumRoute) {
@@ -128,6 +131,8 @@ export class CompetitionsAddAlbumComponent implements OnInit {
 
     }
 
+    // The DOM has been changed, we need to detect the changes to prevent ExpressionChangedAfterItHasBeenCheckedError
+    this.cd.detectChanges();
   }
 
   updateForm() {
@@ -169,12 +174,26 @@ export class CompetitionsAddAlbumComponent implements OnInit {
         complete: () => {}
       };
 
+      const observerImages: Observer<any> = {
+        next: response => {
+          console.log('Images uploaded successfully');
+        },
+        error: error => {
+          console.log('Image upload error: ' + error.error.message + ' (' + error.message + ')')
+        },
+        complete: () => {}
+      };
+
+      console.log("adding album");
       // Subscribe using the observer object
       if (this.isAddAlbumRoute) {
         this.albumService.addAlbum(this.album).subscribe(observer);
       } else {
         this.albumService.updateAlbum(this.album).subscribe(observer);
       }
+
+      console.log("adding images");
+      this.imagesService.uploadImages(this.album.images).subscribe(observerImages);
     }
   }
 

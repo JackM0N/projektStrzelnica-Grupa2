@@ -6,7 +6,6 @@ import { Album } from '../interfaces/album';
 @Injectable({
   providedIn: 'root'
 })
-// Service for handling CRUD operations on albums
 export class AlbumsService {
   private baseUrl = 'http://localhost:8080/albums';
   private postUrl = 'http://localhost:8080/albums/add';
@@ -24,14 +23,6 @@ export class AlbumsService {
   getAlbumByCompetition(competitionId: number): Observable<Album> {
     const url = `${this.baseUrl}/comp/${competitionId}`;
     return this.http.get<Album>(url);
-  }
-
-  // Transform images to the required format
-  private transformAlbum(album: Album): any {
-    return {
-      ...album,
-      images: album.images.map(image => ({ base64Image: image }))
-    };
   }
 
   // Adding an album to the database
@@ -53,5 +44,13 @@ export class AlbumsService {
   deleteAlbum(albumId: number): Observable<Album> {
     const url = `${this.baseUrl}/${albumId}`;
     return this.http.delete<Album>(url);
+  }
+
+  // Helper method to transform album for API
+  private transformAlbum(album: Album): any {
+    return {
+      ...album,
+      // Optionally transform images or other properties here
+    };
   }
 }

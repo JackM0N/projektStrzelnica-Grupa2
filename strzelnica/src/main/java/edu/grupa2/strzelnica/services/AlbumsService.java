@@ -59,7 +59,7 @@ public class AlbumsService {
             Album existingAlbum = optionalAlbum.get();
             existingAlbum.setName(updatedAlbumDTO.getName());
             existingAlbum.setDescription(updatedAlbumDTO.getDescription());
-            existingAlbum.setImages(convertToEntity(updatedAlbumDTO.getImages()));
+            //existingAlbum.setImages(convertToEntity(updatedAlbumDTO.getImages()));
 
             Album savedAlbum = albumRepository.save(existingAlbum);
             return new ResponseEntity<>(convertToDTO(savedAlbum), HttpStatus.OK);
@@ -76,7 +76,8 @@ public class AlbumsService {
     private List<ImageDTO> convertToDTO(List<Image> images) {
         List<ImageDTO> imagesDTO = new ArrayList<>();
         for (Image image : images) {
-            ImageDTO imageDTO = new ImageDTO(image.getData());
+            //ImageDTO imageDTO = new ImageDTO(image.getData());
+            ImageDTO imageDTO = new ImageDTO(image.getId(), image.getData(), null);
             imageDTO.setId(image.getId());
             imageDTO.setData(image.getData());
 
@@ -104,7 +105,7 @@ public class AlbumsService {
         if (album.getCompetition() != null) {
             albumDTO.setCompetition(convertToDTO(album.getCompetition()));
         }
-        albumDTO.setImages(convertToDTO(album.getImages()));
+        //albumDTO.setImages(convertToDTO(album.getImages()));
         return albumDTO;
     }
 
