@@ -32,24 +32,26 @@ export class NewsComponent implements AfterViewInit {
     this.cd.detectChanges();
   }
   
-  // Fetches all news from the database
   fetchNews(): void {
     this.newsService.getPaginatedNews(this.paginationComponent.currentPage, this.paginationComponent.maxItems).subscribe(news => {
       this.paginationComponent.totalPages = news.totalPages;
       this.paginationComponent.calculatePages();
 
-      news.content.forEach((item: { content: string | null | undefined; picture: string; date: string }) => {
-          // If content is valid, replace newline characters for <p> blocks
-          if (item.content !== null && item.content !== undefined) {
-            item.content = this.changeNlForP(item.content);
-          }
-          // Check if the image of the news is valid, if not, hide it
-          if (!isImageValid(item.picture)) {
-            item.picture = '';
-          }
+      news.content.forEach((item: { content: string | null | undefined; picture: string; date: string, deleted: boolean }) => {
+        if (item.content !== null && item.content !== undefined) {
+          item.content = this.changeNlForP(item.content);
+        }
+        if (!isImageValid(item.picture)) {
+          item.picture = '';
+        }
       });
-      
-      this.newsList = news.content;
+
+      // Filter news based on user role
+      if (!this.authService.hasAnyRole(['admin', 'worker'])) {
+        this.newsList = news.content.filter((item: { deleted: any; }) => !item.deleted);
+      } else {
+        this.newsList = news.content;
+      }
     });
   }
 

@@ -66,4 +66,16 @@ export class AuthService {
     const userRoles = this.getRoles();
     return roles.some(role => userRoles.includes(role));
   }
+
+  getUserId(): number | null {
+    if (isPlatformBrowser(this.platformId)) {
+      const token = localStorage.getItem('access_token');
+      if (token) {
+        const decodedToken = this.jwtHelper.decodeToken(token);
+        return typeof decodedToken.id === 'number' ? decodedToken.id : null; // Adjust 'id' to match your JWT structure
+      }
+    }
+    return null;
+  }
+
 }

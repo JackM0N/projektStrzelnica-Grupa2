@@ -38,7 +38,7 @@ export class CompetitionsComponent implements OnInit, AfterViewInit {
     this.userService.getCurrentUser().subscribe(
       (user: Users) => {
         this.currentUser = user;
-        this.fetchCompetitions();
+        //this.fetchCompetitions();
       },
       (error: any) => {
         console.error("Błąd podczas pobierania użytkownika", error);
@@ -47,7 +47,7 @@ export class CompetitionsComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // this.fetchCompetitions();
+    this.fetchCompetitions();
   }
 
   fetchCompetitions(): void {
