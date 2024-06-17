@@ -61,8 +61,6 @@ export class CompetitionsComponent implements OnInit, AfterViewInit {
         this.paginationComponent.calculatePages();
         this.competitionsList = competitions.content;
         this.checkRegistrations();
-        this.moveCompletedCompetitions();
-        this.cd.detectChanges();
 
         this.competitionsList.forEach(competition => {
           this.albumService.getAlbumByCompetition(competition.id).subscribe((album: Album) => {
@@ -72,12 +70,14 @@ export class CompetitionsComponent implements OnInit, AfterViewInit {
           });
         });
 
+        this.moveCompletedCompetitions();
+        this.cd.detectChanges();
+
       });
     } else {
       console.error('PaginationComponent is not initialized.');
     }
   }
-  
 
   checkRegistrations(): void {
     if (this.currentUser != null) {

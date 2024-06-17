@@ -8,7 +8,10 @@ import { Album } from '../../interfaces/album';
 import { AlbumsService } from '../../services/albums.service';
 import { CompetitionsService } from '../../services/competitions.service';
 import { Competition } from '../../interfaces/competition';
-import { ImagesService } from '../../services/images.service';
+import { NewsService } from '../../services/news.service';
+import { News } from '../../interfaces/news';
+import { Users } from '../../interfaces/users';
+import { UserService } from '../../services/users.service';
 
 @Component({
   selector: 'app-competitions-addalbum',
@@ -53,9 +56,10 @@ export class CompetitionsAddAlbumComponent implements AfterViewInit {
     private location: Location,
     private route: ActivatedRoute,
     private albumService: AlbumsService,
-    private imagesService: ImagesService,
+    private newsService: NewsService,
     private competitionsService: CompetitionsService,
     private formBuilder: FormBuilder,
+    private userService: UserService,
     private cd: ChangeDetectorRef
   ) {
     // Determine if the route is for adding a new competition or editing an existing one
@@ -160,6 +164,19 @@ export class CompetitionsAddAlbumComponent implements AfterViewInit {
           }
           this.responsePopupNgClass = 'popupSuccess';
           this.responsePopup.open();
+
+          const userId = 1; // Replace with the actual user ID
+
+          if (this.albumForm.value.makePost) {
+            this.userService.getCurrentUser().subscribe(
+              (user: Users) => {
+              // Check if makePost is checked and create a news post
+                this.createNewsPost(user.id, this.album.name, this.album.description);
+              },
+              (error: any) => {
+              }
+            );
+          }
         },
         error: error => {
           if (this.isAddAlbumRoute) {
@@ -194,6 +211,29 @@ export class CompetitionsAddAlbumComponent implements AfterViewInit {
       console.log("adding images");
       //this.imagesService.uploadImages(this.album.images).subscribe(observerImages);
     }
+  }
+
+  // Create a news post
+  private createNewsPost(userId: number, title: string, content: string): void {
+    const newsPost: News = {
+      id: 0,
+      title: "Dodano album zawodów \"" + title + "\"",
+      picture: '',
+      date: new Date(),
+      authorId: 1,
+      content: content,
+      deleted: false
+    };
+
+    this.newsService.addNews(newsPost).subscribe({
+      next: response => {
+        console.log('News post created successfully');
+      },
+      error: error => {
+        console.log('Error creating news post: ' + error.error.message + ' (' + error.message + ')');
+      },
+      complete: () => {}
+    });
   }
 
   onImageUpload(event: Event) {
