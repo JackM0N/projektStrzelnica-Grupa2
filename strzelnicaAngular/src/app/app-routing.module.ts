@@ -16,11 +16,11 @@ import { ServiceFormComponent } from './components/services/serviceform.componen
 import { ReservationsComponent } from './components/services/reservations.component';
 import { AvailabilitiesComponent } from './components/services/availabilities.component';
 import { RulesComponent } from './components/rules/rules.component';
-import { AuthGuard } from './guards/auth.guard';
 import { CompetitionsComponent } from './components/competitions/competitions.component';
 import { CompetitionsFormComponent } from './components/competitions/competitionsform.component';
 import { CompetitionsAddAlbumComponent } from './components/competitions/competitionsaddalbum.component';
 import { CompetitionsAlbumComponent } from './components/competitions/competitionsalbum.component';
+import { authGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'news', pathMatch: 'full' },
@@ -44,7 +44,7 @@ const routes: Routes = [
   { path: 'offer/add', component: ServiceFormComponent },
   { path: 'offer/edit/:id', component: ServiceFormComponent },
   { path: 'reservations', component: ReservationsComponent },
-  { path: 'availabilities', component: AvailabilitiesComponent, canActivate: [AuthGuard]},
+  { path: 'availabilities', component: AvailabilitiesComponent, canActivate: [authGuard]},
 
   { path: 'competitions', component: CompetitionsComponent },
   { path: 'competitions/add', component: CompetitionsFormComponent },

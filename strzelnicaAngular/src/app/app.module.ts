@@ -38,8 +38,6 @@ import { CompetitionsDeleteComponent } from './components/competitions/competiti
 import { QuillModule } from 'ngx-quill';
 import { JwtModule } from '@auth0/angular-jwt';
 import { AuthService } from './services/auth.service';
-import { AuthGuard } from './guards/auth.guard';
-import { RoleGuard } from './guards/role.guard';
 import { RouterModule } from '@angular/router';
 import { CompetitionsAddAlbumComponent } from './components/competitions/competitionsaddalbum.component';
 import { CompetitionsAlbumComponent } from './components/competitions/competitionsalbum.component';
@@ -104,8 +102,6 @@ import { CompetitionsAlbumComponent } from './components/competitions/competitio
     provideAnimationsAsync(),
     { provide: MAT_DATE_LOCALE, useValue: 'en-US' },
     AuthService,
-    AuthGuard,
-    RoleGuard,
   ],
   
   bootstrap: [AppComponent]
