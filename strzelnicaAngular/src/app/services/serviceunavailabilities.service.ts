@@ -6,7 +6,6 @@ import { ServiceUnavailability } from '../interfaces/serviceunavailability';
 @Injectable({
   providedIn: 'root'
 })
-// Service for handling CRUD operations on service availabilities
 export class ServiceUnavailabilitiesService {
   private baseUrl = 'http://localhost:8080/serviceunavailabilities';
   private postUrl = 'http://localhost:8080/serviceunavailabilities/add';
@@ -29,18 +28,15 @@ export class ServiceUnavailabilitiesService {
     return this.http.get<ServiceUnavailability[]>(url, {params});
   }
 
-  // Adding a service unavailability to the database
   addServiceUnavailability(serviceUnavailability?: ServiceUnavailability): Observable<ServiceUnavailability> {
     return this.http.post<ServiceUnavailability>(this.postUrl, serviceUnavailability);
   }
 
-  // Editing a service unavailability in the database
   updateServiceUnavailability(serviceUnavailability: ServiceUnavailability): Observable<ServiceUnavailability> {
     const url = `${this.editUrl}/${serviceUnavailability.id}`;
     return this.http.put<ServiceUnavailability>(url, serviceUnavailability);
   }
 
-  // Delete a service unavailability from the database
   deleteServiceUnavailability(serviceUnavailabilityId: number): Observable<ServiceUnavailability> {
     const url = `${this.baseUrl}/${serviceUnavailabilityId}`;
     return this.http.delete<ServiceUnavailability>(url);

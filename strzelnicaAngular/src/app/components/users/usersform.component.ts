@@ -1,21 +1,17 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router'
+import { ActivatedRoute } from '@angular/router'
 import { UserService } from '../../services/users.service';
 import { Users } from '../../interfaces/users';
 import { PopupComponent } from '../popup.component';
 import { Location } from '@angular/common';
-import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
-import { Observer } from 'rxjs';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-users-form',
   templateUrl: './usersform.component.html',
   styleUrls: [
-    // Style exclusive for this component
     '/src/app/styles/usersform.component.css',
-    // Shared button styles
     '/src/app/styles/shared-button-styles.css',
-    // Shared form styles
     '/src/app/styles/shared-form-styles.css'
   ]
 })
@@ -68,23 +64,19 @@ export class UsersFormComponent implements OnInit {
     if (this.userForm.valid) {
       this.user.name = this.userForm.value.name;
   
-      const observer: Observer<any> = {
-        next: response => {
+      this.userService.updateUser(this.user).subscribe({
+        next: () => {
           this.responsePopupHeader = 'Pomyślnie zaktualizowano użytkownika ' + this.user.name + '.';
           this.responsePopupNgClass = 'popupSuccess';
           this.responsePopup.open();
         },
-        error: error => {
+        error: (error: any) => {
           this.responsePopupHeader = 'Przy aktualizacji użytkownika napotkano błąd.';
           this.responsePopupMessage = error.error.message + ' (' + error.message + ')';
           this.responsePopupNgClass = 'popupError';
           this.responsePopup.open();
-        },
-        complete: () => {}
-      };
-
-      // Subscribe using the observer object
-      this.userService.updateUser(this.user).subscribe(observer);
+        }
+      });
     }
   }
 

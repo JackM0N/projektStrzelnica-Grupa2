@@ -9,20 +9,20 @@ import { AuthService } from '../../services/auth.service';
   selector: 'app-news',
   templateUrl: './news.component.html',
   styleUrls: [
-    // Style exclusive for this component
     '/src/app/styles/news.component.css',
-    // Styles shared between all the list components
     '/src/app/styles/shared-list-styles.css',
-    // Shared button styles
     '/src/app/styles/shared-button-styles.css']
 })
-
 // Component that displays the news
 export class NewsComponent implements AfterViewInit {
   @ViewChild('paginationComponent', { static: false }) paginationComponent!: PaginationComponent;
   newsList: News[] = [];
 
-  constructor(private newsService: NewsService, public authService: AuthService, private cd: ChangeDetectorRef) {}
+  constructor(
+    private newsService: NewsService,
+    public authService: AuthService,
+    private cd: ChangeDetectorRef
+  ) {}
 
   // After init - because we need the pagination to load first
   // Fetch the news from the database and display them

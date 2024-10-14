@@ -1,106 +1,113 @@
 
 /* Welcome text above the data container */
 .welcome {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
 }
+
 .welcome p {
-    margin-top: 26px;
-    font-size: 38px;
-    margin-bottom: 20px;
+  margin-top: 26px;
+  font-size: 38px;
+  margin-bottom: 20px;
 }
+
 .welcome hr {
-    margin-top: 0;
-    width: 60%;
-    border: none;
-    border-top: 4px solid #bbb;
-    border-radius: 0px;
-    margin-bottom: 0px;
+  margin-top: 0;
+  width: 60%;
+  border: none;
+  border-top: 4px solid #bbb;
+  border-radius: 0px;
+  margin-bottom: 0px;
 }
 
 /* The whole data container containing all the cards */
 .data-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
 }
 
 /* Item card */
 .item-card {
-    margin-bottom: 20px;
-    padding: 20px;
-    padding-top: 0;
-    border: 1px solid #ccc;
-    border-radius: 0px;
-    width: 80%;
-    max-width: 600px;
-    background-color: #f9f9f9;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-}
-.item-card-deleted {
-    background: repeating-linear-gradient(160deg, #f9f9f9, #f9f9f9 70px, #dddddd 10px, #dddddd 80px);
-}
-.item-card h2 {
-    margin-top: 12px;
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 12px;
-    color: #333;
-}
-.item-card img {
-    width: 100%;
-    margin-bottom: 10px;
-}
-.item-card-details {
-    color: #444;
+  margin-bottom: 20px;
+  padding: 20px;
+  padding-top: 0;
+  border: 1px solid #ccc;
+  border-radius: 0px;
+  width: 80%;
+  max-width: 600px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
 }
 
+.item-card-deleted {
+  background: repeating-linear-gradient(160deg, #f9f9f9, #f9f9f9 70px, #dddddd 10px, #dddddd 80px);
+}
+
+.item-card h2 {
+  margin-top: 12px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 12px;
+  color: #333;
+}
+
+.item-card img {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.item-card-details {
+  color: #444;
+}
 
 /* Style for table lists */
 .table-container {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow */
-    margin: 20px auto; /* Center the container */
-    max-width: 1000px; /* Limit the maximum width */
-    border: 1px solid #ddd; /* Add border */
-    border-radius: 5px; /* Add border radius */
-    overflow: hidden; /* Hide overflow for shadow effect */
-    font-family: "Roboto", sans-serif;
-    font-weight: 400;
-    font-style: normal;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow */
+  margin: 20px auto; /* Center the container */
+  max-width: 1000px; /* Limit the maximum width */
+  border: 1px solid #ddd; /* Add border */
+  border-radius: 5px; /* Add border radius */
+  overflow: hidden; /* Hide overflow for shadow effect */
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-style: normal;
 }
 table {
-    border-collapse: collapse;
-    width: 100%;
+  border-collapse: collapse;
+  width: 100%;
 }
 
 /* headers and rows */
 .table-container th, .table-container td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
 }
+
 /* headers */
 table th {
-    background-color: #f2f2f2;
-    padding: 8px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
+  background-color: #f2f2f2;
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
 }
 
 /* rows */
 table tr {
-    border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
 }
+
 /* alternate row background */
 table tr:nth-child(even) {
-    background-color: #f9f9f9;
+  background-color: #f9f9f9;
 }
 
 /* data cells */
 table td {
-    padding: 8px 16px;
+  padding: 8px 16px;
 }

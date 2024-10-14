@@ -5,9 +5,10 @@ import { PopupComponent } from '../popup.component';
 @Component({
   selector: 'app-competitions-delete',
   templateUrl: './competitionsdelete.component.html',
-  styleUrls: ['/src/app/styles/shared-button-styles.css']
+  styleUrls: [
+    '/src/app/styles/shared-button-styles.css'
+  ]
 })
-
 // Confirm pop-up for deleting competitions
 export class CompetitionsDeleteComponent implements OnInit {
   @Input() competition: any;
@@ -42,7 +43,7 @@ export class CompetitionsDeleteComponent implements OnInit {
   // User clicks confirm, delete the competition from the database
   public confirmAction(): void {
     this.competitionsService.deleteCompetition(this.competition.id).subscribe({
-      next: (response) => {
+      next: () => {
         this.responsePopupHeader = 'Pomyślnie usunięto zawody ' + this.competition.name + '.';
         this.responsePopupNgClass = 'popupSuccess';
         this.responsePopup.open();

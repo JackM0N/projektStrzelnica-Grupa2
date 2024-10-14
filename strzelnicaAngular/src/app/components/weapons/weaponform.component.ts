@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PopupComponent } from '../popup.component';
 import { Observer } from 'rxjs';
 import { Weapon } from '../../interfaces/weapon';
@@ -11,15 +11,11 @@ import { Location } from '@angular/common';
   selector: 'app-add-weapon',
   templateUrl: './weaponform.component.html',
   styleUrls: [
-    // Style exclusive for this component
     '/src/app/styles/weaponform.component.css',
-    // Shared button styles
     '/src/app/styles/shared-button-styles.css',
-    // Shared form styles
     '/src/app/styles/shared-form-styles.css'
   ]
 })
-
 // Component for adding or editing weapons
 export class WeaponFormComponent implements OnInit {
   @ViewChild('responsePopup') responsePopup!: PopupComponent;
@@ -89,7 +85,7 @@ export class WeaponFormComponent implements OnInit {
       this.weapon.serialNumber = this.weaponForm.value.serialNumber;
   
       const observer: Observer<any> = {
-        next: response => {
+        next: () => {
           if (this.isAddWeaponRoute) {
             this.responsePopupHeader = 'Pomyślnie dodano broń ' + this.weapon.name + '.';
           } else {

@@ -1,5 +1,4 @@
-import { CUSTOM_ELEMENTS_SCHEMA, Component, NgModule, OnInit, ViewChild, isStandalone } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { UserService } from '../../services/users.service';
 import { Users } from '../../interfaces/users';
 import { PopupComponent } from '../popup.component';
@@ -36,7 +35,6 @@ export class UsersProfileEditComponent implements OnInit {
   constructor(
     private location: Location,
     private userService: UserService,
-    private router: Router,
     private formBuilder: FormBuilder,
   ) {
     this.userForm = this.formBuilder.group({
@@ -62,7 +60,7 @@ export class UsersProfileEditComponent implements OnInit {
       };
 
       const observer: Observer<any> = {
-        next: response => {
+        next: () => {
           this.responsePopupHeader = 'Pomyślnie zaktualizowano użytkownika ' + updatedUser.name + '.';
           this.responsePopupNgClass = 'popupSuccess';
           this.responsePopup.open();

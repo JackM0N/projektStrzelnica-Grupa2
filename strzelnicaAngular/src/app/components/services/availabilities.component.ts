@@ -254,10 +254,8 @@ export class AvailabilitiesComponent {
       if (this.selectedAvailability && this.selectedAvailability.id) {
         this.availabilitiesService.deleteServiceAvailability(this.selectedAvailability.id).subscribe(observer);
       }
-    } else {
-      if (this.selectedUnavailability && this.selectedUnavailability.id) {
-        this.unavailabilitiesService.deleteServiceUnavailability(this.selectedUnavailability.id).subscribe(observer);
-      }
+    } else if (this.selectedUnavailability && this.selectedUnavailability.id) {
+      this.unavailabilitiesService.deleteServiceUnavailability(this.selectedUnavailability.id).subscribe(observer);
     }
   }
 
@@ -323,6 +321,7 @@ export class AvailabilitiesComponent {
       }
 
       this.availabilityFormPopup.close();
+      
       if (this.availabilityAreWeAdding) {
         this.availabilitiesService.addServiceAvailability(this.availability).subscribe(this.observerAdd());
       } else {

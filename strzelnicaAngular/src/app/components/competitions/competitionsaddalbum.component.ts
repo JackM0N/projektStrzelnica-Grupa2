@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PopupComponent } from '../popup.component';
@@ -17,11 +17,8 @@ import { UserService } from '../../services/users.service';
   selector: 'app-competitions-addalbum',
   templateUrl: './competitionsaddalbum.component.html',
   styleUrls: [
-    // Style for this component
     '/src/app/styles/competitionsaddalbum.css',
-    // Shared button styles
     '/src/app/styles/shared-button-styles.css',
-    // Shared form styles
     '/src/app/styles/shared-form-styles.css'
   ]
 })
@@ -78,7 +75,6 @@ export class CompetitionsAddAlbumComponent implements AfterViewInit {
 
   // On init, if there is an id in the page URL, fetch the competition with that id and display it
   ngAfterViewInit() {
-
     // Adding, check if an album already exists
     if (this.isAddAlbumRoute) {
 
@@ -118,7 +114,6 @@ export class CompetitionsAddAlbumComponent implements AfterViewInit {
 
     // Editing, fetch album
     } else {
-
       this.route.params.subscribe(params => {
         if (params['id']) {
           const albumId = +params['id'];
@@ -132,7 +127,6 @@ export class CompetitionsAddAlbumComponent implements AfterViewInit {
           this.updateForm();
         }
       });
-
     }
 
     // The DOM has been changed, we need to detect the changes to prevent ExpressionChangedAfterItHasBeenCheckedError
@@ -156,7 +150,7 @@ export class CompetitionsAddAlbumComponent implements AfterViewInit {
       };
 
       const observer: Observer<any> = {
-        next: response => {
+        next: () => {
           if (this.isAddAlbumRoute) {
             this.responsePopupHeader = 'Pomyślnie dodano album ' + this.album.name + '.';
           } else {
@@ -168,14 +162,10 @@ export class CompetitionsAddAlbumComponent implements AfterViewInit {
           const userId = 1; // Replace with the actual user ID
 
           if (this.albumForm.value.makePost) {
-            this.userService.getCurrentUser().subscribe(
-              (user: Users) => {
+            this.userService.getCurrentUser().subscribe((user: Users) => {
               // Check if makePost is checked and create a news post
-                this.createNewsPost(user.id, this.album.name, this.album.description);
-              },
-              (error: any) => {
-              }
-            );
+              this.createNewsPost(user.id, this.album.name, this.album.description);
+            });
           }
         },
         error: error => {
@@ -192,7 +182,7 @@ export class CompetitionsAddAlbumComponent implements AfterViewInit {
       };
 
       const observerImages: Observer<any> = {
-        next: response => {
+        next: () => {
           console.log('Images uploaded successfully');
         },
         error: error => {
@@ -210,6 +200,7 @@ export class CompetitionsAddAlbumComponent implements AfterViewInit {
 
       console.log("adding images");
       //this.imagesService.uploadImages(this.album.images).subscribe(observerImages);
+      // TODO: What is this?
     }
   }
 
@@ -226,7 +217,7 @@ export class CompetitionsAddAlbumComponent implements AfterViewInit {
     };
 
     this.newsService.addNews(newsPost).subscribe({
-      next: response => {
+      next: () => {
         console.log('News post created successfully');
       },
       error: error => {
@@ -255,7 +246,6 @@ export class CompetitionsAddAlbumComponent implements AfterViewInit {
     this.location.back();
   }
   
-  // User clicks go back from the form page
   public goBack(): void {
     this.location.back();
   }

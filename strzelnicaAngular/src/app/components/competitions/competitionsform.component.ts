@@ -11,9 +11,7 @@ import { Location } from '@angular/common';
   selector: 'app-add-competition',
   templateUrl: './competitionsform.component.html',
   styleUrls: [
-    // Shared button styles
     '/src/app/styles/shared-button-styles.css',
-    // Shared form styles
     '/src/app/styles/shared-form-styles.css'
   ]
 })
@@ -105,7 +103,7 @@ export class CompetitionsFormComponent implements OnInit {
       };
 
       const observer: Observer<any> = {
-        next: response => {
+        next: () => {
           if (this.isAddCompetitionRoute) {
             this.responsePopupHeader = 'Pomyślnie dodano zawody ' + this.competition.name + '.';
           } else {
@@ -141,7 +139,6 @@ export class CompetitionsFormComponent implements OnInit {
     this.location.back();
   }
   
-  // User clicks go back from the form page
   public goBack(): void {
     this.location.back();
   }

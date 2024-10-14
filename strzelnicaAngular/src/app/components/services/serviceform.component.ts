@@ -13,9 +13,7 @@ import { Tracktype } from '../../interfaces/tracktype';
   selector: 'app-add-service',
   templateUrl: './serviceform.component.html',
   styleUrls: [
-    // Shared button styles
     '/src/app/styles/shared-button-styles.css',
-    // Shared form styles
     '/src/app/styles/shared-form-styles.css'
   ]
 })
@@ -105,7 +103,7 @@ export class ServiceFormComponent implements OnInit {
       this.service.tracktype = this.serviceForm.value.tracktype;
 
       const observer: Observer<any> = {
-        next: response => {
+        next: () => {
           if (this.isAddServiceRoute) {
             this.responsePopupHeader = 'Pomyślnie dodano usługę ' + this.service.name + '.';
           } else {
@@ -138,19 +136,17 @@ export class ServiceFormComponent implements OnInit {
   
   // Fetch all available tracks
   fetchTracktypes(): void {
+    this.tracktypeList = [];
+
     const observer: Observer<any> = {
       next: response => {
-        this.tracktypeList = [];
         response.forEach((track: Tracktype) => {
           this.tracktypeList.push(track);
         });
       },
-      error: error => {
-        this.tracktypeList = [];
-      },
-      complete: function (): void {}
+      error: error => { console.error(error); },
+      complete: function() {}
     };
-
     this.tracktypesService.getAllTracktypes().subscribe(observer);
   }
 
@@ -163,7 +159,6 @@ export class ServiceFormComponent implements OnInit {
     this.location.back();
   }
   
-  // User clicks go back from the form page
   public goBack(): void {
     this.location.back();
   }

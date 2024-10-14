@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '../../services/auth.service'; // Import AuthService
+import { AuthService } from '../../services/auth.service';
+import { Observer } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,7 @@ import { AuthService } from '../../services/auth.service'; // Import AuthService
     '/src/app/styles/shared-form-styles.css'
   ]
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   loginForm: FormGroup;
 
   constructor(
@@ -26,23 +27,22 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
-
   onSubmit() {
     if (this.loginForm.valid) {
       const credentials = {
         email: this.loginForm.get('email')?.value,
         password: this.loginForm.get('password')?.value
       };
-      this.authService.login(credentials).subscribe(
-        response => {
+
+      const observer: Observer<any> = {
+        next: () => {
           console.log("Login successful");
           this.router.navigate(['/news']);
         },
-        error => {
-          console.error("Login failed:", error);
-        }
-      );
+        error: error => { console.error("Login failed:", error); },
+        complete: () => {}
+      };
+      this.authService.login(credentials).subscribe(observer);
     }
   }
   

@@ -28,15 +28,15 @@ export class AvailabilityService {
   */
 
   isDateAvailable(date: Date, availableDatesList: DateAvailability[]): boolean {
-      // Extract year, month, and day from the provided date
-      const year = date.getFullYear();
-      const month = date.getMonth();
-      const day = date.getDate();
+    // Extract year, month, and day from the provided date
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const day = date.getDate();
 
-      // Check if any available date matches the year, month, and day of the provided date
-      return availableDatesList.some(availDate => {
-          const availDateObj = new Date(availDate.date);
-          return availDateObj.getFullYear() === year && availDateObj.getMonth() === month && availDateObj.getDate() === day;
-      });
+    // Check if any available date matches the year, month, and day of the provided date
+    return availableDatesList.some(availDate => {
+        const availDateObj = new Date(availDate.date);
+        return availDateObj.getFullYear() === year && availDateObj.getMonth() === month && availDateObj.getDate() === day;
+    });
   }
 }

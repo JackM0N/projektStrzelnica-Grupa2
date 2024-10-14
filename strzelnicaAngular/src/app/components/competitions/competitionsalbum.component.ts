@@ -10,15 +10,11 @@ import { Observer } from 'rxjs';
   selector: 'app-add-weapon',
   templateUrl: './competitionsalbum.component.html',
   styleUrls: [
-    // Style for this component
     '/src/app/styles/competitionsalbum.css',
-    // Shared button styles
     '/src/app/styles/shared-button-styles.css',
-    // Shared form styles
     '/src/app/styles/shared-form-styles.css'
   ]
 })
-
 // Component for adding or editing weapons
 export class CompetitionsAlbumComponent implements OnInit {
   @ViewChild('responsePopup') responsePopup!: PopupComponent;
@@ -41,12 +37,10 @@ export class CompetitionsAlbumComponent implements OnInit {
     private route: ActivatedRoute,
     private albumService: AlbumsService,
     private location: Location,
-  ) {
-  }
+  ) {}
 
   // On init, if there is an id in the page URL, fetch the weapon with that id and display it
   ngOnInit() {
-
     this.route.params.subscribe(params => {
       if (params['id']) {
         const id = +params['id'];
@@ -88,7 +82,6 @@ export class CompetitionsAlbumComponent implements OnInit {
     this.location.back();
   }
   
-  // User clicks go back from the form page
   public goBack(): void {
     this.location.back();
   }

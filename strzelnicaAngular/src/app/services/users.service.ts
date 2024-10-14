@@ -7,7 +7,6 @@ import { isPlatformBrowser } from '@angular/common';
 @Injectable({
   providedIn: 'root'
 })
-// Service for handling CRUD operations on users
 export class UserService {
   private baseUrl = 'http://localhost:8080/users';
   private getByIdUrl = 'http://localhost:8080/users/id';
@@ -16,13 +15,11 @@ export class UserService {
   private loginUrl = 'http://localhost:8080/login';
   private accountUrl = 'http://localhost:8080/users/account';
 
-
   constructor(
     private http: HttpClient,
     @Inject(PLATFORM_ID) private platformId: Object
-  ) { }
+  ) {}
 
-  // Fetch paginated list of users from the database
   getPaginatedUsers(page: number, size: number): Observable<any> {
     const params = new HttpParams()
       .set('page', (page - 1).toString())
@@ -30,13 +27,11 @@ export class UserService {
     return this.http.get<any>(this.baseUrl, {params});
   }
   
-  // Editing a user in the database
   updateUser(user: Users): Observable<Users> {
     const url = `${this.editUrl}/${user.id}`;
     return this.http.put<Users>(url, user);
   }
 
-  // Fetch a specific user from the database
   getUserById(userId: number): Observable<Users> {
     const url = `${this.getByIdUrl}/${userId}`;
     return this.http.get<Users>(url);

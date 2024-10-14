@@ -1,25 +1,25 @@
 
 <!-- Success/failure response pop-up -->
 <app-popup #responsePopup
-    headerName="{{responsePopupHeader}}"
-    messageText="{{responsePopupMessage}}"
-    [ngClass]="responsePopupNgClass"
-    closeButtonLabel="Ok"
-    (closeEvent)="responsePopupCancelAction()">
+  headerName="{{responsePopupHeader}}"
+  messageText="{{responsePopupMessage}}"
+  [ngClass]="responsePopupNgClass"
+  closeButtonLabel="Ok"
+  (closeEvent)="responsePopupCancelAction()">
 </app-popup>
 
 <div class="form-container">
   <h1>{{actionText}}</h1>
 
   <form [formGroup]="weaponForm" (ngSubmit)="onSubmit()">
-  <div>
-    <label for="name">Nazwa:</label>
-    <input type="text" id="name" name="name" maxlength="200" minlength="2" [(ngModel)]="weapon.name" formControlName="name" required>
+    <div>
+      <label for="name">Nazwa:</label>
+      <input type="text" id="name" name="name" maxlength="200" minlength="2" [(ngModel)]="weapon.name" formControlName="name" required>
     </div>
 
     <div>
-    <label for="pricePerHour">Cena za godzinę (zł):</label>
-    <input type="number" id="pricePerHour" name="pricePerHour" [(ngModel)]="weapon.pricePerHour" formControlName="pricePerHour" required>
+      <label for="pricePerHour">Cena za godzinę (zł):</label>
+      <input type="number" id="pricePerHour" name="pricePerHour" [(ngModel)]="weapon.pricePerHour" formControlName="pricePerHour" required>
     </div>
 
     <div>
@@ -48,7 +48,9 @@
     </div>
 
     <div class="button-container">
-      <button type="button" class="form-button" ngClass="go-back-button" (click)="goBack()">Cofnij</button>
+      <button type="button" class="form-button" ngClass="go-back-button" (click)="goBack()">
+        Cofnij
+      </button>
       <button type="submit" class="form-button"   [disabled]="!weaponForm.valid" [class.disabled-button]="!weaponForm.valid">
         Zapisz
       </button>

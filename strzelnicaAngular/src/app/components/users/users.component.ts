@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ViewChild} from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ViewChild} from '@angular/core';
 import { PaginationComponent } from '../pagination.component';
 import { UserService } from '../../services/users.service';
 import { Users } from '../../interfaces/users';
@@ -7,13 +7,11 @@ import { Users } from '../../interfaces/users';
   selector: 'app-users',
   templateUrl: './users.component.html',
   styleUrls: [
-    // Styles shared between all the list components
     '/src/app/styles/shared-list-styles.css',
-    // Shared button styles
     '/src/app/styles/shared-button-styles.css'
   ]
 })
-export class UsersComponent {
+export class UsersComponent implements AfterViewInit {
   @ViewChild('paginationComponent', { static: false }) paginationComponent!: PaginationComponent;
   userList: Users[] = [];
 

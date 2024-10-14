@@ -1,29 +1,30 @@
 
 <div id="profileContener" *ngIf="currentUser">
-    <h2>Profil</h2>
-    <p>
-        <b>Imię i nazwisko:</b> {{ currentUser.name }} {{ currentUser.surname }}<br>
-        <b>Email:</b> {{ currentUser.email }}<br>
-        <b>Data urodzenia:</b> {{currentUser.dateOfBirth}}<br>
-    </p>
+  <h2>Profil</h2>
+  <p>
+    <b>Imię i nazwisko:</b> {{ currentUser.name }} {{ currentUser.surname }}<br>
+    <b>Email:</b> {{ currentUser.email }}<br>
+    <b>Data urodzenia:</b> {{currentUser.dateOfBirth}}<br>
+  </p>
 
-    <p [ngStyle]="{'color': currentUser.clubMember ? 'green' : 'red'}">
-        {{ currentUser.clubMember ? 'Jesteś członkiem klubu' : 'Nie jesteś członkiem klubu' }}
-    </p>
+  <p [ngStyle]="{'color': currentUser.clubMember ? 'green' : 'red'}">
+    {{ currentUser.clubMember ? 'Jesteś członkiem klubu' : 'Nie jesteś członkiem klubu' }}
+  </p>
 
-    <button *ngIf="!currentUser.clubMember" (click)="requestClubMembership()" class="generic-button">Dołącz do klubu</button>
-    <button [routerLink]="['edit']" class="generic-button" id="edit">Edytuj swoje dane</button>
+  <button *ngIf="!currentUser.clubMember" (click)="requestClubMembership()" class="generic-button">Dołącz do klubu</button>
+  <button [routerLink]="['edit']" class="generic-button" id="edit">Edytuj swoje dane</button>
+  <button (click)="logout()" class="generic-button" id="logout">Wyloguj</button>
 </div>
 
 <div *ngIf="!currentUser">
-    <p>Ugh danych użytkownika</p>
+  <p>Ugh danych użytkownika</p>
 </div>
 
 <div *ngIf="showMembershipForm" id="membershipForm">
-    <h3>Chcesz dołączyć do naszego klubu?</h3><h3>Napisz wiadomość dlaczego chcesz zostać członkiem naszego zespołu!</h3>
-    <textarea [(ngModel)]="membershipMessage" placeholder="Wpisz swoją wiadomość tutaj..."></textarea>
-    <div id="buttons">
-        <button (click)="closeMembershipForm()" class="form-button">Anuluj</button>
-        <button type="submit" (click)="submitMembershipRequest()" class="form-button">Wyślij prośbę</button>
-    </div>
+  <h3>Chcesz dołączyć do naszego klubu?</h3><h3>Napisz wiadomość dlaczego chcesz zostać członkiem naszego zespołu!</h3>
+  <textarea [(ngModel)]="membershipMessage" placeholder="Wpisz swoją wiadomość tutaj..."></textarea>
+  <div id="buttons">
+    <button (click)="closeMembershipForm()" class="form-button">Anuluj</button>
+    <button type="submit" (click)="submitMembershipRequest()" class="form-button">Wyślij prośbę</button>
+  </div>
 </div>

@@ -36,13 +36,14 @@ import { CompetitionsComponent } from './components/competitions/competitions.co
 import { CompetitionsFormComponent } from './components/competitions/competitionsform.component'
 import { CompetitionsDeleteComponent } from './components/competitions/competitionsdelete.component'
 import { QuillModule } from 'ngx-quill';
-import { JwtModule } from '@auth0/angular-jwt'; // Import JwtModule
+import { JwtModule } from '@auth0/angular-jwt';
 import { AuthService } from './services/auth.service';
 import { AuthGuard } from './guards/auth.guard';
 import { RoleGuard } from './guards/role.guard';
 import { RouterModule } from '@angular/router';
 import { CompetitionsAddAlbumComponent } from './components/competitions/competitionsaddalbum.component';
 import { CompetitionsAlbumComponent } from './components/competitions/competitionsalbum.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -86,14 +87,14 @@ import { CompetitionsAlbumComponent } from './components/competitions/competitio
     MatNativeDateModule,
     MatInputModule,
     RouterModule,
-    QuillModule.forRoot(), // nah nothing wrong here
+    QuillModule.forRoot(),
     JwtModule.forRoot({
       config: {
         tokenGetter: () => {
-          return localStorage.getItem('access_token'); // Get token from localStorage
+          return localStorage.getItem('access_token');
         },
-        allowedDomains: [''], // Replace with your backend domain
-        disallowedRoutes: ['localhost:8080/login'] // Replace with your auth endpoint
+        allowedDomains: [''],
+        disallowedRoutes: ['localhost:8080/login']
       }
     }),
   ],
@@ -109,4 +110,4 @@ import { CompetitionsAlbumComponent } from './components/competitions/competitio
   
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

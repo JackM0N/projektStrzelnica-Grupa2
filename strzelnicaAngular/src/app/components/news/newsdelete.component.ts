@@ -7,7 +7,6 @@ import { PopupComponent } from '../popup.component';
   templateUrl: './newsdelete.component.html',
   styleUrls: ['/src/app/styles/shared-button-styles.css']
 })
-
 // Confirm pop-up for deleting news
 export class NewsDeleteComponent implements OnInit {
   @Input() news: any;
@@ -23,7 +22,9 @@ export class NewsDeleteComponent implements OnInit {
   public responsePopupNgClass = '';
   public isDeleted = false;
 
-  constructor(private newsService: NewsService) {}
+  constructor(
+    private newsService: NewsService
+  ) {}
 
   // On init, determine whether we are deleting or restoring
   ngOnInit() {
@@ -43,7 +44,7 @@ export class NewsDeleteComponent implements OnInit {
   // User clicks confirm, delete the news from the database
   public confirmAction(): void {
     this.newsService.deleteNews(this.news.id).subscribe({
-      next: (response) => {
+      next: () => {
         if (this.isDeleted) {
           this.responsePopupHeader = 'Pomyślnie przywrócono news ' + this.news.title + '.';
         } else {

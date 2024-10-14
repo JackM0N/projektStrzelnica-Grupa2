@@ -18,9 +18,7 @@
           <th>Godzina zakończenia</th>
           <th>Status</th>
           <th>Album</th>
-          <th *ngIf="authService.hasAnyRole(['USER', 'ADMIN', 'WORKER'])">Zapisz</th>
-          <th *ngIf="authService.hasAnyRole(['ADMIN', 'WORKER'])">Edytuj</th>
-          <th *ngIf="authService.hasAnyRole(['ADMIN', 'WORKER'])">Usuń</th>
+          <th>Opcje</th>
         </tr>
       </thead>
 
@@ -38,22 +36,27 @@
             <button *ngIf="competition.album" type="button" class="generic-button" [routerLink]="['/competitions/album', competition.album.id]">Wyświetl album</button>
           </td>
 
-          <td *ngIf="authService.hasAnyRole(['USER', 'ADMIN', 'WORKER'])">
-            <ng-container *ngIf="!competition.done">
+          <td>
+            <ng-container *ngIf="!competition.done && authService.hasAnyRole(['USER', 'ADMIN', 'WORKER'])">
               <button *ngIf="!isRegistered(competition.id)" type="button" class="generic-button" (click)="registerForCompetition(competition.id)">Zapisz się</button>
               <button *ngIf="isRegistered(competition.id)" type="button" class="generic-button" (click)="unregisterFromCompetition(competition.id)">Wypisz się</button>
             </ng-container>
-          </td>
-          <td *ngIf="authService.hasAnyRole(['ADMIN', 'WORKER'])">
-            <button type="button" class="generic-button" [routerLink]="['/competitions/edit', competition.id]">Edytuj</button>
-          </td>
-          <td *ngIf="authService.hasAnyRole(['ADMIN', 'WORKER'])">
-            <app-competitions-delete [competition]="competition"></app-competitions-delete>
+
+            <button
+              *ngIf="authService.hasAnyRole(['ADMIN', 'WORKER'])"
+              type="button"
+              class="generic-button"
+              [routerLink]="['/competitions/edit', competition.id]">
+              Edytuj
+            </button>
+
+            <app-competitions-delete *ngIf="authService.hasAnyRole(['ADMIN', 'WORKER'])" [competition]="competition"></app-competitions-delete>
           </td>
         </tr>
       </tbody>
     </table>
   </div>
+
   <div class="table-container">
     <h3>Historia</h3>
     <table>
@@ -66,11 +69,10 @@
           <th>Godzina zakończenia</th>
           <th>Status</th>
           <th>Album</th>
-          <th *ngIf="authService.hasAnyRole(['USER', 'ADMIN', 'WORKER'])">Zobacz</th>
-          <th *ngIf="authService.hasAnyRole(['ADMIN', 'WORKER'])">Edytuj</th>
-          <th *ngIf="authService.hasAnyRole(['ADMIN', 'WORKER'])">Usuń</th>
+          <th *ngIf="authService.hasAnyRole(['USER', 'ADMIN', 'WORKER'])">Opcje</th>
         </tr>
       </thead>
+
       <tbody>
         <tr *ngFor="let competition of pastCompetitionsList">
           <td>{{ competition.name }}</td>
@@ -79,21 +81,27 @@
           <td>{{ competition.hourStart }}</td>
           <td>{{ competition.hourEnd }}</td>
           <td>{{ competition.done ? 'Zakończone' : 'W toku' }}</td>
+
           <td>
             <button *ngIf="competition.done && competition.album == null && authService.hasAnyRole(['USER', 'ADMIN', 'WORKER'])" type="button" class="generic-button" [routerLink]="['/competitions/addalbum', competition.id]">Dodaj album</button>
             <button *ngIf="competition.album" type="button" class="generic-button" [routerLink]="['/competitions/album', competition.album.id]">Wyświetl album</button>
           </td>
+
           <td *ngIf="authService.hasAnyRole(['USER', 'ADMIN', 'WORKER'])">
             <ng-container *ngIf="!competition.done">
               <button *ngIf="!isRegistered(competition.id)" type="button" class="generic-button" (click)="registerForCompetition(competition.id)">Zapisz się</button>
               <button *ngIf="isRegistered(competition.id)" type="button" class="generic-button" (click)="unregisterFromCompetition(competition.id)">Wypisz się</button>
             </ng-container>
-          </td>
-          <td *ngIf="authService.hasAnyRole(['USER', 'ADMIN', 'WORKER'])">
-            <button type="button" class="generic-button" [routerLink]="['/competitions/edit', competition.id]">Edytuj</button>
-          </td>
-          <td>
-            <app-competitions-delete [competition]="competition"></app-competitions-delete>
+
+            <button
+              *ngIf="authService.hasAnyRole(['USER', 'ADMIN', 'WORKER'])"
+              type="button"
+              class="generic-button"
+              [routerLink]="['/competitions/edit', competition.id]">
+              Edytuj
+            </button>
+            
+            <app-competitions-delete *ngIf="authService.hasAnyRole(['ADMIN', 'WORKER'])" [competition]="competition"></app-competitions-delete>
           </td>
         </tr>
       </tbody>

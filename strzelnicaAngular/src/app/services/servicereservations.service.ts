@@ -6,7 +6,6 @@ import { ServiceReservation } from '../interfaces/servicereservation';
 @Injectable({
   providedIn: 'root'
 })
-// Service for handling CRUD operations on service reservations
 export class ServiceReservationsService {
   private baseUrl = 'http://localhost:8080/servicereservations';
   private postUrl = 'http://localhost:8080/servicereservations/add';
@@ -37,18 +36,15 @@ export class ServiceReservationsService {
     return this.http.get<ServiceReservation[]>(url, {params});
   }
   
-  // Adding a service reservation to the database
   addServiceReservation(serviceReservation?: ServiceReservation): Observable<ServiceReservation> {
     return this.http.post<ServiceReservation>(this.postUrl, serviceReservation);
   }
 
-  // Editing a service reservation in the database
   updateServiceReservation(serviceReservation: ServiceReservation): Observable<ServiceReservation> {
     const url = `${this.editUrl}/${serviceReservation.id}`;
     return this.http.put<ServiceReservation>(url, serviceReservation);
   }
 
-  // Delete a service reservation from the database
   deleteServiceReservation(serviceReservationId: number): Observable<ServiceReservation> {
     const url = `${this.baseUrl}/${serviceReservationId}`;
     return this.http.delete<ServiceReservation>(url);

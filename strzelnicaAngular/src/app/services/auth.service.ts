@@ -16,20 +16,19 @@ export class AuthService {
   ) {}
 
   login(credentials: any) {
-    return this.http.post<any>('http://localhost:8080/login', credentials)
-      .pipe(
-        map(response => {
-          const token = response.accessToken; // Adjust field name if necessary
-          if (token && isPlatformBrowser(this.platformId)) {
-            localStorage.setItem('access_token', token);
-          }
-          return response;
-        }),
-        catchError(error => {
-          console.error('Login failed:', error);
-          return throwError(error);
-        })
-      );
+    return this.http.post<any>('http://localhost:8080/login', credentials).pipe(
+      map(response => {
+        const token = response.accessToken;
+        if (token && isPlatformBrowser(this.platformId)) {
+          localStorage.setItem('access_token', token);
+        }
+        return response;
+      }),
+      catchError(error => {
+        console.error('Login failed:', error);
+        return throwError(error);
+      })
+    );
   }
 
   logout() {
@@ -72,10 +71,9 @@ export class AuthService {
       const token = localStorage.getItem('access_token');
       if (token) {
         const decodedToken = this.jwtHelper.decodeToken(token);
-        return typeof decodedToken.id === 'number' ? decodedToken.id : null; // Adjust 'id' to match your JWT structure
+        return typeof decodedToken.id === 'number' ? decodedToken.id : null;
       }
     }
     return null;
   }
-
 }

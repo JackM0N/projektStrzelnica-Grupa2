@@ -11,8 +11,7 @@ export class ImagesService {
   private editUrl = 'http://localhost:8080/images/edit';
 
   constructor(private http: HttpClient) {}
-
-  // Upload images to the server
+  
   uploadImages(images: string[]): Observable<any> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this.http.post(`${this.postUrl}`, images, { headers });

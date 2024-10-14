@@ -7,15 +7,11 @@ import { WeaponService } from '../../services/weapon.service';
   selector: 'app-weapons',
   templateUrl: './weapons.component.html',
   styleUrls: [
-    // Style exclusive for this component
     '/src/app/styles/weapons.component.css',
-    // Styles shared between all the list components
     '/src/app/styles/shared-list-styles.css',
-    // Shared button styles
     '/src/app/styles/shared-button-styles.css'
   ]
 })
-
 // Component that displays a list of weapons
 export class WeaponsComponent implements  AfterViewInit {
   @ViewChild('paginationComponent', { static: false }) paginationComponent!: PaginationComponent;

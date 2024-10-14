@@ -1,49 +1,49 @@
 
 p {
-    text-align: center;
+  text-align: center;
 }
 
 .pagination {
-    margin-bottom: 20px;
-    text-align: center;
-    display: inline-block;
+  margin-bottom: 20px;
+  text-align: center;
+  display: inline-block;
 }
 
 .pagination select, .pagination button {
-    color: black;
-    float: left;
-    padding: 8px 16px;
-    text-decoration: none;
-    transition: background-color .3s;
-    border: 1px solid #ddd;
-    margin: 0 4px;
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+  transition: background-color .3s;
+  border: 1px solid #ddd;
+  margin: 0 4px;
 }
 
 .pagination button {
-    font-size: 20px;
+  font-size: 20px;
 }
 
 .pagination select:hover, .pagination button:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .pagination button:not(.disabled-button):hover {
-    background-color: #4CAF50;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #4CAF50;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .text-label {
-    font-size: 16px;
+  font-size: 16px;
 }
 
 .pagination button.selected {
-    background-color: #71dd74;
+  background-color: #71dd74;
 }
 
 .pagination button.disabled-button {
-    background-color: #b8b8b8;
+  background-color: #b8b8b8;
 }
 
 .pagination button.disabled-button:hover {
-    cursor: not-allowed;
+  cursor: not-allowed;
 }

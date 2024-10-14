@@ -10,67 +10,66 @@
 
 <!-- Form pop-up -->
 <app-popup #formPopup
-    headerName="Rezerwacja"
-    [showCloseButton]="false"
-    [showConfirmButton]="false"
-    style="width: 400px;">
+  headerName="Rezerwacja"
+  [showCloseButton]="false"
+  [showConfirmButton]="false"
+  style="width: 400px;">
 
-    <div class="form-container">
-      <form [formGroup]="reservationForm">
-        <div>
-          <label for="service">Oferta:</label>
-          <select id="service" name="service" [(ngModel)]="reservation.service" formControlName="service" required [compareWith]="compareServices">
-            <option *ngFor="let service of serviceList" [ngValue]="service">{{ service.name }}</option>
-          </select>
-        </div>
+  <div class="form-container">
+    <form [formGroup]="reservationForm">
+      <div>
+        <label for="service">Oferta:</label>
+        <select id="service" name="service" [(ngModel)]="reservation.service" formControlName="service" required [compareWith]="compareServices">
+          <option *ngFor="let service of serviceList" [ngValue]="service">{{ service.name }}</option>
+        </select>
+      </div>
 
-        <div>
-          <label for="date">Data:</label>
-          <input #dateInput type="date" id="date" name="date" formControlName="date" value="{{formatDateForInput(reservation.date)}}" required>
-        </div>
+      <div>
+        <label for="date">Data:</label>
+        <input #dateInput type="date" id="date" name="date" formControlName="date" value="{{formatDateForInput(reservation.date)}}" required>
+      </div>
 
-        <div>
-          <label for="startTime">Czas zaczęcia:</label>
-          <input type="text" id="startTime" name="startTime" [(ngModel)]="reservation.startTime" formControlName="startTime" required>
-        </div>
+      <div>
+        <label for="startTime">Czas zaczęcia:</label>
+        <input type="text" id="startTime" name="startTime" [(ngModel)]="reservation.startTime" formControlName="startTime" required>
+      </div>
 
-        <div>
-          <label for="end_time">Czas zaczęcia:</label>
-          <input type="text" id="end_time" name="end_time" [(ngModel)]="reservation.end_time" formControlName="end_time" required>
-        </div>
+      <div>
+        <label for="end_time">Czas zaczęcia:</label>
+        <input type="text" id="end_time" name="end_time" [(ngModel)]="reservation.end_time" formControlName="end_time" required>
+      </div>
 
-        <div>
-          <label for="price">Cena (zł):</label>
-          <input type="number" id="price" name="price" [(ngModel)]="reservation.price" formControlName="price" required>
-        </div>
+      <div>
+        <label for="price">Cena (zł):</label>
+        <input type="number" id="price" name="price" [(ngModel)]="reservation.price" formControlName="price" required>
+      </div>
 
-        <div>
-          <label for="track">Tor:</label>
-          <select id="track" name="track" [(ngModel)]="reservation.track" formControlName="track" required [compareWith]="compareTracks">
-            <option *ngFor="let track of trackList" [ngValue]="track">{{ formatTrack(track) }}</option>
-          </select>
-        </div>
+      <div>
+        <label for="track">Tor:</label>
+        <select id="track" name="track" [(ngModel)]="reservation.track" formControlName="track" required [compareWith]="compareTracks">
+          <option *ngFor="let track of trackList" [ngValue]="track">{{ formatTrack(track) }}</option>
+        </select>
+      </div>
 
-        <div class="button-container">
-          <button type="button" class="form-button" ngClass="go-back-button" (click)="closeForm()">Cofnij</button>
-          <button type="submit" class="form-button" [disabled]="!reservationForm.valid" [class.disabled-button]="!reservationForm.valid" (click)="submitForm()">
-            Zapisz
-          </button>
-        </div>
-      </form>
-    </div>
-
+      <div class="button-container">
+        <button type="button" class="form-button" ngClass="go-back-button" (click)="closeForm()">Cofnij</button>
+        <button type="submit" class="form-button" [disabled]="!reservationForm.valid" [class.disabled-button]="!reservationForm.valid" (click)="submitForm()">
+          Zapisz
+        </button>
+      </div>
+    </form>
+  </div>
 </app-popup>
 
 <!-- Confirm action pop-up - deleting/restoring -->
 <app-popup #confirmDeletionPopup
-    headerName="{{confirmDeletionPopupHeader}}"
-    messageText="{{confirmDeletionPopupMessage}}"
-    [showConfirmButton]="true"
-    confirmButtonLabel="{{confirmDeletionPopupConfirmText}}"
-    confirmButtonNgClass="{{confirmDeletionPopupConfirmNgClass}}"
-    closeButtonLabel="Anuluj"
-    (confirmEvent)="confirmDeletionAction()">
+  headerName="{{confirmDeletionPopupHeader}}"
+  messageText="{{confirmDeletionPopupMessage}}"
+  [showConfirmButton]="true"
+  confirmButtonLabel="{{confirmDeletionPopupConfirmText}}"
+  confirmButtonNgClass="{{confirmDeletionPopupConfirmNgClass}}"
+  closeButtonLabel="Anuluj"
+  (confirmEvent)="confirmDeletionAction()">
 </app-popup>
 
 <div class="welcome">
@@ -103,8 +102,8 @@
           <th>Opcje</th>
         </tr>
       </thead>
-      <tbody>
 
+      <tbody>
         <!-- Check if the reservationList is empty -->
         <ng-container *ngIf="reservationList.length === 0; else notEmpty">
           <tr>
@@ -133,7 +132,6 @@
             </td>
           </tr>
         </ng-template>
-
       </tbody>
     </table>
   </div>

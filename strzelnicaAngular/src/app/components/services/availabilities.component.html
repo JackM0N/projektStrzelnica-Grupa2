@@ -1,99 +1,99 @@
 
 <!-- Availability form pop-up -->
 <app-popup #availabilityFormPopup
-    headerName="Termin dostępny"
-    [showCloseButton]="false"
-    [showConfirmButton]="false"
-    style="width: 400px;">
+  headerName="Termin dostępny"
+  [showCloseButton]="false"
+  [showConfirmButton]="false"
+  style="width: 400px;">
 
-    <div class="form-container">
-      <form [formGroup]="availabilityForm" (ngSubmit)="submitFormAvailability()">
-        <div>
-          <label for="service">Oferta:</label>
-          <select id="service" name="service" [(ngModel)]="availability.service" formControlName="service" required [compareWith]="compareServices">
-            <option *ngFor="let service of serviceList" [ngValue]="service">{{ service.name }}</option>
-          </select>
-        </div>
+  <div class="form-container">
+    <form [formGroup]="availabilityForm" (ngSubmit)="submitFormAvailability()">
+      <div>
+        <label for="service">Oferta:</label>
+        <select id="service" name="service" [(ngModel)]="availability.service" formControlName="service" required [compareWith]="compareServices">
+          <option *ngFor="let service of serviceList" [ngValue]="service">{{ service.name }}</option>
+        </select>
+      </div>
 
-        <div>
-          <label for="start_date">Data zaczęcia:</label>
-          <input #av_startDateInput type="date" id="start_date" name="start_date" formControlName="start_date" required>
-        </div>
+      <div>
+        <label for="start_date">Data zaczęcia:</label>
+        <input #av_startDateInput type="date" id="start_date" name="start_date" formControlName="start_date" required>
+      </div>
 
-        <div>
-          <label for="end_date">Data zakończenia:</label>
-          <input #av_endDateInput type="date" id="end_date" name="end_date" formControlName="end_date" required>
-        </div>
+      <div>
+        <label for="end_date">Data zakończenia:</label>
+        <input #av_endDateInput type="date" id="end_date" name="end_date" formControlName="end_date" required>
+      </div>
 
-        <div>
-          <label for="service_day">Dzień:</label>
-          <input #av_serviceDayInput type="date" id="service_day" name="service_day" formControlName="service_day" required>
-        </div>
+      <div>
+        <label for="service_day">Dzień:</label>
+        <input #av_serviceDayInput type="date" id="service_day" name="service_day" formControlName="service_day" required>
+      </div>
 
-        <div>
-          <label for="service_time_start">Czas zaczęcia:</label>
-          <input type="text" id="service_time_start" name="service_time_start" [(ngModel)]="availability.service_time_start" formControlName="service_time_start" required>
-        </div>
+      <div>
+        <label for="service_time_start">Czas zaczęcia:</label>
+        <input type="text" id="service_time_start" name="service_time_start" [(ngModel)]="availability.service_time_start" formControlName="service_time_start" required>
+      </div>
 
-        <div>
-          <label for="service_time_end">Czas zakończenia:</label>
-          <input type="text" id="service_time_end" name="service_time_end" [(ngModel)]="availability.service_time_end" formControlName="service_time_end" required>
-        </div>
+      <div>
+        <label for="service_time_end">Czas zakończenia:</label>
+        <input type="text" id="service_time_end" name="service_time_end" [(ngModel)]="availability.service_time_end" formControlName="service_time_end" required>
+      </div>
 
-        <div class="button-container">
-          <button type="button" class="form-button" ngClass="go-back-button" (click)="closeAvailabilityForm()">Cofnij</button>
-          <button type="submit" class="form-button" [disabled]="!availabilityForm.valid" [class.disabled-button]="!availabilityForm.valid">
-            Zapisz
-          </button>
-        </div>
-      </form>
-    </div>
+      <div class="button-container">
+        <button type="button" class="form-button" ngClass="go-back-button" (click)="closeAvailabilityForm()">Cofnij</button>
+        <button type="submit" class="form-button" [disabled]="!availabilityForm.valid" [class.disabled-button]="!availabilityForm.valid">
+          Zapisz
+        </button>
+      </div>
+    </form>
+  </div>
 </app-popup>
 
 <!-- Unavailability form pop-up -->
 <app-popup #unavailabilityFormPopup
-    headerName="Termin niedostępny"
-    [showCloseButton]="false"
-    [showConfirmButton]="false"
-    style="width: 400px;">
+  headerName="Termin niedostępny"
+  [showCloseButton]="false"
+  [showConfirmButton]="false"
+  style="width: 400px;">
 
-    <div class="form-container">
-      <form [formGroup]="unavailabilityForm" (ngSubmit)="submitFormUnavailability()">
-        <div>
-          <label for="service">Oferta:</label>
-          <select id="service" name="service" [(ngModel)]="unavailability.service" formControlName="service" required [compareWith]="compareServices">
-            <option *ngFor="let service of serviceList" [ngValue]="service">{{ service.name }}</option>
-          </select>
-        </div>
+  <div class="form-container">
+    <form [formGroup]="unavailabilityForm" (ngSubmit)="submitFormUnavailability()">
+      <div>
+        <label for="service">Oferta:</label>
+        <select id="service" name="service" [(ngModel)]="unavailability.service" formControlName="service" required [compareWith]="compareServices">
+          <option *ngFor="let service of serviceList" [ngValue]="service">{{ service.name }}</option>
+        </select>
+      </div>
 
-        <div>
-          <label for="start_date">Data zaczęcia:</label>
-          <input #un_startDateInput type="date" id="start_date" name="start_date" formControlName="start_date" required>
-        </div>
+      <div>
+        <label for="start_date">Data zaczęcia:</label>
+        <input #un_startDateInput type="date" id="start_date" name="start_date" formControlName="start_date" required>
+      </div>
 
-        <div>
-          <label for="start_time">Czas zaczęcia:</label>
-          <input type="text" id="start_time" name="start_time" [(ngModel)]="unavailability.start_time" formControlName="start_time" required>
-        </div>
+      <div>
+        <label for="start_time">Czas zaczęcia:</label>
+        <input type="text" id="start_time" name="start_time" [(ngModel)]="unavailability.start_time" formControlName="start_time" required>
+      </div>
 
-        <div>
-          <label for="end_date">Data zakończenia:</label>
-          <input #un_endDateInput type="date" id="end_date" name="end_date" formControlName="end_date" required>
-        </div>
+      <div>
+        <label for="end_date">Data zakończenia:</label>
+        <input #un_endDateInput type="date" id="end_date" name="end_date" formControlName="end_date" required>
+      </div>
 
-        <div>
-          <label for="end_time">Czas zakończenia:</label>
-          <input type="text" id="end_time" name="end_time" [(ngModel)]="unavailability.end_time" formControlName="end_time" required>
-        </div>
+      <div>
+        <label for="end_time">Czas zakończenia:</label>
+        <input type="text" id="end_time" name="end_time" [(ngModel)]="unavailability.end_time" formControlName="end_time" required>
+      </div>
 
-        <div class="button-container">
-          <button type="button" class="form-button" ngClass="go-back-button" (click)="closeUnavailabilityForm()">Cofnij</button>
-          <button type="submit" class="form-button" [disabled]="!unavailabilityForm.valid" [class.disabled-button]="!unavailabilityForm.valid">
-            Zapisz
-          </button>
-        </div>
-      </form>
-    </div>
+      <div class="button-container">
+        <button type="button" class="form-button" ngClass="go-back-button" (click)="closeUnavailabilityForm()">Cofnij</button>
+        <button type="submit" class="form-button" [disabled]="!unavailabilityForm.valid" [class.disabled-button]="!unavailabilityForm.valid">
+          Zapisz
+        </button>
+      </div>
+    </form>
+  </div>
 </app-popup>
 
 <!-- Success/failure response pop-up -->
@@ -159,6 +159,7 @@
               <td colspan="7" id="list-empty">Brak dostępnych terminów dla tej oferty</td>
             </tr>
           </ng-container>
+
           <ng-template #notEmpty>
             <tr *ngFor="let availability of availabilitiesList">
               <td>{{ availability.id }}</td>
@@ -186,7 +187,6 @@
     </app-pagination>
   </div>
 </div>
-
 
 <div class="data-container">
   <div class="data-card">
@@ -235,8 +235,7 @@
     </div>
 
     <app-pagination #paginationComponent2
-        (onPageChange)="getNewUnavailabilities()">
+      (onPageChange)="getNewUnavailabilities()">
     </app-pagination>
   </div>
 </div>
-

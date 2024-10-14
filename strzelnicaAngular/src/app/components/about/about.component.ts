@@ -5,8 +5,6 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './about.component.html',
   styleUrls: ['/src/app/styles/about.component.css']
 })
-
-// Component that displays about
-export class AboutComponent implements OnInit {
-  ngOnInit(): void {}
+// Component that displays about information
+export class AboutComponent {
 }

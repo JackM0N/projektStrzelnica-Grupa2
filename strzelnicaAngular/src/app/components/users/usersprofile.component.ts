@@ -2,19 +2,17 @@ import { Component, OnInit,ChangeDetectorRef } from '@angular/core';
 import { Users } from '../../interfaces/users';
 import { UserService } from '../../services/users.service';
 import { JoinRequestService } from '../../services/joinrequest.service';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-users-profile',
   templateUrl: './usersprofile.component.html',
   styleUrls: [    
-    // Style exclusive for this component
     '/src/app/styles/usersprofile.component.css',
-    // Shared button styles
     '/src/app/styles/shared-button-styles.css',
-    // Shared button styles
-    '/src/app/styles/shared-button-styles.css',
-    // Shared form styles
-    '/src/app/styles/shared-form-styles.css']
+    '/src/app/styles/shared-form-styles.css'
+  ]
 })
 export class UsersProfileComponent implements OnInit {
   currentUser: Users | null = null;
@@ -22,21 +20,23 @@ export class UsersProfileComponent implements OnInit {
   membershipMessage: string = '';
 
   constructor(
+    private authService: AuthService,
     private userService: UserService, 
     private joinRequestService: JoinRequestService,
     private cd: ChangeDetectorRef,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.userService.getCurrentUser().subscribe(
-      (user: Users) => {
+    this.userService.getCurrentUser().subscribe({
+      next: (user: Users) => {
         this.currentUser = user;
         this.cd.detectChanges();
       },
-      (error: any) => {
-        console.error("Błąd podczas pobierania użytkownika", error);
+      error: (error: any) => {
+        console.error("Error fetching user", error);
       }
-    );
+    });
   }
 
   requestClubMembership(): void {
@@ -60,5 +60,10 @@ export class UsersProfileComponent implements OnInit {
         }
       );
     }
+  }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 }

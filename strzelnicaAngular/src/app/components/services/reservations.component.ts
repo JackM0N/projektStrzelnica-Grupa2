@@ -10,19 +10,14 @@ import { PopupComponent } from '../popup.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Track } from '../../interfaces/track';
 import { TracksService } from '../../services/tracks.service';
-import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-offers',
   templateUrl: './reservations.component.html',
   styleUrls: [
-    // Style for this component
     '/src/app/styles/reservations.component.css',
-    // Styles shared between all the list components
     '/src/app/styles/shared-list-styles.css',
-    // Shared button styles
     '/src/app/styles/shared-button-styles.css',
-    // Shared form styles
     '/src/app/styles/shared-form-styles.css'
   ]
 })
@@ -68,7 +63,6 @@ export class ReservationsComponent implements AfterViewInit {
     private reservationsService: ServiceReservationsService,
     private tracksService: TracksService,
     private cd: ChangeDetectorRef,
-    private authService: AuthService,
     private formBuilder: FormBuilder,
   ) {
     this.reservationForm = this.formBuilder.group({

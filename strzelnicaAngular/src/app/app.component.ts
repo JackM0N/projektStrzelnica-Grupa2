@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { AuthService } from './services/auth.service'; // Ensure the correct path
-import { Router } from '@angular/router';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -10,9 +9,5 @@ import { Router } from '@angular/router';
 export class AppComponent {
   title = 'strzelnicaAngular';
 
-  constructor(public authService: AuthService, private router: Router) {}
-
-  logout() {
-    this.authService.logout();
-  }
+  constructor(public authService: AuthService) {}
 }

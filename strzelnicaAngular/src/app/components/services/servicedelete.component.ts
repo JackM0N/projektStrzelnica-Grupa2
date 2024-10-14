@@ -34,7 +34,7 @@ export class ServiceDeleteComponent implements OnInit {
   // User clicks confirm, delete the service from the database
   public confirmAction(): void {
     this.serviceService.deleteService(this.service.id).subscribe({
-      next: (response) => {
+      next: () => {
         if (this.isDeleted) {
           this.responsePopupHeader = 'Pomyślnie przywrócono ofertę ' + this.service.name + '.';
         } else {

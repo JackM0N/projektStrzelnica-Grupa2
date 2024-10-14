@@ -13,9 +13,7 @@ import { Album } from '../../interfaces/album';
   selector: 'app-competitions',
   templateUrl: './competitions.component.html',
   styleUrls: [
-    // Styles shared between all the list components
     '/src/app/styles/shared-list-styles.css',
-    // Shared button styles
     '/src/app/styles/shared-button-styles.css'
   ]
 })
@@ -34,18 +32,10 @@ export class CompetitionsComponent implements OnInit, AfterViewInit {
     public authService: AuthService,
     private competitionParticipantService: CompetitionParticipantService,
     private userService: UserService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-    this.userService.getCurrentUser().subscribe(
-      (user: Users) => {
-        this.currentUser = user;
-        this.fetchCompetitions();
-      },
-      (error: any) => {
-        console.error("Błąd podczas pobierania użytkownika", error);
-      }
-    );
+    this.loadCurrentUser();
   }
 
   ngAfterViewInit(): void {
@@ -54,26 +44,43 @@ export class CompetitionsComponent implements OnInit, AfterViewInit {
     }
   }
 
+  loadCurrentUser(): void {
+    this.userService.getCurrentUser().subscribe({
+      next: (response) => {
+        this.currentUser = response;
+        this.fetchCompetitions();
+      },
+      error: (error: any) => {
+        console.error("Błąd podczas pobierania użytkownika", error);
+      }
+    });
+  }
+
   fetchCompetitions(): void {
     if (this.paginationComponent) {
-      this.competitionsService.getPaginatedCompetitions(this.paginationComponent.currentPage, this.paginationComponent.maxItems).subscribe(competitions => {
-        this.paginationComponent.totalPages = competitions.totalPages;
-        this.paginationComponent.calculatePages();
-        this.competitionsList = competitions.content;
-        this.checkRegistrations();
-
-        this.competitionsList.forEach(competition => {
-          this.albumService.getAlbumByCompetition(competition.id).subscribe((album: Album) => {
-            if (album) {
-              competition.album = album;
-            }
+      this.competitionsService.getPaginatedCompetitions(this.paginationComponent.currentPage, this.paginationComponent.maxItems).subscribe({
+        next: (response) => {
+          this.paginationComponent.totalPages = response.totalPages;
+          this.paginationComponent.calculatePages();
+          this.competitionsList = response.content;
+          this.checkRegistrations();
+  
+          this.competitionsList.forEach(competition => {
+            this.albumService.getAlbumByCompetition(competition.id).subscribe((album: Album) => {
+              if (album) {
+                competition.album = album;
+              }
+            });
           });
-        });
-
-        this.moveCompletedCompetitions();
-        this.cd.detectChanges();
-
+  
+          this.moveCompletedCompetitions();
+          this.cd.detectChanges();
+        },
+        error: (error: any) => {
+          console.error('Error unregistering for competition:', error);
+        }
       });
+
     } else {
       console.error('PaginationComponent is not initialized.');
     }
@@ -101,20 +108,26 @@ export class CompetitionsComponent implements OnInit, AfterViewInit {
 
   registerForCompetition(competitionId: number): void {
     if (this.currentUser != null) {
-      this.competitionParticipantService.register(this.currentUser.id, competitionId).subscribe(() => {
-        this.fetchCompetitions();
-      }, error => {
-        console.error('Error registering for competition:', error);
+      this.competitionParticipantService.register(this.currentUser.id, competitionId).subscribe({
+        next: () => {
+          this.fetchCompetitions();
+        },
+        error: (error: any) => {
+          console.error('Error registering for competition:', error);
+        }
       });
     }
   }
 
   unregisterFromCompetition(competitionId: number): void {
     if (this.currentUser != null) {
-      this.competitionParticipantService.unregister(this.currentUser.id, competitionId).subscribe(() => {
-        this.fetchCompetitions();
-      }, error => {
-        console.error('Error unregistering from competition:', error);
+      this.competitionParticipantService.unregister(this.currentUser.id, competitionId).subscribe({
+        next: () => {
+          this.fetchCompetitions();
+        },
+        error: (error: any) => {
+          console.error('Error unregistering for competition:', error);
+        }
       });
     }
   }

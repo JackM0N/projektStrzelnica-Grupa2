@@ -6,7 +6,6 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class JoinRequestService {
-
   private apiUrl = 'http://localhost:8080/join-requests';
 
   constructor(private http: HttpClient) {}

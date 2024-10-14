@@ -12,13 +12,10 @@ import { formatDateForInput } from '../../utils/utils';
   selector: 'app-add-news',
   templateUrl: './newsform.component.html',
   styleUrls: [
-    // Shared button styles
     '/src/app/styles/shared-button-styles.css',
-    // Shared form styles
     '/src/app/styles/shared-form-styles.css'
   ]
 })
-
 // Component for adding or editing news
 export class NewsFormComponent implements OnInit {
   @ViewChild('responsePopup') responsePopup!: PopupComponent;
@@ -88,7 +85,7 @@ export class NewsFormComponent implements OnInit {
       }
   
       const observer: Observer<any> = {
-        next: response => {
+        next: () => {
           if (this.isAddNewsRoute) {
             this.responsePopupHeader = 'Pomyślnie dodano news ' + this.news.title + '.';
           } else {
@@ -109,8 +106,7 @@ export class NewsFormComponent implements OnInit {
         },
         complete: () => {}
       };
-
-      // Subscribe using the observer object
+      
       if (this.isAddNewsRoute) {
         this.newsService.addNews(this.news).subscribe(observer);
       } else {
@@ -119,12 +115,10 @@ export class NewsFormComponent implements OnInit {
     }
   }
   
-  // Open the main page after user clicks on the response pop-up
   public responsePopupCancelAction(): void {
     this.location.back();
   }
   
-  // User clicks go back from the form page
   public goBack(): void {
     this.location.back();
   }

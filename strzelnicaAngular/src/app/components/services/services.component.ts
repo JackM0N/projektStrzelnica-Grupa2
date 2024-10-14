@@ -237,7 +237,7 @@ export class ServicesComponent implements AfterViewInit {
 
     if (this.currentService && this.selectedDate && this.selectedTrack != undefined) {
       const observer: Observer<any> = {
-        next: response => {
+        next: () => {
           this.responsePopupHeader = 'Pomyślnie zarezerwowano.';
           this.responsePopupNgClass = 'popupSuccess';
           this.responsePopup.open();

@@ -1,20 +1,16 @@
-import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-popup',
   templateUrl: './popup.component.html',
   styleUrls: [
-    // Style exclusive for this component
     '/src/app/styles/popup.component.css',
-    // Shared button styles
     '/src/app/styles/shared-button-styles.css',
-    // Popup styles
     '/src/app/styles/popup-styles.css'
   ]
 })
-
 // General pop-up component
-export class PopupComponent implements OnInit {
+export class PopupComponent {
   @Input() showPopup: boolean = false;
   @Input() showCloseButton: boolean = true;
   @Input() showConfirmButton: boolean = false;
@@ -30,27 +26,21 @@ export class PopupComponent implements OnInit {
   @Output() confirmEvent = new EventEmitter<void>();
   @Input() disableDefaultButtonCancels: boolean = false;
 
-  constructor() {}
-  
-  ngOnInit() {}
-
-  // Show the pop-up
   public open(): void {
     this.showPopup = true;
   }
-  // Hide the pop-up
+  
   public close(): void {
     this.showPopup = false;
   }
   
-  // User clicks the cancel button
   public cancel(): void {
     if (!this.disableDefaultButtonCancels) {
       this.close();
     }
     this.closeEvent.emit();
   }
-  // User clicks the confirm button
+  
   public confirm(): void {
     if (!this.disableDefaultButtonCancels) {
       this.close();

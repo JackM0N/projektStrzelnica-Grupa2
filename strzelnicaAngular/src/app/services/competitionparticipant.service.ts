@@ -6,8 +6,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class CompetitionParticipantService {
-
   private baseUrl = 'http://localhost:8080/competitionparticipants';
+  
   constructor(private http: HttpClient) {}
 
   register(userId: number, competitionId: number): Observable<void> {

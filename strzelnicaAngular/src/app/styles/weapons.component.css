@@ -1,17 +1,17 @@
 
 #weapon-add-button {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 #weapon-price {
-    font-weight: bold;
-    color: green;
+  font-weight: bold;
+  color: green;
 }
 
 #weapon-edit-button {
-    margin-right: 10px; /* Margin between the buttons */
+  margin-right: 10px; /* Margin between the buttons */
 }
 
 #button-container {
-    margin-top: 20px;
+  margin-top: 20px;
 }

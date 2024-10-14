@@ -11,13 +11,13 @@ $my-warn: mat.define-palette(mat.$red-palette);
 
 // Define custom theme using the above defined palettes
 $my-theme: mat.define-light-theme((
-    color: (
-        primary: $my-primary,
-        accent: $my-accent,
-        warn: $my-warn,
-    ),
-    typography: mat.define-typography-config(),
-    density: 0,
+  color: (
+    primary: $my-primary,
+    accent: $my-accent,
+    warn: $my-warn,
+  ),
+  typography: mat.define-typography-config(),
+  density: 0,
 ));
 
 @include mat.all-component-themes($my-theme);

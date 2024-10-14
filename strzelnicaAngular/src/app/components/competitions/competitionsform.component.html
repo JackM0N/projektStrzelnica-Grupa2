@@ -1,56 +1,57 @@
+
 <!-- Success/failure response pop-up -->
 <app-popup #responsePopup
-    headerName="{{responsePopupHeader}}"
-    messageText="{{responsePopupMessage}}"
-    [ngClass]="responsePopupNgClass"
-    closeButtonLabel="Ok"
-    (closeEvent)="responsePopupCancelAction()">
+  headerName="{{responsePopupHeader}}"
+  messageText="{{responsePopupMessage}}"
+  [ngClass]="responsePopupNgClass"
+  closeButtonLabel="Ok"
+  (closeEvent)="responsePopupCancelAction()">
 </app-popup>
 
 <div class="form-container">
-    <h1>{{actionText}}</h1>
+  <h1>{{actionText}}</h1>
 
-    <form [formGroup]="competitionForm" (ngSubmit)="onSubmit()">
-      <div>
-        <label for="name">Nazwa:</label>
-        <input type="text" id="name" name="name" formControlName="name" required>
-      </div>
+  <form [formGroup]="competitionForm" (ngSubmit)="onSubmit()">
+    <div>
+      <label for="name">Nazwa:</label>
+      <input type="text" id="name" name="name" formControlName="name" required>
+    </div>
 
-      <div>
-        <label for="description">Opis:</label>
-        <quill-editor class="quill-editor-custom" formControlName="description" [modules]="{ toolbar: quillToolbarOptions }"></quill-editor>
-      </div>
+    <div>
+      <label for="description">Opis:</label>
+      <quill-editor class="quill-editor-custom" formControlName="description" [modules]="{ toolbar: quillToolbarOptions }"></quill-editor>
+    </div>
 
-      <div>
-        <label for="date">Data:</label>
-        <mat-form-field appearance="fill">
-          <mat-label>Data</mat-label>
-          <input matInput [matDatepicker]="picker" formControlName="date" required>
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
-      </div>
+    <div>
+      <label for="date">Data:</label>
+      <mat-form-field appearance="fill">
+        <mat-label>Data</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="date" required>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
 
-      <div>
-        <label for="hourStart">Godzina rozpoczęcia:</label>
-        <input type="number" id="hourStart" name="hourStart" formControlName="hourStart" required>
-      </div>
+    <div>
+      <label for="hourStart">Godzina rozpoczęcia:</label>
+      <input type="number" id="hourStart" name="hourStart" formControlName="hourStart" required>
+    </div>
 
-      <div>
-        <label for="hourEnd">Godzina zakończenia:</label>
-        <input type="number" id="hourEnd" name="hourEnd" formControlName="hourEnd" required>
-      </div>
+    <div>
+      <label for="hourEnd">Godzina zakończenia:</label>
+      <input type="number" id="hourEnd" name="hourEnd" formControlName="hourEnd" required>
+    </div>
 
-      <div>
-        <label for="done">Zakończone:</label>
-        <input type="checkbox" id="done" name="done" formControlName="done">
-      </div>
-      
-      <div class="button-container">
-        <button type="button" class="form-button go-back-button" (click)="goBack()">Cofnij</button>
-        <button type="submit" class="form-button" [disabled]="!competitionForm.valid" [class.disabled-button]="!competitionForm.valid">
-          Zapisz
-        </button>
-      </div>
-    </form>
+    <div>
+      <label for="done">Zakończone:</label>
+      <input type="checkbox" id="done" name="done" formControlName="done">
+    </div>
+    
+    <div class="button-container">
+      <button type="button" class="form-button go-back-button" (click)="goBack()">Cofnij</button>
+      <button type="submit" class="form-button" [disabled]="!competitionForm.valid" [class.disabled-button]="!competitionForm.valid">
+        Zapisz
+      </button>
+    </div>
+  </form>
 </div>

@@ -10,9 +10,7 @@ import { Observer } from 'rxjs';
   templateUrl: './registration.component.html',
   styleUrls: [
     '/src/app/styles/authentication.component.css',
-    // Shared button styles
     '/src/app/styles/shared-button-styles.css',
-    // Shared form styles
     '/src/app/styles/shared-form-styles.css'
   ]
 })
@@ -43,8 +41,6 @@ export class RegistrationComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log("Submitting registration form...");
-    
     if (this.registrationForm.valid) {
       console.log("Form is valid. Proceeding with submission.");
       
